@@ -14,9 +14,15 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('username')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('photo')->nullable();
+            $table->string('phone')->nullable();
+            $table->text('address')->nullable();
+            $table->enum('role', ['admin', 'vendor', 'user'])->default('user');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -26,7 +32,23 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
+    {   
+        // Drop individual columns if needed
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('name');
+            $table->dropColumn('username');
+            $table->dropColumn('email');
+            $table->dropColumn('email_verified_at');
+            $table->dropColumn('password');
+            $table->dropColumn('photo');
+            $table->dropColumn('phone');
+            $table->dropColumn('address');
+            $table->dropColumn('role');
+            $table->dropColumn('status');
+        });
+
+        // Drop the table itself
         Schema::dropIfExists('users');
     }
 };
+
