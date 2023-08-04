@@ -10,6 +10,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+//Creating a Role case for different users 
+class RoleRedirector
+{
+    public static function getDashboardUrl($role)
+    {
+        switch ($role) {
+            case 'admin':
+                return 'admin/dashboard';
+            case 'vendor':
+                return 'vendor/dashboard';
+            case 'user':
+                return '/dashboard';
+            default:
+                return '/dashboard';
+        }
+    }
+}
+
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -28,8 +46,11 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        
+        $role = $request->user()->role;
+        $url = RoleRedirector::getDashboardUrl($role);
+        
+        return redirect()->intended($url);
     }
 
     /**
