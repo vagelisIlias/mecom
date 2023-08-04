@@ -168,7 +168,6 @@
     </div>
    </div><!--End Row-->
 
-
    <div class="row row-cols-1 row-cols-lg-3">
     <div class="col">
        <div class="card radius-10">
@@ -220,7 +219,6 @@
      </div>
     </div><!--End Row-->
 
-
     <div class="row">
         <div class="col-12 col-lg-12 col-xl-6">
           <div class="card radius-10">
@@ -271,8 +269,7 @@
                          <td><i class="flag-icon flag-icon-de me-2"></i>Germany</td>
                          <td>$7,209</td>
                          <td><span id="trendchart5"></span></td>
-                     </tr>
-                     
+                     </tr> 
                  </tbody>
              </table>
              </div>
@@ -463,7 +460,6 @@
            </div>
         </div>
       </div><!--End Row-->
-
 
       <div class="card radius-10">
         <div class="card-body">
