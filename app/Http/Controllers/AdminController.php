@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
 
 class AdminController extends Controller
 {   
@@ -35,6 +36,12 @@ class AdminController extends Controller
         return redirect('/admin/login');
     } // End method adminLogout
 
-  
+    // Admin Profile
+    public function adminProfile() 
+    {   
+        $id = Auth::user()->id;
+        $adminProfile = User::find($id);
+        return view('admin.profile.admin_profile', compact('adminProfile'));
+    } // End method adminProfile
 
 }

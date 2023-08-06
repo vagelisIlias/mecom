@@ -13,14 +13,20 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('firstname');
+            $table->string('lastname');
             $table->string('username')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('github')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('linkedin')->nullable();
+            $table->text('job_title')->nullable();
             $table->string('photo')->nullable();
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
+            $table->string('postcode')->nullable();
             $table->enum('role', ['admin', 'vendor', 'user'])->default('user');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->rememberToken();
@@ -35,14 +41,20 @@ return new class extends Migration
     {   
         // Drop individual columns if needed
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('name');
+            $table->dropColumn('firstname');
+            $table->dropColumn('lastname');
             $table->dropColumn('username');
             $table->dropColumn('email');
             $table->dropColumn('email_verified_at');
+            $table->dropColumn('github');
+            $table->dropColumn('instagram');
+            $table->dropColumn('linkedin');
+            $table->dropColumn('job_title');
             $table->dropColumn('password');
             $table->dropColumn('photo');
             $table->dropColumn('phone');
             $table->dropColumn('address');
+            $table->dropColumn('postcode');
             $table->dropColumn('role');
             $table->dropColumn('status');
         });
