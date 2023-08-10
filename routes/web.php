@@ -27,15 +27,18 @@ Route::get('/dashboard', function () {
 // Admin Dashboard
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard'); 
-    Route::get('/admin/login', [AdminController::class, 'adminLogin']);
     Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout');   
     Route::get('/admin/profile', [AdminController::class, 'adminProfile'])->name('admin.profile');
+    Route::post('/admin/profile/store', [AdminController::class, 'adminProfileStore'])->name('admin.profile.store');
 });
 
 // Vendor Dashboard
 Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorController::class, 'vendorDashboard'])->name('vendor.dashboard');
 });
+
+// Admin login route
+Route::get('/admin/login', [AdminController::class, 'adminLogin']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -44,3 +47,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+

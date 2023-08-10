@@ -40,9 +40,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center text-center">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">  </label>
+                                    <label for="example-text-input" class="col-sm-2 col-form-label"></label>
                                     <div class="col-sm-10">
-                                        <img id="showImage" class="rounded-circle avatar-lg" src="{{ (!empty($adminProfile->photo)) ? url('upload/admin_profile_image/'. $adminProfile->photo) : url('upload/no_image.jpg') }}" alt="Card image cap" style="width: 200px; height: 200px; border: 5px solid rgba(138, 60, 221, 0.729);">
+                                        <img id="showImage" class="rounded-circle avatar-lg" src="{{ (!empty($adminProfile->photo)) ? url('uplaod/admin_profile_image/'. $adminProfile->photo) : url('upload/no_image.svg') }}" alt="Card image cap" style="width: 100px; height: 100px; border: 5px solid rgba(138, 60, 221, 0.729);">
                                     </div>
                                     <div class="mt-3">
                                         <h4>{{ $adminProfile->firstname }} {{ $adminProfile->lastname }}</h4>
@@ -96,12 +96,15 @@
                     <div class="col-lg-8">
                         <div class="card">
                             <div class="card-body">
+                                {{-- Form starts here --}}
+                                <form method="post" action="{{ route('admin.profile.store') }}" enctype="multipart/form-data">
+                                    @csrf
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">FirstName</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" name="name" value="{{ $adminProfile->firstname }}" />
+                                        <input type="text" class="form-control" name="firstname" value="{{ $adminProfile->firstname }}" />
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -109,7 +112,7 @@
                                         <h6 class="mb-0">Lastname</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" name="name" value="{{ $adminProfile->lastname }}" />
+                                        <input type="text" class="form-control" name="lastname" value="{{ $adminProfile->lastname }}" />
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -146,10 +149,10 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <h6 class="mb-0">Linkeding</h6>
+                                        <h6 class="mb-0">Linkedin</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" name="github" value="{{ $adminProfile->github }}" />
+                                        <input type="text" class="form-control" name="linkedin" value="{{ $adminProfile->linkedin }}" />
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -203,11 +206,13 @@
                                 <div class="row">
                                     <div class="col-sm-3"></div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="button" class="btn btn-primary px-4" value="Update Profile" />
+                                        <input type="submit" class="btn btn-primary px-4" value="Update Profile"/>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
+                    {{-- Form ends here --}}
+                    </div>
                     
                         <div class="row">
                             <div class="col-sm-12">
