@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class AdminController extends Controller
@@ -68,6 +69,9 @@ class AdminController extends Controller
         // Check if a new profile photo was uploaded
         if ($request->file('photo')) {
             $file = $request->file('photo');
+
+            // Unlink the images
+            @unlink(public_path('upload/admin_profile_image/'. $data->photo));
             
             // Generate a unique filename for the uploaded photo
             $filename = date('Y-m-d H:i:s') . $file->getClientOriginalName();
@@ -81,10 +85,58 @@ class AdminController extends Controller
     
         // Save the updated user data to the database
         $data->save();
+
+        // Creating a message notification
+        $notification = [
+            'message' => 'Admin Porfile Updated Successfully',
+            'alert-type' => 'success',
+        ];
     
         // Redirect back to the previous page after saving
-        return redirect()->back();
+        return redirect()->back()->with($notification);
     }
-    
+
+   // Admin Change Password
+    public function adminChangePassword()
+    {
+        // Fetch additional data from the database
+        $id = auth()->user()->id;
+        $adminChangePassword = User::findOrFail($id);
+
+        return view('admin.profile.admin_change_password', compact('adminChangePassword'));
+    }
+
+    // Admin Update Password
+    public function adminUpdatePassword(Request $request)
+    {
+        // Validation
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed',
+        ]);
+
+        // Check Matching Old Password
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
+            // Display an error message using Toastr
+            $not_error = [
+                'message' => 'Old Password Does Not Match',
+                'alert-type' => 'error',
+            ];
+            return back()->with($not_error);
+        }
+
+        // Update New Password
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        // Pass the additional data to the view along with the success message
+        $not_succ = [
+            'message' => 'Admin Password Updated Successfully',
+            'alert-type' => 'success',
+        ];
+        
+        return back()->with($not_succ);
+    }
 
 }
