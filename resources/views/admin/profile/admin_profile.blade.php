@@ -42,7 +42,9 @@
                                 <div class="d-flex flex-column align-items-center text-center">
                                     <label for="example-text-input" class="col-sm-2 col-form-label"></label>
                                     <div class="col-sm-10">
-                                        <img id="showImage" class="rounded-circle avatar-lg" src="{{ (!empty($adminProfile->photo)) ? url('upload/admin_profile_image/'. $adminProfile->photo) : url('upload/no_image.jpg') }}" alt="Card image cap" style="width: 100px; height: 100px; border: 5px solid rgba(138, 60, 221, 0.729);">
+                                        <img id="showImage" class="rounded-circle avatar-lg" src="{{ (!empty($adminProfile->photo)) ? 
+                                        url('upload/admin_profile_image/'. $adminProfile->photo) : url('upload/no_image.jpg') }}" 
+                                        alt="Card image cap" style="width: 100px; height: 100px; border: 5px solid rgba(138, 60, 221, 0.729);">
                                     </div>
                                     <div class="mt-3">
                                         <h4>{{ $adminProfile->firstname }} {{ $adminProfile->lastname }}</h4>
@@ -107,6 +109,8 @@
                                         <input type="text" class="form-control" name="firstname" value="{{ $adminProfile->firstname }}" />
                                     </div>
                                 </div>
+                                <!-- end row -->
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Lastname</h6>
@@ -115,6 +119,8 @@
                                         <input type="text" class="form-control" name="lastname" value="{{ $adminProfile->lastname }}" />
                                     </div>
                                 </div>
+                                <!-- end row -->
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Username</h6>
@@ -123,6 +129,8 @@
                                         <input type="text" class="form-control" name="username" value="{{ $adminProfile->username }}" />
                                     </div>
                                 </div>
+                                <!-- end row -->
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Email</h6>
@@ -131,6 +139,8 @@
                                         <input type="text" class="form-control" name="email" value="{{ $adminProfile->email }}" />
                                     </div>
                                 </div>
+                                <!-- end row -->
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Instagram</h6>
@@ -139,6 +149,8 @@
                                         <input type="text" class="form-control" name="instagram" value="{{ $adminProfile->instagram }}" />
                                     </div>
                                 </div>
+                                <!-- end row -->
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">GitHub</h6>
@@ -147,6 +159,8 @@
                                         <input type="text" class="form-control" name="github" value="{{ $adminProfile->github }}" />
                                     </div>
                                 </div>
+                                <!-- end row -->
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Linkedin</h6>
@@ -155,6 +169,8 @@
                                         <input type="text" class="form-control" name="linkedin" value="{{ $adminProfile->linkedin }}" />
                                     </div>
                                 </div>
+                                <!-- end row -->
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Phone</h6>
@@ -163,6 +179,8 @@
                                         <input type="text" class="form-control" name="phone" value="{{ $adminProfile->phone }}" />
                                     </div>
                                 </div>
+                                <!-- end row -->
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Address</h6>
@@ -171,6 +189,8 @@
                                         <input type="text" class="form-control" name="address" value="{{ $adminProfile->address }}" />
                                     </div>
                                 </div>
+                                <!-- end row -->
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Postcode</h6>
@@ -178,7 +198,9 @@
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" class="form-control" name="postcode" value="{{ $adminProfile->postcode }}" />
                                     </div>
-                                </div>                                 
+                                </div>
+                                <!-- end row -->
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Role</h6>
@@ -187,6 +209,8 @@
                                         <input type="text" class="form-control" name="role" value="{{ $adminProfile->role }}" />
                                     </div>
                                 </div>
+                                <!-- end row -->
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Job Title</h6>
@@ -195,14 +219,18 @@
                                         <input type="text" class="form-control" name="job_title" value="{{ $adminProfile->job_title }}" />
                                     </div>
                                 </div>
+                                <!-- end row -->
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Profile image</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input name="photo" class="form-control" type="file"  id="image">
+                                        <input type="file" class="form-control" name="photo" id="image">
                                     </div>
                                 </div>
+                                <!-- end row -->
+
                                 <div class="row">
                                     <div class="col-sm-3"></div>
                                     <div class="col-sm-9 text-secondary">

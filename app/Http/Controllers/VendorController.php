@@ -102,4 +102,47 @@ class VendorController extends Controller
         return redirect()->back()->with($notification);
     }
 
+    // Change Password
+    public function vendorChangePassword()
+    {
+        // Fetch additional data from the database
+        $id = auth()->user()->id;
+        $vendorChangePassword = User::findOrFail($id);
+
+        return view('vendor.profile.vendor_change_password', compact('vendorChangePassword'));
+    }
+
+    // Update Password
+    public function vendorUpdatePassword(Request $request)
+    {
+        // Validation
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed',
+        ]);
+
+        // Check Matching Old Password
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
+            // Display an error message using Toastr
+            $not_error = [
+                'message' => 'Old Password Does Not Match',
+                'alert-type' => 'error',
+            ];
+            return back()->with($not_error);
+        }
+
+        // Update New Password
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        // Pass the additional data to the view along with the success message
+        $not_succ = [
+            'message' => 'Vendor Password Updated Successfully',
+            'alert-type' => 'success',
+        ];
+        
+        return back()->with($not_succ);
+    }
+
 }

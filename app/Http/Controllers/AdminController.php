@@ -101,7 +101,7 @@ class AdminController extends Controller
         return redirect()->back()->with($notification);
     }
 
-   // Admin Change Password
+    // Admin Change Password
     public function adminChangePassword()
     {
         // Fetch additional data from the database
