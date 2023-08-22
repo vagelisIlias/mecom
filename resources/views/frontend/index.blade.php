@@ -1,6 +1,7 @@
 @extends('frontend.master_dashboard')
 @section('main')
 
+<!-- Fashion Category -->
 <section class="home-slider position-relative mb-30">
     <div class="container">
         <div class="home-slide-cover mt-30">
