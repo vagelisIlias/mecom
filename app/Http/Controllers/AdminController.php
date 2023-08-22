@@ -10,39 +10,44 @@ use App\Models\User;
 
 class AdminController extends Controller
 {   
-    // Return dashboard view
+    // Dashboard view
     public function adminDashboard()
     {
         return view('admin.index');
 
-    } // End method adminDashboard
-
+    }
 
     // Admin Login
     public function adminLogin()
     {   
         return view('admin.admin_login');
-    } // End method adminLogin
+    }
 
     // Logout method
     public function adminLogout(Request $request): RedirectResponse 
     {
+        // 1. Logout the user
         Auth::guard('web')->logout();
 
+        // 2. Invalidate the session
         $request->session()->invalidate();
 
+        // 3. Regenerate the CSRF token
         $request->session()->regenerateToken();
 
+        // 4. Redirect to the admin login page
         return redirect('/admin/login');
-    } // End method adminLogout
+    }
 
     // Admin Profile
     public function adminProfile() 
     {   
+        // Get the authenticated user's ID
         $id = Auth::user()->id;
+        // Find the user in the database using the retrieved ID
         $adminProfile = User::find($id);
         return view('admin.profile.admin_profile', compact('adminProfile'));
-    } // End method adminProfile
+    }
 
     // Store Profile
     public function adminProfileStore(Request $request)

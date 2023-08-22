@@ -42,7 +42,7 @@
                                 <div class="d-flex flex-column align-items-center text-center">
                                     <label for="example-text-input" class="col-sm-2 col-form-label"></label>
                                     <div class="col-sm-10">
-                                        <img id="showImage" class="rounded-circle avatar-lg" src="{{ (!empty($adminChangePassword->photo)) ? url('upload/admin_profile_image/'. $adminChangePassword->photo) : url('upload/no_image.svg') }}" alt="Card image cap" style="width: 100px; height: 100px; border: 5px solid rgba(138, 60, 221, 0.729);">
+                                        <img id="showImage" class="rounded-circle avatar-lg" src="{{ (!empty($adminChangePassword->photo)) ? url('upload/admin_profile_image/'. $adminChangePassword->photo) : url('upload/no_image.jpg') }}" alt="Card image cap" style="width: 100px; height: 100px; border: 5px solid rgba(138, 60, 221, 0.729);">
                                     </div>
                                     <div class="mt-3">
                                         {{-- <h4>{{ $adminProfile->firstname }} {{ $adminProfile->lastname }}</h4>
@@ -179,19 +179,6 @@
         </div>
     </div>
 {{-- </div> --}}
-
-{{-- JS --}}
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#image').change(function(e) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#showImage').attr('src', e.target.result);
-            };
-            reader.readAsDataURL(e.target.files[0]);
-        });
-    });
-</script>
 
 @endsection
 {{-- End Section --}}

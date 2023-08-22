@@ -37,11 +37,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 // Vendor Dashboard
 Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorController::class, 'vendorDashboard'])->name('vendor.dashboard');
+    Route::get('/vendor/logout', [VendorController::class, 'vendorLogout'])->name('vendor.logout');
+    Route::get('/vendor/profile', [VendorController::class, 'vendorProfile'])->name('vendor.profile');
+    Route::post('/vendor/profile/store', [VendorController::class, 'vendorProfileStore'])->name('vendor.profile.store');
 });
 
 // Admin login route
 Route::get('/admin/login', [AdminController::class, 'adminLogin']);
 
+// Vendor login route
+Route::get('/vendor/login', [VendorController::class, 'vendorLogin']);
+
+// Middleware authedication route
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
