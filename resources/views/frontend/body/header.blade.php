@@ -1,3 +1,4 @@
+<header class="header-area header-style-1 header-height-2">
 <div class="mobile-promotion">
     <span>Grand opening, <strong>up to 15%</strong> off all items. Only <strong>3 days</strong> left</span>
 </div>
@@ -7,7 +8,6 @@
             <div class="col-xl-3 col-lg-4">
                 <div class="header-info">
                     <ul>
-                        
                         <li><a href="page-account.html">My Cart</a></li>
                         <li><a href="shop-wishlist.html">Checkout</a></li>
                         <li><a href="shop-order.html">Order Tracking</a></li>
@@ -28,7 +28,6 @@
             <div class="col-xl-3 col-lg-4">
                 <div class="header-info header-info-right">
                     <ul>
-                       
                         <li>
                             <a class="language-dropdown-active" href="#">English <i class="fi-rs-angle-small-down"></i></a>
                             <ul class="language-dropdown">
@@ -43,9 +42,7 @@
                                 </li>
                             </ul>
                         </li>
-
-                         <li>Need help? Call Us: <strong class="text-brand"> + 1800 900</strong></li>
-                         
+                         <li>Need help? Call Us: <strong class="text-brand"> + 1800 900</strong></li> 
                     </ul>
                 </div>
             </div>
@@ -99,7 +96,6 @@
                                 </select>
                             </form>
                         </div>
-                    
                         <div class="header-action-icon-2">
                             <a href="shop-wishlist.html">
                                 <img class="svgInject" alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-heart.svg') }}" />
@@ -185,7 +181,6 @@
         </div>
     </div>
 </div>
-
 <div class="header-bottom header-bottom-bg-color sticky-bar">
     <div class="container">
         <div class="header-wrap header-space-between position-relative">
@@ -417,7 +412,6 @@
                     </nav>
                 </div>
             </div>
-
             <div class="hotline d-none d-lg-flex">
                 <img src="{{ asset('frontend/assets/imgs/theme/icons/icon-headphone.svg') }}" alt="hotline" />
                 <p>1900 - 888<span>24/7 Support Center</span></p>
@@ -485,3 +479,4 @@
         </div>
     </div>
 </div>
+</header>

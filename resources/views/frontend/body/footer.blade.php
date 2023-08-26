@@ -1,3 +1,4 @@
+<footer class="main">
 <section class="newsletter mb-15 wow animate__animated animate__fadeIn">
     <div class="container">
         <div class="row">
@@ -157,7 +158,6 @@
                     <li><a href="#">Cheese</a></li>
                 </ul>
             </div>
-          
         </div>
 </section>
 <div class="container pb-30 wow animate__animated animate__fadeInUp" data-wow-delay="0">
@@ -188,3 +188,4 @@
         </div>
     </div>
 </div>
+</footer>
