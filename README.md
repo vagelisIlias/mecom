@@ -1,6 +1,6 @@
 
 
-## About M-ecom e-commerce e-shop Project
+## About mecom e-commerce online shop Project
 
 Creating a personal e-commerce project based on the Laravel 10x framework. The philosophy behind this project is to control everything with an Admin panel and vendor panel
 
