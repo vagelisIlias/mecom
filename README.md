@@ -18,4 +18,4 @@ The user dashboard
 
 ![](example-images/exampleImage_3.png)
 
-More images and process will be updated daily
+More images and processes will updated daily
