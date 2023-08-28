@@ -10,12 +10,12 @@ The main area of the e-commerce project
 
 ![](example-images/exampleImage_1.png)
 
-About area
+The admin panel for control of the project
 
 ![](example-images/exampleImage_2.png)
 
-Technologies used
+The user dashboard
 
 ![](example-images/exampleImage_3.png)
 
-Nearly all the areas are done now and ready to go, the website is controlled by the admin panel 
+More images and process will be updated daily
