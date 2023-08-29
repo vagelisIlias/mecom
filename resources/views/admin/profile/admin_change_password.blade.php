@@ -94,7 +94,7 @@
                         <div class="card">
                             <div class="card-body">
                             {{-- Form starts here --}}
-                            <form method="post" action="{{ route('admin.update.password') }}" enctype="multipart/form-data">
+                            <form method="post" action="{{ route('admin.update.password') }}">
                                 @csrf
 
                                 {{-- Creating the form elements--}}

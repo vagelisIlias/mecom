@@ -1,6 +1,9 @@
 @extends('dashboard')
 @section('user')
 
+<!-- Image Reload JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
 {{-- This is the user dashboard index page --}}
 <div class="page-header breadcrumb-wrap">
     <div class="container">
@@ -34,7 +37,10 @@
                                     <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="true"><i class="fi-rs-user mr-10"></i>Account details</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="page-login.html"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                    <a class="nav-link" id="change-password-tab" data-bs-toggle="tab" href="#change-password" role="tab" aria-controls="change-password" aria-selected="true"><i class="fi-rs-key mr-10"></i>Change Password</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('user.logout')}}"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
                                 </li>
                             </ul>
                         </div>
@@ -45,6 +51,11 @@
                                 <div class="card">
                                     <div class="card-header">
                                         <h3 class="mb-0">Hello {{ Auth::user()->firstname }}</h3>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <img class="rounded-circle avatar-lg" src="{{ (!empty($userData->photo)) ? 
+                                        url('upload/user_profile_image/'. $userData->photo) : url('upload/no_image.jpg') }}" 
+                                        alt="Card image cap" style="width: 200px; height: 200px; border: 5px solid rgba(138, 60, 221, 0.729);">
                                     </div>
                                     <div class="card-body">
                                         <p>
@@ -166,7 +177,9 @@
                                         <h5>Account Details</h5>
                                     </div>
                                     <div class="card-body">
-                                        <form method="post" name="enq">
+                                        {{-- Forms Starts Here --}}
+                                        <form method="post" action="{{ route('user.profile.store') }}" enctype="multipart/form-data">
+                                            @csrf
                                             <div class="row">
                                                 <div class="col-sm-10">
                                                     <img id="showImage" class="rounded-circle avatar-lg" src="{{ (!empty($userData->photo)) ? 
@@ -222,15 +235,67 @@
                                                     <input class="form-control" name="photo" id="image" type="file" />
                                                 </div>
                                                 <!-- end row -->
-                                                
+
                                                 <div class="col-md-12">
                                                     <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Save Changes</button>
                                                 </div>
                                             </div>
                                         </form>
+                                    {{-- End Form Here --}}
                                     </div>
                                 </div>
                             </div>
+                            {{-- Change Password --}}
+                            <div class="tab-pane fade" id="change-password" role="tabpanel" aria-labelledby="change-password-tab">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Change Password</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        {{-- Forms Starts Here --}}
+                                        <form method="post" action="{{ route('user.update.password') }}">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="form-group col-md-8">
+                                                    <label>Old Password <span class="required">*</span></label>
+                                                    <input type="password" class="form-control @error('old_password') is-invalid @enderror" 
+                                                            name="old_password"/>
+                                                        @error('old_password')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                </div>
+                                                <!-- end row -->
+
+                                                <div class="form-group col-md-8">
+                                                    <label>New Password <span class="required">*</span></label>
+                                                    <input type="password" class="form-control @error('new_password') is-invalid @enderror" 
+                                                            name="new_password"/>
+                                                        @error('new_password')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                </div>
+                                                <!-- end row -->
+
+                                                <div class="form-group col-md-8">
+                                                    <label>Confirm Password <span class="required">*</span></label>
+                                                    <input type="password" class="form-control @error('new_password_confirmation') is-invalid @enderror" 
+                                                            name="new_password_confirmation"/>
+                                                        @error('new_password_confirmation')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                </div>
+                                                <!-- end row -->
+
+                                                <div class="col-md-12">
+                                                    <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Update Password</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {{-- End Form Here --}}
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- End Change Password --}}
                         </div>
                     </div>
                 </div>

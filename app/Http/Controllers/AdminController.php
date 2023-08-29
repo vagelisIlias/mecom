@@ -23,19 +23,19 @@ class AdminController extends Controller
         return view('admin.admin_login');
     }
 
-    // Logout method
+    // Admin Logout
     public function adminLogout(Request $request): RedirectResponse 
     {
-        // 1. Logout the user
+        // Logout the user
         Auth::guard('web')->logout();
 
-        // 2. Invalidate the session
+        // Invalidate the session
         $request->session()->invalidate();
 
-        // 3. Regenerate the CSRF token
+        // Regenerate the CSRF token
         $request->session()->regenerateToken();
 
-        // 4. Redirect to the admin login page
+        // Redirect to the admin login page
         return redirect('/admin/login');
     }
 

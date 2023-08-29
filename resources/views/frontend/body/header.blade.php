@@ -35,7 +35,7 @@
                                     <a href="#"><img src="{{ asset('frontend/assets/imgs/theme/flag-fr.png') }}" alt="" />Français</a>
                                 </li>
                                 <li>
-                                    <a href="#"><img src="{{ asset('frontend/ assets/imgs/theme/flag-dt.png') }}" alt="" />Deutsch</a>
+                                    <a href="#"><img src="{{ asset('frontend/assets/imgs/theme/flag-dt.png') }}" alt="" />Deutsch</a>
                                 </li>
                                 <li>
                                     <a href="#"><img src="{{ asset('frontend/assets/imgs/theme/flag-ru.png') }}" alt="" />Pусский</a>
