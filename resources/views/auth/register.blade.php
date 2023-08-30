@@ -15,6 +15,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/imgs/theme/favicon.svg')}}" />
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/main.css?v=5.3')}}" />
+    <!-- Toaster CSS -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 </head>
 <body>
     
@@ -51,24 +53,66 @@
                                         {{-- Form starts here --}}
                                         <form method="POST" action="{{ route('register') }}">
                                             @csrf
-                                            <div class="form-group">
-                                                <input type="text" required="" name="firstname" id="firstname" placeholder="Firstname" />
+                                            <div class="form-group col-md-12">
+                                                <label>Firstname<span class="required">*</span></label>
+                                                <input type="text" class="form-control @error('firstname') is-invalid @enderror" 
+                                                    name="firstname" id="firstname"/>
+                                                    @error('firstname')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                             </div>
-                                            <div class="form-group">
-                                                <input type="text" required="" name="lastname" id="lastname" placeholder="Lastname" />
+                                            <!-- end row -->
+
+                                            <div class="form-group col-md-12">
+                                                <label>Lastname<span class="required">*</span></label>
+                                                <input type="text" class="form-control @error('lastname') is-invalid @enderror" 
+                                                    name="lastname" id="lastname"/>
+                                                    @error('lastname')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                             </div>
-                                            <div class="form-group">
-                                                <input type="text" required="" name="username" id="username" placeholder="Username" />
+                                            <!-- End row-->
+
+                                            <div class="form-group col-md-12">
+                                                <label>Username<span class="required">*</span></label>
+                                                <input type="text" class="form-control @error('username') is-invalid @enderror" 
+                                                    name="username" id="username"/>
+                                                    @error('username')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                             </div>
-                                            <div class="form-group">
-                                                <input type="email" required="" name="email" id="email" placeholder="Email" />
+                                            <!-- End row-->
+                                            
+                                            <div class="form-group col-md-12">
+                                                <label>Email<span class="required">*</span></label>
+                                                <input type="text" class="form-control @error('email') is-invalid @enderror" 
+                                                    name="email" id="email"/>
+                                                    @error('email')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                             </div>
-                                            <div class="form-group">
-                                                <input type="password" required="" name="password" id="password" placeholder="Password" />
+                                            <!-- End row-->
+
+                                            <div class="form-group col-md-12">
+                                                <label>Password<span class="required">*</span></label>
+                                                <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                                                    name="password" id="password"/>
+                                                    @error('password')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                             </div>
-                                            <div class="form-group">
-                                                <input type="password" required="" name="password_confirmation" id="password_confirmation" placeholder="Confirm password" />
+                                            <!-- End row-->
+
+                                            <div class="form-group col-md-12">
+                                                <label>Password Confirmation<span class="required">*</span></label>
+                                                <input type="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" 
+                                                    name="password_confirmation" id="password_confirmation"/>
+                                                    @error('password_confirmation')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                             </div>
+                                            <!-- End row-->
+                                            
                                             <div class="login_footer form-group mb-50">
                                                 <div class="chek-form">
                                                     <div class="custome-checkbox">
@@ -149,6 +193,33 @@
     <!-- Template  JS -->
     <script src="{{ asset('frontend/assets/js/main.js?v=5.3') }}"></script>
     <script src="{{ asset('frontend/assets/js/shop.js?v=5.3') }}"></script>
+
+    <!-- Toaster JS -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	
+	<!-- Toaster JS cases-->
+	<script>
+		@if(Session::has('message'))
+		var type = "{{ Session::get('alert-type','info') }}"
+		switch(type){
+		   case 'info':
+		   toastr.info(" {{ Session::get('message') }} ");
+		   break;
+	   
+		   case 'success':
+		   toastr.success(" {{ Session::get('message') }} ");
+		   break;
+	   
+		   case 'warning':
+		   toastr.warning(" {{ Session::get('message') }} ");
+		   break;
+	   
+		   case 'error':
+		   toastr.error(" {{ Session::get('message') }} ");
+		   break; 
+		}
+		@endif 
+	   </script>
 
 </body>
 </html>

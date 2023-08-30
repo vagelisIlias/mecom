@@ -82,11 +82,17 @@ class UserController extends Controller
         // Regenerate the CSRF token
         $request->session()->regenerateToken();
 
+        // Creating a message notification
+        $notification = [
+            'message' => 'User Logout Successfully',
+            'alert-type' => 'success',
+        ];
+
         // Redirect to the admin login page
-        return redirect('/login');
+        return redirect('/login')->with($notification);
     }
 
-   // User update Password
+    // User update Password
     public function userUpdatePassword(Request $request)
     {
         // Validation
@@ -103,6 +109,7 @@ class UserController extends Controller
                 'message' => 'Old Password Does Not Match, Please re-type your current password',
                 'alert-type' => 'error',
             ];
+            // Redirect to the dashboard
             return redirect()->route('dashboard')->with($not_error);
         }
 
@@ -117,10 +124,8 @@ class UserController extends Controller
             'alert-type' => 'success',
         ];
         
-        // Redirect to the dashboard without the anchor link
+        // Redirect to the dashboard
         return redirect()->route('dashboard')->with($not_succ);
 
     }
-
-
 }
