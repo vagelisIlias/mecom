@@ -18,6 +18,7 @@ class UserController extends Controller
 
         // Find the user in the database using the retrieved ID
         $userData = User::find($id);
+
         return view('index', compact('userData'));
     }
 
@@ -55,7 +56,7 @@ class UserController extends Controller
             // Update the 'photo' field in the user's data with the new filename
             $data->photo = $filename;
         }
-    
+        
         // Save the updated user data to the database
         $data->save();
 
@@ -67,7 +68,6 @@ class UserController extends Controller
     
         // Redirect back to the previous page after saving
         return redirect()->back()->with($notification);
-
     }
 
     // User Logout
@@ -84,7 +84,7 @@ class UserController extends Controller
 
         // Creating a message notification
         $notification = [
-            'message' => 'User Logout Successfully',
+            'message' => 'Logout Successfully',
             'alert-type' => 'success',
         ];
 
@@ -92,7 +92,7 @@ class UserController extends Controller
         return redirect('/login')->with($notification);
     }
 
-    // User update Password
+    // User update password
     public function userUpdatePassword(Request $request)
     {
         // Validation
@@ -126,6 +126,5 @@ class UserController extends Controller
         
         // Redirect to the dashboard
         return redirect()->route('dashboard')->with($not_succ);
-
     }
 }

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Backend\BrandController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +60,14 @@ Route::get('/admin/login', [AdminController::class, 'adminLogin']);
 
 // Vendor login route
 Route::get('/vendor/login', [VendorController::class, 'vendorLogin']);
+
+// Brand route with middleware
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::controller(BrandController::class)->group(function () {
+        Route::get('/all/brand', 'allBrand')->name('all.brand');
+    });
+});
+
 
 // Middleware authedication route
 Route::middleware('auth')->group(function () {

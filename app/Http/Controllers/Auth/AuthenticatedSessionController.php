@@ -15,16 +15,11 @@ class RoleRedirector
 {
     public static function getDashboardUrl($role)
     {
-        switch ($role) {
-            case 'admin':
-                return 'admin/dashboard';
-            case 'vendor':
-                return 'vendor/dashboard';
-            case 'user':
-                return '/dashboard';
-            default:
-                return '/dashboard';
-        }
+        return match($role) {
+            'admin' => 'admin/dashboard',
+            'vendor' => 'vendor/dashboard',
+            'user', 'default' => '/dashboard',
+        };
     }
 }
 
@@ -48,9 +43,16 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
         
         $role = $request->user()->role;
-        $url = RoleRedirector::getDashboardUrl($role);
         
-        return redirect()->intended($url);
+        $url = RoleRedirector::getDashboardUrl($role);
+
+        // Creating a message notification
+        $notification = [
+            'message' => 'Login Successfully',
+            'alert-type' => 'success',
+        ];
+        
+        return redirect()->intended($url)->with($notification);
     }
 
     /**

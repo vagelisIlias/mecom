@@ -14,7 +14,6 @@ class AdminController extends Controller
     public function adminDashboard()
     {
         return view('admin.index');
-
     }
 
     // Admin Login
@@ -35,8 +34,14 @@ class AdminController extends Controller
         // Regenerate the CSRF token
         $request->session()->regenerateToken();
 
+         // Creating a message notification
+         $notification = [
+            'message' => 'Logout Successfully',
+            'alert-type' => 'success',
+        ];
+
         // Redirect to the admin login page
-        return redirect('/admin/login');
+        return redirect('/admin/login')->with($notification);
     }
 
     // Admin Profile
