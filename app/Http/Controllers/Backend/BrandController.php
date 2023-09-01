@@ -12,9 +12,16 @@ use App\Models\Brand;
 
 class BrandController extends Controller
 {
+    // All Brands
     public function allBrand()
     {   
         $allBrand = Brand::latest()->get();
         return view('backend.brand.brand_all', compact('allBrand'));
+    }
+
+    // Add Brand
+    public function addBrand()
+    {
+        return view('backend.brand.brand_add');
     }
 }

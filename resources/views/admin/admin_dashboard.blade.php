@@ -12,6 +12,7 @@
 	<link href="{{ asset('adminbackend/assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
 	<link href="{{ asset('adminbackend/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
 	<link href="{{ asset('adminbackend/assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
+	<link href="{{ asset('adminbackend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
 	<!-- loader-->
 	<link href="{{ asset('adminbackend/assets/css/pace.min.css') }}" rel="stylesheet" />
 	<script src="{{ asset('adminbackend/assets/js/pace.min.js') }}"></script>
@@ -33,31 +34,31 @@
 	<!-- start wrapper-->
 	<div class="wrapper">
 
-		<!--sidebar wrapper -->
+		<!-- Sidebar wrapper -->
 		@include('admin.body.sidebar')
-		<!--end sidebar wrapper -->
+		<!-- End sidebar wrapper -->
 
-		<!--start header -->
+		<!-- Start header -->
 		@include('admin.body.header')
-		<!--end header -->
+		<!-- End header -->
 
-		<!--start page wrapper -->
+		<!-- Start page wrapper -->
 		<div class="page-wrapper">
 			@yield('admin')
 		</div>
-		<!--end page wrapper -->
+		<!-- End page wrapper -->
 
-		<!--start overlay-->
+		<!-- Start overlay -->
 		<div class="overlay toggle-icon"></div>
-		<!--end overlay-->
+		<!-- End overlay -->
 
-		<!--Start Back To Top Button--> 
+		<!-- Start Back To Top Button --> 
         <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
-		<!--End Back To Top Button-->
+		<!-- End Back To Top Button -->
 
-        <!--start footer-->
+        <!-- Start footer -->
 		@include('admin.body.footer')
-        <!--end footer-->
+        <!-- End footer -->
 	</div>
 	<!--end wrapper-->
 
@@ -175,11 +176,21 @@
 	<script src="{{ asset('adminbackend/assets/plugins/sparkline-charts/jquery.sparkline.min.js') }}"></script>
 	<script src="{{ asset('adminbackend/assets/plugins/jquery-knob/excanvas.js') }}"></script>
 	<script src="{{ asset('adminbackend/assets/plugins/jquery-knob/jquery.knob.js') }}"></script>
+	
     <script>
         $(function() {
             $(".knob").knob();
         });
     </script>
+
+	<!--Data Table -->
+	<script src="{{ asset('adminbackend/assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
+	<script>
+		$(document).ready(function() {
+			$('#example').DataTable();
+		  } );
+	</script>
+
     <script src="{{ asset('adminbackend/assets/js/index.js') }}"></script>
 
 	<!-- app JS -->
