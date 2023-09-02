@@ -17,7 +17,7 @@
         </div>
         <div class="ms-auto">
             <div class="btn-group">
-                <button type="button" class="btn btn-primary">Add Brand</button>
+                <a href="{{ route('add.brand')}}" class="btn btn-primary">Add Brand</a>
             </div>
         </div>
     </div>
@@ -32,6 +32,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Brand Name</th>
+                            <th>Brand Slug</th>
                             <th>Brand Image</th>
                             <th>Action</th>
                         </tr>
@@ -41,6 +42,7 @@
                             <tr>
                                 <td>{{ ++$key }}</td>
                                 <td>{{ $item->brand_name }}</td>
+                                <td>{{ $item->brand_slug }}</td>
                                 <td><img src="{{ asset($item->brand_image) }}" style="width: 70px; height: 40px;"></td>
                                 <td>
                                     <a href="" class="btn btn-info">Edit</a>
@@ -53,6 +55,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Brand Name</th>
+                            <th>Brand Slug</th>
                             <th>Brand Image</th>
                             <th>Action</th>
                         </tr>
