@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('brands', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('brand_name');
-            $table->string('brand_slug');
-            $table->string('brand_image')->nullable();
+            $table->string('category_name');
+            $table->string('category_slug');
+            $table->string('category_image')->nullable();
             $table->timestamps();
         });
     }
@@ -26,11 +26,11 @@ return new class extends Migration
     public function down(): void
     {   
         // Drop individual columns if needed
-        Schema::table('brands', function (Blueprint $table) {
-            $table->dropColumn('brand_name');
-            $table->dropColumn('brand_slug');
-            $table->dropColumn('brand_image');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropColumn('category_name');
+            $table->dropColumn('category_slug');
+            $table->dropColumn('category_name');
         });
-        Schema::dropIfExists('brands');
+        Schema::dropIfExists('categories');
     }
 };

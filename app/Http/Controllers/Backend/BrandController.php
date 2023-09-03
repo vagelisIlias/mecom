@@ -16,6 +16,7 @@ class BrandController extends Controller
     // All Brands
     public function allBrand()
     {   
+        // Checking the latest data added
         $allBrand = Brand::latest()->get();
         return view('backend.brand.brand_all', compact('allBrand'));
     }
@@ -32,9 +33,8 @@ class BrandController extends Controller
         // Validate the request
         $request->validate([
             'brand_name' => 'required|string|max:255',
-            'brand_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+
         try {
             $image = $request->file('brand_image');
             $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
@@ -42,28 +42,30 @@ class BrandController extends Controller
             Image::make($image)->resize(300, 300)->save(public_path($image_path));
             $save_url = $image_path;
     
-            // Create the brand
+            // Create The rand
             Brand::create([
-                'brand_name' => $request->brand_name,
+                'brand_name' => ucwords($request->brand_name),
                 'brand_slug' => strtolower(str_replace(' ', '-', $request->brand_name)),
                 'brand_image' => $save_url,
             ]);
     
             // Success message notification
             $not_succ = [
-                'message' => 'Brand Inserted Successfully',
+                'message' => 'Brand Created Successfully',
                 'alert-type' => 'success',
             ];
     
             return redirect()->route('all.brand')->with($not_succ);
-            } catch (\Exception $e) {
-                // Handle errors, log them, and return an error response
-                $not_error = [
-                    'message' => 'An error occurred while saving the brand' . $e->getMessage(),
-                    'alert-type' => 'error',
-                ];
-                return redirect()->back()->with($not_error);
-            }
+
+        } catch (\Exception $e) {
+            // Handle errors, log them, and return an error response
+            $not_error = [
+                'message' => 'An error occurred while saving the brand' . $e->getMessage(),
+                'alert-type' => 'error',
+            ];
+
+            return redirect()->back()->with($not_error);
+        }
     }
 
     // Edit Brand
@@ -81,7 +83,6 @@ class BrandController extends Controller
 
         $request->validate([
             'brand_name' => 'required|string',
-            'brand_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         try {
@@ -91,8 +92,8 @@ class BrandController extends Controller
                 $image_path = 'upload/brand_image/' . $name_gen;
                 Image::make($image)->resize(300, 300)->save(public_path($image_path));
 
-                if (file_exists(public_path($old_image))) {
-                    unlink(public_path($old_image));
+                if (file_exists($old_image)) {
+                    unlink($old_image);
                 }
 
                 $save_url = $image_path;
@@ -103,7 +104,7 @@ class BrandController extends Controller
 
             // Update the brand
             Brand::findOrFail($brand_id)->update([
-                'brand_name' => $request->brand_name,
+                'brand_name' => ucwords($request->brand_name),
                 'brand_slug' => strtolower(str_replace(' ', '-', $request->brand_name)),
                 'brand_image' => $save_url,
             ]);
@@ -123,43 +124,40 @@ class BrandController extends Controller
             ];
         } catch (\Exception $e) {
             // Error message notification
-            $notification = [
+            $not_error = [
                 'message' => 'Error updating brand' . $e->getMessage(),
                 'alert-type' => 'error',
             ];
-        }
 
+            return redirect()->back()->with($not_error);
+        }
         return redirect()->route('all.brand')->with($notification);
     }
 
-    // Delete Brand and the Image
+    // Delete Brand
     public function deleteBrand($id)
     {
         try {
             $deleteBrand = Brand::findOrFail($id);
             $img = $deleteBrand->brand_image;
-
-            if (file_exists(public_path($img))) {
-                unlink(public_path($img));
-            }
+            unlink($img);
 
             $deleteBrand->delete();
 
             // Success message notification
-            $notification = [
+            $not_succ = [
                 'message' => 'Brand Deleted Successfully',
                 'alert-type' => 'success',
             ];
         } catch (\Exception $e) {
             // Error message notification
-            $notification = [
-                'message' => 'Error deleting brand: ' . $e->getMessage(),
+            $not_error = [
+                'message' => 'Error deleting brand' . $e->getMessage(),
                 'alert-type' => 'error',
             ];
+            return redirect()->back()->with($not_error);
         }
-
-        return redirect()->route('all.brand')->with($notification);
+        
+        return redirect()->route('all.brand')->with($not_succ);
     }
-
-
 }
