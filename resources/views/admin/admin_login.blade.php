@@ -54,30 +54,23 @@
 									</div>
                                     {{-- Form starts here --}}
 									<div class="form-body">
-										<form class="row g-3" method="POST" action="{{ route('login') }}">
-                                            @csrf
-											<div class="col-12">
+										<form id="myForm" class="row g-3" method="POST" action="{{ route('login') }}">
+											@csrf
+											<div class="form-group col-12">
 												<label for="inputEmailAddress" class="form-label">Email Address</label>
 												<input type="email" name="email" class="form-control" id="email" placeholder="Email Address">
-													@error('email')
-														<div class="text-danger">{{ $message }}</div>
-													@enderror
 											</div>
 											<!-- end row -->
 
-											<div class="col-12">
-												<label for="inputChoosePassword" class="form-label">Enter Password</label>
+											<div class="form-group col-12">
+												<label for="inputChoosePassword" class="form-group form-label">Enter Password</label>
 												<div class="input-group" id="show_hide_password">
-													<input type="password" name="password" class="form-control border-end-0" 
-                                                    id="password" placeholder="Enter Password"> <a href="javascript:;" 
-                                                    class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
-														@error('password')
-															<div class="text-danger">{{ $message }}</div>
-														@enderror
+													<input type="password" name="password" class="form-control border-end-0" id="password" placeholder="Enter Password">
+													<a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
 												</div>
 											</div>
 											<!-- end row -->
-
+									
 											<div class="col-md-6">
 												<div class="form-check form-switch">
 													<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
@@ -105,9 +98,11 @@
 		</div>
 	</div>
 	<!--end wrapper-->
+
 	<!-- Bootstrap JS -->
 	<script src="{{ asset('adminbackend/assets/js/bootstrap.bundle.min.js') }}"></script>
-	<!--plugins-->
+
+	<!-- Plugins -->
 	<script src="{{ asset('adminbackend/assets/js/jquery.min.js') }}"></script>
 	<script src="{{ asset('adminbackend/assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
 	<script src="{{ asset('adminbackend/assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
@@ -127,6 +122,47 @@
 					$('#show_hide_password i').removeClass("bx-hide");
 					$('#show_hide_password i').addClass("bx-show");
 				}
+			});
+		});
+	</script>
+
+	<!-- Include jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+	<!-- Include jQuery Validation Plugin -->
+	<script src="{{ asset('adminbackend/assets/js/validate.min.js') }}"></script>
+
+	<!-- Validation min.JS -->
+	<script type="text/javascript">
+		$(document).ready(function (){
+			$('#myForm').validate({
+				rules: {
+					email: {
+						required : true,
+					}, 
+					password: {
+						required : true,
+					}, 
+				},
+				messages :{
+					email: {
+						required : 'Please Enter your Email Address',
+					},
+					password: {
+						required : 'Please Enter your Password',
+					}
+				},
+				errorElement : 'span', 
+				errorPlacement: function (error,element) {
+					error.addClass('invalid-feedback');
+					element.closest('.form-group').append(error);
+				},
+				highlight : function(element, errorClass, validClass){
+					$(element).addClass('is-invalid');
+				},
+				unhighlight : function(element, errorClass, validClass){
+					$(element).removeClass('is-invalid');
+				},
 			});
 		});
 	</script>
@@ -160,5 +196,6 @@
 		}
 		@endif 
 	   </script>
+
 </body>
 </html>

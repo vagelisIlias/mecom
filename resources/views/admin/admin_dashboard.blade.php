@@ -183,7 +183,7 @@
         });
     </script>
 
-	<!--Data Table -->
+	<!-- Data Table -->
 	<script src="{{ asset('adminbackend/assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
 	<script>
 		$(document).ready(function() {
@@ -191,6 +191,10 @@
 		  } );
 	</script>
 
+	<!-- Validation min.JS -->
+	<script src="{{ asset('adminbackend/assets/js/validate.min.js') }}"></script>
+
+	<!-- Index.js -->
     <script src="{{ asset('adminbackend/assets/js/index.js') }}"></script>
 
 	<!-- app JS -->
@@ -222,5 +226,11 @@
 		}
 		@endif 
 	   </script>
+
+	<!-- Sweetalert -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<!-- Add Sweetalert code and return it in code.js for delete button -->
+	<script src="{{ asset('adminbackend/assets/js/code.js') }}"></script>
+
 </body>
 </html>

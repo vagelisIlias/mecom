@@ -8,13 +8,13 @@
 <div class="page-content"> 
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Add Brand</div>
+        <div class="breadcrumb-title pe-3">Edit Brand</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add Brand</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Brand</li>
                 </ol>
             </nav>
         </div>
@@ -27,18 +27,23 @@
                     <div class="card">
                         <div class="card-body">
                             {{-- Form starts here --}}
-                            <form id="myForm" method="post" action="{{ route('store.brand') }}" enctype="multipart/form-data">
+                            <form id="myForm" method="post" action="{{ route('update.brand') }}" enctype="multipart/form-data">
                                 @csrf
+
+                            <input type="hidden" name="id" value="{{ $editBrand->id }}">
+                            <input type="hidden" name="old_image" value="{{ $editBrand->brand_image }}">
+
                             <div class="col-sm-10">
-                                <img id="showImage" class="rounded-circle avatar-lg" src="{{ url('upload/no_image.jpg') }}" 
+                                <img id="showImage" class="rounded-circle avatar-lg" src="{{ asset($editBrand->brand_image) }}" 
                                     alt="Card image cap" style="width: 200px; height: 200px; border: 5px solid rgba(138, 60, 221, 0.729);">
-                            </div><br>
+                            </div><br><br>
+                            <!-- end row -->   
                             <div class="row mb-3">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Brand name</h6>
                                 </div>
                                 <div class="form-group col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" name="brand_name" />
+                                    <input type="text" class="form-control" name="brand_name" value="{{ $editBrand->brand_name }}" />
                                 </div>
                             </div>
                             <!-- end row -->
@@ -47,7 +52,7 @@
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Brand image</h6>
                                 </div>
-                                <div class="form-group col-sm-9 text-secondary">
+                                <div class="col-sm-9 text-secondary">
                                     <input type="file" class="form-control" name="brand_image" id="image">
                                 </div>
                             </div>
@@ -69,7 +74,6 @@
     </div>
 </div>
 
-
 {{-- Validation min.JS --}}
 <script type="text/javascript">
     $(document).ready(function (){
@@ -78,17 +82,11 @@
                 brand_name: {
                     required : true,
                 }, 
-                brand_image: {
-                    required : true,
-                }, 
             },
             messages :{
                 brand_name: {
                     required : 'Please Enter Brand Name',
                 },
-                brand_image: {
-                    required : 'Please Add Brand Image',
-                }
             },
             errorElement : 'span', 
             errorPlacement: function (error,element) {
@@ -105,7 +103,7 @@
     });
 </script>
 
-{{-- JS  Toaster --}}
+{{-- JS Toaster --}}
 <script type="text/javascript">
     $(document).ready(function() {
         $('#image').change(function(e) {
