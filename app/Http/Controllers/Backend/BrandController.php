@@ -25,30 +25,6 @@ class BrandController extends Controller
     {
         return view('backend.brand.brand_add');
     }
-
-    // Store Brand
-    // public function storeBrand(Request $request)
-    // {
-    //    $image = $request->file('brand_image');
-    //    $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-    //    $image_path = 'upload/brand_image/' . $name_gen;
-    //    Image::make($image)->resize(300, 300)->save(public_path($image_path));
-    //    $save_url = $image_path;
-
-    //    Brand::create([
-    //     'brand_name' => $request->brand_name,
-    //     'brand_slug' => strtolower(str_replace(' ', '-', $request->brand_name)),
-    //     'brand_image' => $save_url,
-    //    ]);
-
-    //    // Creating a message notification
-    //    $notification = [
-    //     'message' => 'Brand Inserted Successfully',
-    //     'alert-type' => 'success',
-    //     ];
-
-    //     return redirect()->route('all.brand')->with($notification);
-    // }
     
     // Store Brand
     public function storeBrand(Request $request)
@@ -56,7 +32,7 @@ class BrandController extends Controller
         // Validate the request
         $request->validate([
             'brand_name' => 'required|string|max:255',
-            'brand_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the file types and size limit as needed
+            'brand_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
         try {
@@ -74,22 +50,20 @@ class BrandController extends Controller
             ]);
     
             // Success message notification
-            $notification = [
+            $not_succ = [
                 'message' => 'Brand Inserted Successfully',
                 'alert-type' => 'success',
             ];
     
-            return redirect()->route('all.brand')->with($notification);
-        } catch (\Exception $e) {
-            // Handle errors, log them, and return an error response
-            $notification = [
-                'message' => 'An error occurred while saving the brand.',
-                'alert-type' => 'error',
-            ];
-    
-            return redirect()->back()->with($notification);
-        }
+            return redirect()->route('all.brand')->with($not_succ);
+            } catch (\Exception $e) {
+                // Handle errors, log them, and return an error response
+                $not_error = [
+                    'message' => 'An error occurred while saving the brand' . $e->getMessage(),
+                    'alert-type' => 'error',
+                ];
+                return redirect()->back()->with($not_error);
+            }
     }
     
-
 }

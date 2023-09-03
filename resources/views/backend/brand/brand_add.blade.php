@@ -31,9 +31,8 @@
                                 <form method="post" action="{{ route('store.brand') }}" enctype="multipart/form-data">
                                     @csrf
                                 <div class="col-sm-10">
-                                    <img id="showImage" class="rounded-circle avatar-lg" src="{{ (!empty($adminProfile->photo)) ? 
-                                    url('upload/admin_profile_image/'. $adminProfile->photo) : url('upload/no_image.jpg') }}" 
-                                    alt="Card image cap" style="width: 200px; height: 200px; border: 5px solid rgba(138, 60, 221, 0.729);">
+                                    <img id="showImage" class="rounded-circle avatar-lg" src="{{ url('upload/no_image.jpg') }}" 
+                                        alt="Card image cap" style="width: 200px; height: 200px; border: 5px solid rgba(138, 60, 221, 0.729);">
                                 </div><br>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
@@ -41,6 +40,9 @@
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" class="form-control" name="brand_name" />
+                                            @error('brand_name')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                 </div>
                                 <!-- end row -->
@@ -51,6 +53,9 @@
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input type="file" class="form-control" name="brand_image" id="image">
+                                            @error('brand_image')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                 </div>
                                 <!-- end row -->
