@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\SubCategory;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class SubCategoryController extends Controller
 {
@@ -18,17 +19,11 @@ class SubCategoryController extends Controller
     public function allSubCategory()
     {   
         // Creating a join to subcategory and category
-        $allSubCategory = SubCategory::select(
-            'sub_categories.id', 
-            'sub_categories.category_id', 
-            'categories.category_name', 
-            'sub_categories.sub_category_name', 
-            'sub_categories.sub_category_slug'
-        )
-        ->join('categories', 'sub_categories.category_id', '=', 'categories.id')
-        ->orderBy('sub_categories.created_at', 'desc')
-        ->get();
-        
+        $allSubCategory = SubCategory::with('category')
+                ->orderBy('created_at', 'desc')
+                ->get();
+                //dd($allSubCategory);
+
         return view('backend.subcategory.subcategory_all', compact('allSubCategory'));
     }
 

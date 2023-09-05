@@ -26,7 +26,7 @@ class BackupDatabase extends Command
      */
     public function handle()
     {
-        $dbName = 'mecom_db'; // Replace with the name of your "mecom" project database
+        $dbName = 'mecom'; // Replace with the name of your "mecom" project database
         $username = 'root'; // Replace with the database username for the "mecom" project
         $password = ''; // Replace with the database password for the "mecom" project. Leave empty for no password.
 
@@ -39,7 +39,7 @@ class BackupDatabase extends Command
         }
 
         $command = "mysqldump --user={$username} --password={$password} {$dbName} > " . storage_path("app/{$backupPath}/{$backupFilename}");
-
+    
         exec($command);
 
         $this->info("Database backup created for mecom project: {$backupFilename}");

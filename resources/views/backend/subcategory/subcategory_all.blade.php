@@ -43,7 +43,7 @@
                             <tr>
                                 <td>{{ ++$key }}</td>
                                 <td>{{ $item->category_id }}</td>
-                                <td>{{ $item->category_name }}</td>
+                                <td>{{ $item->category->category_name }}</td>
                                 <td>{{ $item->sub_category_name }}</td>
                                 <td>{{ $item->sub_category_slug }}</td>
                                 <td>
