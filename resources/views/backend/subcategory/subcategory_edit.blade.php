@@ -8,13 +8,13 @@
 <div class="page-content"> 
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Add SubCategory</div>
+        <div class="breadcrumb-title pe-3">Edit SubCategory</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add SubCategory</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit SubCategory</li>
                 </ol>
             </nav>
         </div>
@@ -27,8 +27,11 @@
                     <div class="card">
                         <div class="card-body">
                             {{-- Form starts here --}}
-                            <form id="myForm" method="post" action="{{ route('store.subcategory') }}">
+                            <form id="myForm" method="post" action="{{ route('update.subcategory') }}">
                                 @csrf
+                            
+                            <input type="hidden" name="id" value="{{ $editSubcategory->id }}">
+
                             <div class="row mb-3">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Category name</h6>
@@ -37,7 +40,8 @@
                                     <select class="form-select mb-3" name="category_id" id="category_id" aria-label="Default select example">
                                         <option value="">Select Category</option>
                                         @foreach($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                       
+                                            <option value="{{ $category->id }}" {{ $category->id == $editSubcategory->category_id ? 'selected' : '' }}>{{ $category->category_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -49,7 +53,7 @@
                                     <h6 class="mb-0">Sub Category name</h6>
                                 </div>
                                 <div class="form-group col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" name="sub_category_name" />
+                                    <input type="text" class="form-control" name="sub_category_name" value="{{ $editSubcategory->sub_category_name }}" />
                                 </div>
                             </div>
                             <!-- end row -->

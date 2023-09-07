@@ -45,7 +45,7 @@ class SubCategoryController extends Controller
         ]);
 
         try {
-            // Create The rand
+            // Create method to save the into subcategory
             SubCategory::create([
                 'category_id' => $request->category_id,
                 'sub_category_name' => ucwords($request->sub_category_name),
@@ -69,5 +69,77 @@ class SubCategoryController extends Controller
 
             return redirect()->back()->with($not_error);
         }
+    }
+
+    // Edit Sub Category
+    public function editSubcategory($id)
+    {   
+        $categories = Category::orderBy('category_name', 'asc')->get();
+        $editSubcategory = SubCategory::findOrFail($id);
+        return view('backend.subcategory.subcategory_edit', compact('editSubcategory', 'categories'));
+    }
+
+    // Update Sub Category
+    public function updateSubcategory(Request $request)
+    {
+        $subcat_id = $request->id;
+
+        $request->validate([
+            'category_id' => 'required',
+            'sub_category_name' => 'required|string|max:255',
+        ]);
+
+        try {
+            // Update the the subcategory
+            SubCategory::findOrFail($subcat_id)->update([
+                'category_id' => $request->category_id,
+                'sub_category_name' => ucwords($request->sub_category_name),
+                'sub_category_slug' => strtolower(str_replace(' ', '-', $request->sub_category_name)),
+            ]);
+
+            // Success message notification
+            $not_succ = [
+                'message' => 'Sub Category Updated Successfully',
+                'alert-type' => 'success',
+            ];
+
+        } catch(\Exception $e){
+            // Error message notification
+            $not_error = [
+                'message' => 'Error updating subcategory' . $e->getMessage(),
+                'alert-type' => 'error',
+            ];
+
+            return redirect()->back()->with($not_error);
+        }
+
+        return redirect()->route('all.subcategory')->with($not_succ);
+    }
+
+    // Delete Sub Category
+    public function deleteSubCategory($id)
+    {
+        try {
+            // Find or fail the id
+            $deleteSubCategory = SubCategory::findOrFail($id);
+
+            // Delete the subcategory with specific id
+            $deleteSubCategory->delete();
+
+            // Success message notification
+            $not_succ = [
+                'message' => 'Sub Category Deleted Successfully',
+                'alert-type' => 'success',
+            ];
+        } catch(\Exception $e) {
+            // Error message notification
+            $not_error = [
+                'message' => 'Error deleting subcategory' . $e->getMessage(),
+                'alert-type' => 'error',
+            ];
+            return redirect()->back()->with($not_error);
+        }
+
+        return redirect()->route('all.subcategory')->with($not_succ);
     }
 }

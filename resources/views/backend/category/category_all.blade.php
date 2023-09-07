@@ -31,8 +31,8 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Category ID</th>
                             <th>Category Name</th>
-                            <th>Category Slug</th>
                             <th>Category Image</th>
                             <th>Action</th>
                         </tr>
@@ -41,8 +41,8 @@
                         @foreach ($allCategory as $key => $item)
                             <tr>
                                 <td>{{ ++$key }}</td>
+                                <td>{{ $item->id }}</td>
                                 <td>{{ $item->category_name }}</td>
-                                <td>{{ $item->category_slug }}</td>
                                 <td><img src="{{ asset($item->category_image) }}" style="width: 60px; height: 50px;"></td>
                                 <td>
                                     <a href="{{ route('edit.category', $item->id) }}" class="btn btn-info">Edit</a>
@@ -54,8 +54,8 @@
                     <tfoot>
                         <tr>
                             <th>Id</th>
+                            <th>Category ID</th>
                             <th>Category Name</th>
-                            <th>Category Slug</th>
                             <th>Category Image</th>
                             <th>Action</th>
                         </tr>

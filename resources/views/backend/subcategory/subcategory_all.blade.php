@@ -34,7 +34,6 @@
                             <th>Category ID</th>
                             <th>Category Name</th>
                             <th>Sub Category Name</th>
-                            <th>Sub Category Slug</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -45,10 +44,9 @@
                                 <td>{{ $item->category_id }}</td>
                                 <td>{{ $item->category->category_name }}</td>
                                 <td>{{ $item->sub_category_name }}</td>
-                                <td>{{ $item->sub_category_slug }}</td>
                                 <td>
-                                    <a href="{{ route('edit.category', $item->id) }}" class="btn btn-info">Edit</a>
-                                    <a href="{{ route('delete.category', $item->id) }}" id="delete" class="btn btn-danger">Delete</a>
+                                    <a href="{{ route('edit.subcategory', $item->id) }}" class="btn btn-info">Edit</a>
+                                    <a href="{{ route('delete.subcategory', $item->id) }}" id="delete" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -59,7 +57,6 @@
                             <th>Category ID</th>
                             <th>Category Name</th>
                             <th>Sub Category Name</th>
-                            <th>Sub Category Slug</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>
