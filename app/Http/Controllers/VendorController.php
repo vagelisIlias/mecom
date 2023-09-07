@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
 use App\Models\User;
 
 class VendorController extends Controller
@@ -145,4 +148,54 @@ class VendorController extends Controller
         return back()->with($not_succ);
     }
 
+    // Become a Vendor 
+    public function becomeVendor()
+    {
+        return view('auth.become_vendor');
+    }
+
+    // Register Vendor
+    public function vendorRegister(Request $request)
+    {
+        // Validation vendor users
+        $request->validate([
+            'firstname' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'vendor_shop_name' => ['required', 'string', 'max:255', 'unique:users'],
+            'address' => ['required'],
+            'postcode' => ['required'],
+            'phone' => ['required',],
+            'vendor_join' => ['required'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password_confirmation' => 'required',
+        ]);
+
+        // Create vendor users
+        $user = User::create([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'username' => $request->username,
+            'email' => $request->email,
+            'vendor_shop_name' => $request->vendor_shop_name,
+            'address' => $request->address,
+            'postcode' => $request->postcode,
+            'phone' => $request->phone,
+            'vendor_join' => $request->vendor_join,
+            'password' => Hash::make($request->password),
+            'role' => 'vendor',
+            'status' => 'inactive',
+        ]);
+
+        // Notification Message 
+        $not_succ = [
+            'message' => 'Welcome Vendor Your Account Created Successfully',
+            'alert-type' => 'success',
+        ];
+
+        event(new Registered($user));
+        
+        return redirect()->route('vendor.login')->with($not_succ);
+    }
 }

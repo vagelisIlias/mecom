@@ -33,10 +33,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/user/update/password', [UserController::class, 'userUpdatePassword'])->name('user.update.password');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 // Admin Dashboard
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard'); 
@@ -56,14 +52,17 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/change/password', [VendorController::class, 'vendorChangePassword'])->name('vendor.change.password');
     Route::post('/vendor/update/password', [VendorController::class, 'vendorUpdatePassword'])->name('vendor.update.password');
 });
+// Become a Vendor
+Route::get('/become/vendor', [VendorController::class, 'becomeVendor'])->name('become.vendor');
 
 // Admin login route
 Route::get('/admin/login', [AdminController::class, 'adminLogin']);
 
-// Vendor login route
-Route::get('/vendor/login', [VendorController::class, 'vendorLogin']);
+// Vendor Register | Login routes
+Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login');
+Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
 
-// Brand route with middleware
+// Brand admin route with middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(BrandController::class)->group(function () {
         Route::get('/all/brand', 'allBrand')->name('all.brand');
@@ -75,7 +74,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
-// Category route with middleware
+// Category admin route with middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/all/category', 'allCategory')->name('all.category');
@@ -87,7 +86,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
-// SubCategory route with middleware
+// SubCategory admin route with middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(SubCategoryController::class)->group(function () {
         Route::get('/all/subcategory', 'allSubCategory')->name('all.subcategory');
@@ -98,7 +97,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/delete/subcategory/{id}', 'deleteSubCategory')->name('delete.subcategory');
     });
 });
-
 
 // Middleware authedication route
 Route::middleware('auth')->group(function () {

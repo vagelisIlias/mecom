@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>E-shop Register</title>
+    <title>E-shop | Become Vendor Register</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,7 +33,7 @@
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                    <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Become Vendor</a>
                     <span></span> My Account
                 </div>
             </div>
@@ -47,11 +47,11 @@
                                 <div class="login_wrap widget-taber-content background-white">
                                     <div class="padding_eight_all bg-white">
                                         <div class="heading_s1">
-                                            <h1 class="mb-5">Create an Account</h1>
-                                            <p class="mb-30">Already have an account? <a href="{{ route('login') }}">Login</a></p>
+                                            <h1 class="mb-5">Become Vendor</h1>
+                                            <p class="mb-30">Already have a Vendor account? <a href="{{ route('vendor.login') }}">Vendor Login</a></p>
                                         </div>
                                         {{-- Form starts here --}}
-                                        <form method="POST" action="{{ route('register') }}">
+                                        <form method="POST" action="{{ route('vendor.register') }}">
                                             @csrf
                                             <div class="form-group col-md-12">
                                                 <label>Firstname<span class="required">*</span></label>
@@ -82,7 +82,57 @@
                                                     @enderror
                                             </div>
                                             <!-- End row-->
-                                            
+
+                                            <div class="form-group col-md-12">
+                                                <label>Shop Name<span class="required">*</span></label>
+                                                <input type="text" class="form-control @error('vendor_shop_name') is-invalid @enderror" 
+                                                    name="vendor_shop_name" id="vendor_shop_name"/>
+                                                    @error('vendor_shop_name')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                            </div>
+                                            <!-- End row-->
+
+                                            <div class="form-group col-md-12">
+                                                <label>Address<span class="required">*</span></label>
+                                                <input type="text" class="form-control @error('address') is-invalid @enderror" 
+                                                    name="address" id="address"/>
+                                                    @error('address')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                            </div>
+                                            <!-- End row-->
+
+                                            <div class="form-group col-md-12">
+                                                <label>Post Code<span class="required">*</span></label>
+                                                <input type="text" class="form-control @error('postcode') is-invalid @enderror" 
+                                                    name="postcode" id="postcode"/>
+                                                    @error('postcode')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                            </div>
+                                            <!-- End row-->
+
+                                            <div class="form-group col-md-12">
+                                                <label>Contact Number<span class="required">*</span></label>
+                                                <input type="text" class="form-control @error('phone') is-invalid @enderror" 
+                                                    name="phone" id="phone"/>
+                                                    @error('phone')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                            </div>
+                                            <!-- End row-->
+
+                                            <div class="form-group col-md-12">
+                                                <label>Vendor Join Date<span class="required">*</span></label>
+                                                <input type="date" class="form-control @error('vendor_join') is-invalid @enderror" 
+                                                    name="vendor_join" id="vendor_join"/>
+                                                    @error('vendor_join')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                            </div>
+                                            <!-- End row-->
+    
                                             <div class="form-group col-md-12">
                                                 <label>Email<span class="required">*</span></label>
                                                 <input type="text" class="form-control @error('email') is-invalid @enderror" 

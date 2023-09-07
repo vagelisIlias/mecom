@@ -74,16 +74,24 @@ class SubCategoryController extends Controller
     // Edit Sub Category
     public function editSubcategory($id)
     {   
+        // Retrieve a list of categories and order them by name in ascending order
         $categories = Category::orderBy('category_name', 'asc')->get();
+        
+        // Find the subcategory to be edited based on the provided $id
         $editSubcategory = SubCategory::findOrFail($id);
+
+        // Return a view for editing the subcategory, passing the subcategory and categories as data
         return view('backend.subcategory.subcategory_edit', compact('editSubcategory', 'categories'));
     }
 
+
     // Update Sub Category
     public function updateSubcategory(Request $request)
-    {
+    {   
+        // Request the id of the subcategory
         $subcat_id = $request->id;
 
+        // Validate the request
         $request->validate([
             'category_id' => 'required',
             'sub_category_name' => 'required|string|max:255',

@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('github')->nullable();
             $table->string('instagram')->nullable();
             $table->string('linkedin')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('website')->nullable();
             $table->text('job_title')->nullable();
             $table->string('photo')->nullable();
             $table->string('phone')->nullable();
@@ -52,6 +54,8 @@ return new class extends Migration
             $table->dropColumn('github');
             $table->dropColumn('instagram');
             $table->dropColumn('linkedin');
+            $table->dropColumn('facebook');
+            $table->dropColumn('website');
             $table->dropColumn('job_title');
             $table->dropColumn('password');
             $table->dropColumn('photo');
