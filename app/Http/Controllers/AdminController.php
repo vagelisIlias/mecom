@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Notifications\AccountStatusChanged;
 
 class AdminController extends Controller
 {   
@@ -49,6 +50,7 @@ class AdminController extends Controller
     {   
         // Get the authenticated user's ID
         $id = Auth::user()->id;
+
         // Find the user in the database using the retrieved ID
         $adminProfile = User::find($id);
         return view('admin.profile.admin_profile', compact('adminProfile'));
@@ -140,13 +142,90 @@ class AdminController extends Controller
             'password' => Hash::make($request->new_password)
         ]);
 
-        // Pass the additional data to the view along with the success message
+        // Pass the success message
         $not_succ = [
             'message' => 'Admin Password Updated Successfully',
             'alert-type' => 'success',
         ];
         
-        return back()->with($not_succ);
+        return redirect()->back()->with($not_succ);
+    }
+
+    // ------------------- Inactive Vendor Authentication ------------------- //
+    public function inactiveVendor()
+    {
+        $inactiveVendor = User::where('status', 'inactive')->where('role', 'vendor')->latest()->get();
+        return view('backend.vendor.inactive_vendor', compact('inactiveVendor'));
+    }
+
+    // ------------------- Active Vendor Authentication ------------------- //
+    public function activeVendor()
+    {
+        $activeVendor = User::where('status', 'active')->where('role', 'vendor')->latest()->get();
+        return view('backend.vendor.active_vendor', compact('activeVendor'));
+    }
+
+    // Inactive Vendor Details
+    public function inactiveVendorDetails($id)
+    {
+        $inactiveVendorDetails = User::findOrFail($id);
+        return view('backend.vendor.inactive_vendor_details', compact('inactiveVendorDetails'));
+    }
+
+    // Approve Inactive Vendor
+    public function approveInactiveVendor(Request $request)
+    {
+        $vendor_id = $request->id;
+        User::findOrFail($vendor_id)->update([
+            'status' => 'active',
+        ]);
+
+        // Send a notification indicating that the account is now active
+        $vendor = User::find($vendor_id);
+        $url = url('/vendor/login');
+        $message = 'Your account has been activated, Please visit your dashboard';
+        $vendor->notify(new AccountStatusChanged('active', $message, $url));
+
+
+        // Pass the success message
+        $not_succ = [
+            'message' => 'Vendor has Activated Successfully',
+            'alert-type' => 'success',
+        ];
+        
+        return redirect()->route('active.vendor')->with($not_succ);
+    }
+
+
+    // Active Vendor Details
+    public function activeVendorDetails($id)
+    {
+        $activeVendorDetails = User::findOrFail($id);
+        return view('backend.vendor.active_vendor_details', compact('activeVendorDetails'));
+    }
+
+    // Unapprove Active Vendor
+    public function unapproveActiveVendor(Request $request)
+    {
+        $vendor_id = $request->id;
+        User::findOrFail($vendor_id)->update([
+            'status' => 'inactive',
+        ]);
+
+        // Send a notification indicating that the account is now inactive
+        $vendor = User::find($vendor_id);
+        $url = url('/vendor/login');
+        $message = 'Your account has been deactivated. Please visit your dashboard';
+        $vendor->notify(new AccountStatusChanged('inactive', $message, $url));
+
+        // Pass the additional data to the view along with the success message
+        $not_succ = [
+            'message' => 'Vendor has Inactivated Successfully',
+            'alert-type' => 'success',
+        ];
+        
+        return redirect()->route('inactive.vendor')->with($not_succ);
+
     }
 
 }

@@ -36,6 +36,9 @@ class RegisteredUserController extends Controller
             'lastname' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'address' => ['required', 'string', 'max:255',],
+            'postcode' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'password_confirmation' => 'required',
         ]);
@@ -46,6 +49,9 @@ class RegisteredUserController extends Controller
             'lastname' => $request->lastname,
             'username' => $request->username,
             'email' => $request->email,
+            'address' => $request->address,
+            'postcode' => $request->postcode,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
@@ -53,6 +59,12 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        // Notification Message
+        $not_succ = [
+            'message' => "Welcome {$user->username}, Your Account Created Successfully",
+            'alert-type' => 'success',
+        ];
+
+        return redirect(RouteServiceProvider::HOME)->with($not_succ);
     }
 }

@@ -62,6 +62,7 @@ Route::get('/admin/login', [AdminController::class, 'adminLogin']);
 Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login');
 Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
 
+
 // Brand admin route with middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(BrandController::class)->group(function () {
@@ -83,6 +84,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/edit/category/{id}', 'editCategory')->name('edit.category');
         Route::post('/update/category', 'updateCategory')->name('update.category');
         Route::get('/delete/category/{id}', 'deleteCategory')->name('delete.category');
+    });
+});
+
+// Vendor Active/Inactive admin route with middleware
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/inactive/vendor', 'inactiveVendor')->name('inactive.vendor');
+        Route::get('/active/vendor', 'activeVendor')->name('active.vendor');
+        Route::get('/inactive/vendor/details/{id}', 'inactiveVendorDetails')->name('inactive.vendor.details');
+        Route::post('/approve/inactive/vendor/', 'approveInactiveVendor')->name('approve.inactive.vendor');
+        Route::get('/active/vendor/details/{id}', 'activeVendorDetails')->name('active.vendor.details');
+        Route::post('/unapprove/active/vendor/', 'unapproveActiveVendor')->name('unapprove.active.vendor');
     });
 });
 

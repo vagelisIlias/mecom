@@ -94,6 +94,36 @@
                                             <!-- End row-->
 
                                             <div class="form-group col-md-12">
+                                                <label>Adrress<span class="required">*</span></label>
+                                                <input type="text" class="form-control @error('address') is-invalid @enderror" 
+                                                    name="address" id="address"/>
+                                                    @error('address')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                            </div>
+                                            <!-- End row-->
+
+                                            <div class="form-group col-md-12">
+                                                <label>Post Code<span class="required">*</span></label>
+                                                <input type="text" class="form-control @error('postcode') is-invalid @enderror" 
+                                                    name="postcode" id="postcode"/>
+                                                    @error('postcode')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                            </div>
+                                            <!-- End row-->
+
+                                            <div class="form-group col-md-12">
+                                                <label>Contact Number<span class="required">*</span></label>
+                                                <input type="text" class="form-control @error('phone') is-invalid @enderror" 
+                                                    name="phone" id="phone"/>
+                                                    @error('phone')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                            </div>
+                                            <!-- End row-->
+
+                                            <div class="form-group col-md-12">
                                                 <label>Password<span class="required">*</span></label>
                                                 <input type="password" class="form-control @error('password') is-invalid @enderror" 
                                                     name="password" id="password"/>

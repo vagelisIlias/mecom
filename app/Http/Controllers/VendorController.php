@@ -188,14 +188,14 @@ class VendorController extends Controller
             'status' => 'inactive',
         ]);
 
-        // Notification Message 
+        event(new Registered($user));
+
+        // Notification Message
         $not_succ = [
-            'message' => 'Welcome Vendor Your Account Created Successfully',
+            'message' => "Welcome {$user->username}, Your Account Created Successfully",
             'alert-type' => 'success',
         ];
 
-        event(new Registered($user));
-        
         return redirect()->route('vendor.login')->with($not_succ);
     }
 }
