@@ -45,7 +45,8 @@
                                 <td>{{ $item->category_name }}</td>
                                 <td><img src="{{ asset($item->category_image) }}" style="width: 60px; height: 50px;"></td>
                                 <td>
-                                    <a href="{{ route('edit.category', $item->id) }}" class="btn btn-info">Edit</a>
+                                    <a href="{{ route('edit.category', $item->id) }}" style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative;">
+                                        <i class="fa-solid fa-pen-to-square" style="color: #6235b6; "></i></a>
                                     <a href="{{ route('delete.category', $item->id) }}" id="delete" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>

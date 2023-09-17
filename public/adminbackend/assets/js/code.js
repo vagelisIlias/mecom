@@ -1,5 +1,4 @@
 // Add Sweetalert code for the delete button
-
 $(function(){
     $(document).on('click', '#delete', function(e){
         e.preventDefault();

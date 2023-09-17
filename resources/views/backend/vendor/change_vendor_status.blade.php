@@ -58,13 +58,22 @@
 
                                 <!-- Display different form fields based on vendor status -->
                                 @if ($checkVendorDetails->status == 'inactive')
-                                    {{-- <input type="hidden" name="action" value="activate">   --}}
                                     <div class="row mb-3">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">FirstName</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input type="text" class="form-control" name="firstname" value="{{ $checkVendorDetails->firstname }}" />
+                                        </div>
+                                    </div>
+                                    <!-- end row -->
+
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">LastName</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input type="text" class="form-control" name="lastname" value="{{ $checkVendorDetails->lastname }}" />
                                         </div>
                                     </div>
                                     <!-- end row -->
@@ -77,13 +86,22 @@
                                     </div>
                                 {{-- Else Display Active Vendors--}}
                                 @else
-                                    {{-- <input type="hidden" name="action" value="deactivate"> --}}
                                     <div class="row mb-3">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">FirstName</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input type="text" class="form-control" name="firstname" value="{{ $checkVendorDetails->firstname }}" />
+                                        </div>
+                                    </div>
+                                    <!-- end row -->
+
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">LastName</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input type="text" class="form-control" name="lastname" value="{{ $checkVendorDetails->lastname }}" />
                                         </div>
                                     </div>
                                     <!-- end row -->

@@ -28,7 +28,6 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Dtabase ID</th>
                             <th>Vendor Shop Name</th>
                             <th>Vendor Username</th>
                             <th>Vendor Email</th>
@@ -42,7 +41,6 @@
                         @foreach ($allVendorStatus as $key => $item)
                         <tr>
                             <td>{{ ++$key }}</td>
-                            <td>{{ $item->id }}</td>
                             <td>{{ $item->vendor_shop_name }}</td>
                             <td>{{ $item->username }}</td>
                             <td>{{ $item->email }}</td>
@@ -59,11 +57,16 @@
                                 @endif
                             </td>
                             <td>
-                               <a href="{{ route('check.vendor.details', $item->id) }}"
+                                <a href="{{ route('check.vendor.details', $item->id) }}"
+                                    style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;">
+                                    <i class="fa-solid fa-pen-to-square" style="color: #6235b6;"></i>
+                                </a>
+                                <a href="{{ route('delete.vendor.details', $item->id) }}" id="delete" 
                                     style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative;">
-                                        <i class="fa-solid fa-pen-to-square" style="color: #6235b6; "></i>
+                                    <i class="fa-solid fa-trash"  style="color: #ac2051;" ></i>
                                 </a>
                             </td>
+                            
                         </tr>
                         @endforeach
                         {{-- End ForEach Loop --}}
@@ -71,7 +74,6 @@
                     <tfoot>
                         <tr>
                             <th>Id</th>
-                            <th>Dtabase ID</th>
                             <th>Vendor Shop Name</th>
                             <th>Vendor Username</th>
                             <th>Vendor Email</th>

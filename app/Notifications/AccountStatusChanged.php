@@ -14,6 +14,8 @@ class AccountStatusChanged extends Notification
     protected $status;
     protected $message;
     protected $url;
+    protected $actionText;
+    protected $lineText;
 
      /**
      * Create a new notification instance.
@@ -22,11 +24,13 @@ class AccountStatusChanged extends Notification
      * @param string $message The custom message for the notification
      * @param string $url The dynamic URL for the notification
      */
-    public function __construct(string $status, string $message, string $url)
+    public function __construct($status, $message, $url, $actionText, $lineText)
     {
         $this->status = $status;
         $this->message = $message;
         $this->url = $url;
+        $this->actionText = $actionText;
+        $this->lineText = $lineText;
     }
 
     /**
@@ -43,11 +47,11 @@ class AccountStatusChanged extends Notification
      * Get the mail representation of the notification.
      */
     public function toMail(object $notifiable): MailMessage
-    {
+    {   
         return (new MailMessage)
             ->line($this->message)
-            ->action('Visit Your Dashboard', $this->url)
-            ->line('Thank you for using our application!');
+            ->action($this->actionText, $this->url)
+            ->line($this->lineText);
     }
 
     /**

@@ -93,6 +93,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/all/vendor/status', 'allVendorStatus')->name('all.vendor.status');
         Route::get('/check/vendor/details/{id}', 'checkVendorDetails')->name('check.vendor.details');
         Route::post('/change/vendor/status/', 'changeVendorStatus')->name('change.vendor.status');
+        Route::get('/delete/vendor/details/{id}', 'deleteVendorDetails')->name('delete.vendor.details');
     });
 });
 

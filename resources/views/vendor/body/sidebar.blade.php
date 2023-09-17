@@ -23,7 +23,7 @@
                 <div class="menu-title">Dashboard</div>
             </a>
         </li>
-        {{-- Show the Procucts only if the user is active --}}
+        {{-- Show evertyhing from dahboard if the user is active --}}
         @if ($status === 'active')
         <li>
             <a href="javascript:;" class="has-arrow">
@@ -52,6 +52,7 @@
             </ul>
         </li>
         @else
+            {{-- Show Only Dashoboard and Support for inactive users --}}
         @endif
         {{-- End if --}}
             <a href="#" target="_blank">

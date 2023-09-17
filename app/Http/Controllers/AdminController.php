@@ -162,7 +162,7 @@ class AdminController extends Controller
 
     // Returning the vendor status details based on Eloquent request
     public function allVendorStatus()
-    {
+    {   
         // Get active vendors using $this->vendorStatusDetails
         $getActiveVendors = $this->vendorStatusDetails->getActiveVendors();
 
@@ -196,8 +196,10 @@ class AdminController extends Controller
 
             // Send a notification indicating that the account is now active
             $url = url('/vendor/login');
-            $message = 'Your account has been activated, Please visit your dashboard';
-            $vendor->notify(new AccountStatusChanged('active', $message, $url));
+            $message = 'Your account has been activated. Please check the link below to check your status.';
+            $actionText = "Visit Your Dashboard";
+            $lineText = "Thank you for using our application";
+            $vendor->notify(new AccountStatusChanged('active', $message, $url, $actionText, $lineText));
             
             // Pass the success message
             $not_succ = [
@@ -212,8 +214,10 @@ class AdminController extends Controller
     
             // Send a notification indicating that the account is now inactive
             $url = url('/vendor/login');
-            $message = 'Your account has been deactivated, please visit your dashboard';
-            $vendor->notify(new AccountStatusChanged('inactive', $message, $url));
+            $message = 'Your account has been deactivated. Please check the link below to check your status.';
+            $actionText = "Visit Your Dashboard";
+            $lineText = "Thank you for using our application";
+            $vendor->notify(new AccountStatusChanged('inactive', $message, $url, $actionText, $lineText));
 
             // Pass the success message
             $not_succ = [
@@ -221,12 +225,42 @@ class AdminController extends Controller
                 'alert-type' => 'success',
             ];
                 
-            }
+        }
 
         return redirect()->route('all.vendor.status')->with($not_succ);       
     }
 
+    // Delete Vendor Details
+    public function deleteVendorDetails($id)
+    {   
+        $vendor = User::findOrFail($id);
+        try {
+            // Check the details based on ID
+            $deleteVendorDetails = User::findOrFail($id);
 
+            // Delete vendor details
+            $deleteVendorDetails->delete();
 
+            // Send a notification indicating that the account is now deleted
+            $url = url('/');
+            $message = 'Unfortunately, your account has been deleted. If you have any questions or need assistance, please contact our support team';
+            $actionText = "Visit Our Website";
+            $lineText = "Thank you for using our application";
+            $vendor->notify(new AccountStatusChanged('delete', $message, $url, $actionText, $lineText));
 
+            // Success message notification
+            $not_succ = [
+                'message' => 'Vendor Deleted Successfully',
+                'alert-type' => 'success',
+            ];
+        } catch(\Exception $e) {
+            // Error message notification
+            $not_error = [
+                'message' => 'Error deleting vendor details' . $e->getMessage(),
+                'alert-type' => 'error',
+            ];
+            return redirect()->back()->with($not_error);
+        }
+        return redirect()->route('all.vendor.status')->with($not_succ);
+    } 
 }

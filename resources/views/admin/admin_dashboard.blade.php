@@ -233,6 +233,7 @@
 
 	<!-- Sweetalert -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	
 	<!-- Add Sweetalert code and return it in code.js for delete button -->
 	<script src="{{ asset('adminbackend/assets/js/code.js') }}"></script>
 
