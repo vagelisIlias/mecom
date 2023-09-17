@@ -90,14 +90,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 // Vendor Active/Inactive admin route with middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(AdminController::class)->group(function () {
-        Route::get('/inactive/vendor', 'inactiveVendor')->name('inactive.vendor');
-        Route::get('/active/vendor', 'activeVendor')->name('active.vendor');
-        Route::get('/inactive/vendor/details/{id}', 'inactiveVendorDetails')->name('inactive.vendor.details');
-        Route::post('/approve/inactive/vendor/', 'approveInactiveVendor')->name('approve.inactive.vendor');
-        Route::get('/active/vendor/details/{id}', 'activeVendorDetails')->name('active.vendor.details');
-        Route::post('/unapprove/active/vendor/', 'unapproveActiveVendor')->name('unapprove.active.vendor');
+        Route::get('/all/vendor/status', 'allVendorStatus')->name('all.vendor.status');
+        Route::get('/check/vendor/details/{id}', 'checkVendorDetails')->name('check.vendor.details');
+        Route::post('/change/vendor/status/', 'changeVendorStatus')->name('change.vendor.status');
     });
 });
+
+    
 
 // SubCategory admin route with middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {

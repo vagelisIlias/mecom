@@ -69,9 +69,7 @@
                 <div class="menu-title">Vendor Manage</div>
             </a>
             <ul>
-                <li> <a href="{{ route('inactive.vendor') }}"><i class="bx bx-right-arrow-alt"></i>Inactive Vendor</a>
-                </li>
-                <li> <a href="{{ route('active.vendor') }}"><i class="bx bx-right-arrow-alt"></i>Active Vendor</a>
+                <li><a href="{{ route('all.vendor.status') }}"><i class="bx bx-right-arrow-alt"></i>Vendor Status Details</a>
                 </li>
             </ul>
         </li>
