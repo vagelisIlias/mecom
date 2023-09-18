@@ -61,10 +61,8 @@ Route::get('/become/vendor', [VendorController::class, 'becomeVendor'])->name('b
 Route::get('/admin/login', [AdminController::class, 'adminLogin']);
 
 // Vendor Register | Login routes
-
 Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])
     ->name('vendor.login');
-
 Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])
     ->name('vendor.register');
 
@@ -92,16 +90,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
-// Vendor Active/Inactive admin route with middleware
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::controller(AdminController::class)->group(function () {
-        Route::get('/all/vendor/status', 'allVendorStatus')->name('all.vendor.status');
-        Route::get('/check/vendor/details/{id}', 'checkVendorDetails')->name('check.vendor.details');
-        Route::post('/change/vendor/status/', 'changeVendorStatus')->name('change.vendor.status');
-        Route::get('/delete/vendor/details/{id}', 'deleteVendorDetails')->name('delete.vendor.details');
-    });
-});
-
 // SubCategory admin route with middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(SubCategoryController::class)->group(function () {
@@ -114,6 +102,23 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
+// Vendor Active/Inactive admin route with middleware
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/all/vendor/status', 'allVendorStatus')->name('all.vendor.status');
+        Route::get('/check/vendor/details/{id}', 'checkVendorDetails')->name('check.vendor.details');
+        Route::post('/change/vendor/status/', 'changeVendorStatus')->name('change.vendor.status');
+        Route::get('/delete/vendor/details/{id}', 'deleteVendorDetails')->name('delete.vendor.details');
+    });
+});
+
+// Users admin route with middleware
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/all/user/status', 'allUserStatus')->name('all.user.status');
+    });
+});
+
 // Middleware authedication route
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -122,4 +127,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
 

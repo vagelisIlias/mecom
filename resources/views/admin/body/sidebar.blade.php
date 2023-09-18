@@ -64,12 +64,23 @@
         <li class="menu-label">UI Elements</li>
         <li>
             <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class='bx bx-cart'></i>
+                <div class="parent-icon"><i class='bx bxs-user-circle'></i>
                 </div>
                 <div class="menu-title">Vendor Manage</div>
             </a>
             <ul>
                 <li><a href="{{ route('all.vendor.status') }}"><i class="bx bx-right-arrow-alt"></i>Vendor Status Details</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-user'></i>
+                </div>
+                <div class="menu-title">User Manage</div>
+            </a>
+            <ul>
+                <li><a href="{{ route('all.user.status') }}"><i class="bx bx-right-arrow-alt"></i>User Status Details</a>
                 </li>
             </ul>
         </li>

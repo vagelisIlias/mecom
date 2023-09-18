@@ -23,7 +23,7 @@ class VendorStatusChecker
         if ($request->user()->status !== $status) {
             // User has a status other than "active," redirect to home
             $not_error = [
-                'message' => 'Your Vendor Account is not Activated, Please wait for Admin to Activate your Account.',
+                'message' => 'Your Vendor Account is not Activated, Please wait for your Account to be Activated.',
                 'alert-type' => 'info',
             ];
 
