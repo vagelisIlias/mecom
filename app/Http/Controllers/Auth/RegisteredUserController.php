@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Notifications\AccountStatusChanged;
 
 class RegisteredUserController extends Controller
 {
@@ -53,11 +54,21 @@ class RegisteredUserController extends Controller
             'postcode' => $request->postcode,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
+            'role' => 'user',
+            'status' => 'active',
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
+
+        // Send a notification indicating that the user is registered successfully
+        $url = url('/dashboard');
+        $message = 'Thank you for your interest in our shop, your account has been successfully registered. 
+                    Please follow the link to visit your main dashboard.';
+        $actionText = "Visit Your Dashboard";
+        $lineText = "Thank you for your interest in using our application";
+        $user->notify(new AccountStatusChanged('register', $message, $url, $actionText, $lineText));
 
         // Notification Message
         $not_succ = [

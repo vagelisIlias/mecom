@@ -36,14 +36,8 @@ class AdminController extends Controller
         // Regenerate the CSRF token
         $request->session()->regenerateToken();
 
-         // Creating a message notification
-         $notification = [
-            'message' => 'Logout Successfully',
-            'alert-type' => 'success',
-        ];
-
         // Redirect to the admin login page
-        return redirect('/admin/login')->with($notification);
+        return redirect('/admin/login');
     }
 
     // Admin Profile
@@ -196,14 +190,14 @@ class AdminController extends Controller
 
             // Send a notification indicating that the account is now active
             $url = url('/vendor/login');
-            $message = 'Your account has been activated. Please check the link below to check your status.';
+            $message = 'Your account has been activated. Please follow the link below to visit your main dahsboard.';
             $actionText = "Visit Your Dashboard";
             $lineText = "Thank you for using our application";
             $vendor->notify(new AccountStatusChanged('active', $message, $url, $actionText, $lineText));
             
             // Pass the success message
             $not_succ = [
-                'message' => 'Vendor has been activated successfully',
+                'message' => 'Vendor has been Activated Successfully',
                 'alert-type' => 'success',
             ];
             
@@ -213,15 +207,17 @@ class AdminController extends Controller
             $vendor->update(['status' => 'inactive']);
     
             // Send a notification indicating that the account is now inactive
-            $url = url('/vendor/login');
-            $message = 'Your account has been deactivated. Please check the link below to check your status.';
-            $actionText = "Visit Your Dashboard";
+            $url = url('/');
+            $message = "Your account has been deactivated. 
+                        You don't have access to your dashboard. 
+                        Please contact the support team for further information regarding your account.";
+            $actionText = "Visit Our Shop";
             $lineText = "Thank you for using our application";
             $vendor->notify(new AccountStatusChanged('inactive', $message, $url, $actionText, $lineText));
 
             // Pass the success message
             $not_succ = [
-                'message' => 'Vendor has been deactivated successfully',
+                'message' => 'Vendor has been Deactivated uccessfully',
                 'alert-type' => 'success',
             ];
                 
@@ -243,8 +239,10 @@ class AdminController extends Controller
 
             // Send a notification indicating that the account is now deleted
             $url = url('/');
-            $message = 'Unfortunately, your account has been deleted. If you have any questions or need assistance, please contact our support team';
-            $actionText = "Visit Our Website";
+            $message = 'Unfortunately, your account has been deleted. 
+                        If you have any questions or need assistance, please contact our support team.
+                        Please feel free to visit our website in the following link.';
+            $actionText = "Visit Our Shop";
             $lineText = "Thank you for using our application";
             $vendor->notify(new AccountStatusChanged('delete', $message, $url, $actionText, $lineText));
 

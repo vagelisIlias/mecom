@@ -1,21 +1,10 @@
 @extends('vendor.vendor_dashboard')
 {{-- Start Section --}}
 @section('vendor')
-@php
-    $user_id = Auth::user()->id;
-    $vendor_id = App\Models\User::find($user_id);
-    $status = $vendor_id->status;
-@endphp
+
 <div class="page-content">
 
   <div class="text-center" style="padding-right: 40px;">
-    @if ($status === 'active')
-        {{-- Display content for active vendors --}}
-    @else
-        {{-- Display content for inactive vendors --}}
-        <h4>Vendor Account is <span class="text-danger">Inactive</span></h4>
-        <p>Please wait for admin approval.</p>
-    @endif
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
         <div class="col">
             <div class="card radius-10 bg-gradient-deepblue">

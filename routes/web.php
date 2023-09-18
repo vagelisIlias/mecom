@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Middleware\VendorStatusChecker;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,13 +46,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 // Vendor Dashboard
 Route::middleware(['auth', 'role:vendor'])->group(function () {
-    Route::get('/vendor/dashboard', [VendorController::class, 'vendorDashboard'])->name('vendor.dashboard');
+    Route::get('/vendor/dashboard', [VendorController::class, 'vendorDashboard'])->name('vendor.dashboard')->middleware('status:active');;
     Route::get('/vendor/logout', [VendorController::class, 'vendorLogout'])->name('vendor.logout');
     Route::get('/vendor/profile', [VendorController::class, 'vendorProfile'])->name('vendor.profile');
     Route::post('/vendor/profile/store', [VendorController::class, 'vendorProfileStore'])->name('vendor.profile.store');
     Route::get('/vendor/change/password', [VendorController::class, 'vendorChangePassword'])->name('vendor.change.password');
     Route::post('/vendor/update/password', [VendorController::class, 'vendorUpdatePassword'])->name('vendor.update.password');
 });
+
 // Become a Vendor
 Route::get('/become/vendor', [VendorController::class, 'becomeVendor'])->name('become.vendor');
 
@@ -59,9 +61,12 @@ Route::get('/become/vendor', [VendorController::class, 'becomeVendor'])->name('b
 Route::get('/admin/login', [AdminController::class, 'adminLogin']);
 
 // Vendor Register | Login routes
-Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login');
-Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
 
+Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])
+    ->name('vendor.login');
+
+Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])
+    ->name('vendor.register');
 
 // Brand admin route with middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -96,8 +101,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/delete/vendor/details/{id}', 'deleteVendorDetails')->name('delete.vendor.details');
     });
 });
-
-    
 
 // SubCategory admin route with middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {

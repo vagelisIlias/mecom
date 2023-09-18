@@ -51,8 +51,9 @@
                                             <p class="mb-30">Already have a Vendor account? <a href="{{ route('vendor.login') }}">Vendor Login</a></p>
                                         </div>
                                         {{-- Form starts here --}}
-                                        <form method="POST" action="{{ route('vendor.register') }}">
+                                        <form method="post" action="{{ route('vendor.register') }}">
                                             @csrf
+                                            
                                             <div class="form-group col-md-12">
                                                 <label>Firstname<span class="required">*</span></label>
                                                 <input type="text" class="form-control @error('firstname') is-invalid @enderror" 

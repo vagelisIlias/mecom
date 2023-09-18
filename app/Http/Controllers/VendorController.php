@@ -10,6 +10,8 @@ use Illuminate\Validation\Rules;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use App\Models\User;
+use App\Notifications\AccountStatusChanged;
+use App\Http\Middleware\VendorStatusChecker;
 
 class VendorController extends Controller
 {
@@ -22,23 +24,24 @@ class VendorController extends Controller
 
     // Vendor Login
     public function vendorLogin()
-    {
+    {   
+        // The middleware has already checked the status
         return view('vendor.vendor_login');
     }
 
     // Vendor logout
     public function vendorLogout(Request $request): RedirectResponse 
     {
-        // 1. Logout the user
+        //Logout the user
         Auth::guard('web')->logout();
 
-        // 2. Invalidate the session
+        //Invalidate the session
         $request->session()->invalidate();
 
-        // 3. Regenerate the CSRF token
+        //Regenerate the CSRF token
         $request->session()->regenerateToken();
 
-        // 4. Redirect to the admin login page
+        //Redirect to the vendor login page
         return redirect('/vendor/login');
     }
 
@@ -156,7 +159,7 @@ class VendorController extends Controller
 
     // Register Vendor
     public function vendorRegister(Request $request)
-    {
+    {   
         // Validation vendor users
         $request->validate([
             'firstname' => ['required', 'string', 'max:255'],
@@ -190,9 +193,19 @@ class VendorController extends Controller
 
         event(new Registered($user));
 
+        // Send a notification indicating that the vendor user is registered successfully
+        $url = url('/');
+        $message = 'Thank you for your interest in becoming a vendor. 
+                    Your account has been successfully registered. 
+                    Please allow some time for your account to be activated and you will be notified via a new email. 
+                    In the meantime, please feel free to check our shop.';
+        $actionText = "Visit Our Shop";
+        $lineText = "Thank you for your interest in using our application";
+        $user->notify(new AccountStatusChanged('register', $message, $url, $actionText, $lineText));
+
         // Notification Message
         $not_succ = [
-            'message' => "Welcome {$user->username}, Your Account Created Successfully",
+            'message' => "Welcome {$user->username}, Your Account Created Successfully. Please wait for your Account to be Activated.",
             'alert-type' => 'success',
         ];
 

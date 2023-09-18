@@ -82,14 +82,8 @@ class UserController extends Controller
         // Regenerate the CSRF token
         $request->session()->regenerateToken();
 
-        // Creating a message notification
-        $notification = [
-            'message' => 'Logout Successfully',
-            'alert-type' => 'success',
-        ];
-
-        // Redirect to the admin login page
-        return redirect('/login')->with($notification);
+        // Redirect to the user login page
+        return redirect('/login');
     }
 
     // User update password

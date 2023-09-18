@@ -46,13 +46,7 @@ class AuthenticatedSessionController extends Controller
         
         $url = RoleRedirector::getDashboardUrl($role);
 
-        // Creating a message notification
-        $notification = [
-            'message' => 'Login Successfully',
-            'alert-type' => 'success',
-        ];
-        
-        return redirect()->intended($url)->with($notification);
+        return redirect()->intended($url);
     }
 
     /**
