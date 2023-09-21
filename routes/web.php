@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\Backend\ProductController;
 use App\Http\Middleware\VendorStatusChecker;
 
 /*
@@ -116,6 +117,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(AdminController::class)->group(function () {
         Route::get('/all/user/status', 'allUserStatus')->name('all.user.status');
+    });
+});
+
+// Product admin route with middleware
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::controller(ProductController::class)->group(function () {
+        Route::get('/all/product', 'allProduct')->name('all.product');
     });
 });
 
