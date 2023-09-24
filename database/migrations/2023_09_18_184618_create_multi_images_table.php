@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('multi_images', function (Blueprint $table) {
             $table->id();
             $table->integer('product_id');
-            $table->string('image_name');
+            $table->string('multi_image');
             $table->timestamps();
         });
     }
@@ -27,7 +27,7 @@ return new class extends Migration
         // Drop individual columns if needed
         Schema::table('multi_images', function (Blueprint $table) {
             $table->dropColumn('product_id');
-            $table->dropColumn('image_name');
+            $table->dropColumn('multi_image');
         });
 
         Schema::dropIfExists('multi_images');

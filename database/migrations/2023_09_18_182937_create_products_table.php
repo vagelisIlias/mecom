@@ -32,7 +32,7 @@ return new class extends Migration
             $table->text('product_long_description');
             $table->string('product_thambnail');
             $table->integer('product_hot_deals')->nullable();
-            $table->integer('product_features')->nullable();
+            $table->integer('product_featured')->nullable();
             $table->integer('product_special_offer')->nullable();
             $table->integer('product_special_deals')->nullable();
             $table->integer('product_status')->default(0);
@@ -64,7 +64,7 @@ return new class extends Migration
             $table->dropColumn('product_long_description');
             $table->dropColumn('product_thambnail');
             $table->dropColumn('product_hot_deals');
-            $table->dropColumn('product_features');
+            $table->dropColumn('product_featured');
             $table->dropColumn('product_special_offer');
             $table->dropColumn('product_special_deals');
             $table->dropColumn('product_status');
