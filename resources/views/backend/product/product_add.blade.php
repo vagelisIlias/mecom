@@ -64,28 +64,28 @@
                   <div class="row g-3">
                     {{--  Product Price --}}
                     <div class="col-md-6">
-                        <label for="inputPrice" class="form-label">Product Price</label>
-                        <input name="product_price" type="text" class="form-control" id="inputPrice" placeholder="00.00">
+                        <label class="form-label">Product Price</label>
+                        <input name="product_price" type="text" class="form-control" placeholder="00.00">
                       </div>
                       {{-- Product Discount --}}
                       <div class="col-md-6">
-                        <label for="inputCompareatprice" class="form-label">Product Discount</label>
-                        <input name="product_discount" type="text" class="form-control" id="inputCompareatprice" placeholder="00.00">
+                        <label class="form-label">Product Discount</label>
+                        <input name="product_discount" type="text" class="form-control" placeholder="00.00">
                       </div>
                       {{--  Product Code --}}
                       <div class="col-md-6">
-                        <label for="inputCostPerPrice" class="form-label">Product Code</label>
-                        <input name="product_code" type="text" class="form-control" id="inputCostPerPrice" placeholder="00.00">
+                        <label class="form-label">Product Code</label>
+                        <input name="product_code" type="text" class="form-control" placeholder="00.00">
                       </div>
                       {{-- Product Quantity --}}
                       <div class="col-md-6">
-                        <label for="inputStarPoints" class="form-label">Product Quantity</label>
-                        <input name="product_qty" type="text" class="form-control" id="inputStarPoints" placeholder="00.00">
+                        <label class="form-label">Product Quantity</label>
+                        <input name="product_qty" type="text" class="form-control" placeholder="00.00">
                       </div>
                       {{-- Product Brand --}}
                       <div class="col-12">
-                        <label for="inputProductType" class="form-label">Product Brand</label>
-                        <select name="brand_id" class="form-select" id="inputProductType">
+                        <label class="form-label">Product Brand</label>
+                        <select name="brand_id" class="form-select">
                             <option>Select Brand</option>
                             @foreach($brands as $brand)
                                 <option value="{{ $brand->id }}">{{ $brand->brand_name }}</option>
@@ -94,77 +94,77 @@
                       </div>
                       {{-- Product Category --}}
                       <div class="col-12">
-                        <label for="inputProductType" class="form-label">Product Category</label>
-                        <select name="category_id" class="form-select" id="inputProductType">
+                        <label class="form-label">Product Category</label>
+                        <select name="category_id" class="form-select">
                             <option>Select Category</option>
-                            @foreach($categories as $cat)
-                            <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
-                            @endforeach
+                                @foreach($categories as $cat)
+                                    <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
+                                @endforeach
                           </select>
                       </div>
                       {{-- Product Subcategory --}}
                       <div class="col-12">
-                        <label for="inputProductType" class="form-label">Product SubCategory</label>
-                        <select name="subcategory_id" class="form-select" id="inputProductType">
+                        <label class="form-label">Product SubCategory</label>
+                        <select name="subcategory_id" class="form-select">
                             <option>Select SubCategory</option>
-                            @foreach($subcategories as $subcat)
-                                <option value="{{ $subcat->id }}">{{ $subcat->sub_category_name }}</option>
-                            @endforeach
-                          </select>
+                                @foreach($subcategories as $subcat)
+                                    <option value="{{ $subcat->id }}">{{ $subcat->sub_category_name }}</option>
+                                @endforeach
+                            </select>
                       </div>
                       {{-- Select Vendor --}}
                       <div class="col-12">
-                        <label for="inputProductType" class="form-label">Select Vendor</label>
-                        <select name="vendor_id" class="form-select" id="inputProductType">
+                        <label class="form-label">Select Vendor</label>
+                        <select name="vendor_id" class="form-select">
                             <option>Select Vendor</option>
-                            @foreach($activeVendor as $vendor)
-                                <option value="{{ $vendor->id }}">{{ $vendor->vendor_shop_name }}</option>
-                            @endforeach
+                                @foreach($activeVendor as $vendor)
+                                    <option value="{{ $vendor->id }}">{{ $vendor->vendor_shop_name }}</option>
+                                @endforeach
                           </select>
                       </div>
                       {{-- Product Color --}}
                       <div class="col-12">
-                        <label for="inputProductTitle" class="form-label">Product Color</label>
+                        <label class="form-label">Product Color</label>
                         <input type="text" name="product_color" class="form-control visually-hidden" 
-                            data-role="tagsinput" id="inputProductTags" placeholder="Enter Product Color" value="Red,Blue,Green">
+                            data-role="tagsinput" placeholder="Enter Product Color" value="Red,Blue,Green">
                       </div>
                       {{-- Product Size --}}
                       <div class="col-12">
-                        <label for="inputProductTitle" class="form-label">Product Size</label>
+                        <label class="form-label">Product Size</label>
                         <input type="text" name="product_size" class="form-control visually-hidden" 
-                            data-role="tagsinput" id="inputProductTags" placeholder="Enter Product Size" value="Small,Medium,Large">
+                            data-role="tagsinput" placeholder="Enter Product Size" value="Small,Medium,Large">
                       </div>
                       {{-- Product Tags --}}
                       <div class="col-12">
-                        <label for="inputProductTitle" class="form-label">Product Tags</label>
+                        <label class="form-label">Product Tags</label>
                         <input type="text" name="product_tags" class="form-control visually-hidden" 
-                            data-role="tagsinput" id="inputProductTags" placeholder="Enter Product Tags">
+                            data-role="tagsinput" placeholder="Enter Product Tags">
                       </div>
                       {{-- Deals --}}
                       <div class="col-12">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-check">
-                                    <input name="product_hot_deals" class="form-check-input" type="checkbox" value="1" id="flexCheckDefault">
-                                    <label for="form-check-label" for="flexCheckDefault">Hot Deals</label>
+                                    <input name="product_hot_deals" class="form-check-input" type="checkbox" value="1">
+                                    <label>Hot Deals</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-check">
-                                    <input name="product_featured" class="form-check-input" type="checkbox" value="1" id="flexCheckDefault">
-                                    <label for="form-check-label" for="flexCheckDefault">Featured</label>
+                                    <input name="product_featured" class="form-check-input" type="checkbox" value="1">
+                                    <label>Featured</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-check">
-                                    <input name="product_special_offer" class="form-check-input" type="checkbox" value="1" id="flexCheckDefault">
-                                    <label for="form-check-label" for="flexCheckDefault">Special Offer</label>
+                                    <input name="product_special_offer" class="form-check-input" type="checkbox" value="1">
+                                    <label>Special Offer</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-check">
-                                    <input name="product_special_deals" class="form-check-input" type="checkbox" value="1" id="flexCheckDefault">
-                                    <label for="form-check-label" for="flexCheckDefault">Special Deals</label>
+                                    <input name="product_special_deals" class="form-check-input" type="checkbox" value="1">
+                                    <label>Special Deals</label>
                                 </div>
                             </div>
                         </div>
@@ -172,7 +172,7 @@
                       <hr>
                       <div class="col-12">
                           <div class="d-grid">
-                             <button type="button" class="btn btn-primary">Add Product</button>
+                             <button type="button" class="btn btn-info">Add Product</button>
                           </div>
                       </div>
                   </div> 
@@ -197,6 +197,8 @@
         }
     }
 </script>
+
+
 
 @endsection
 {{-- End Section --}}
