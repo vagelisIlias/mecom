@@ -10,12 +10,20 @@ The main area of the e-commerce project
 
 ![](example-images/exampleImage_1.png)
 
-The admin panel for control of the project
-
 ![](example-images/exampleImage_2.png)
 
-The user dashboard
+The user panel for control orders, passwords, images, etc
 
 ![](example-images/exampleImage_3.png)
+
+The admin dashboard controls all the shop
+
+![](example-images/exampleImage_4.png)
+
+![](example-images/exampleImage_5.png)
+
+The Vendor dashboard once have been approved from admin
+
+![](example-images/exampleImage_6.png)
 
 More images and processes will updated daily
