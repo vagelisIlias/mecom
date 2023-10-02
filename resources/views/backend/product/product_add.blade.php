@@ -2,7 +2,7 @@
 {{-- Start Section --}}
 @section('admin')
 
-<!-- Image Reload JS -->
+<!-- Image Reload JS & Validation min.JS Include jQuery and jQuery Validation -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 <!-- Page Content -->
@@ -22,166 +22,177 @@
     </div>
 <!--end breadcrumb-->
 
-  <div class="card">
-      <div class="card-body p-4">
-          <h5 class="card-title">Add New Product</h5>
+<div class="card">
+    <div class="card-body p-4">
+        <h5 class="card-title">Add New Product</h5>
           <hr/>
-           <div class="form-body mt-4">
-            <div class="row">
-               <div class="col-lg-8">
-               <div class="border border-3 p-4 rounded">
+            {{-- Form starts here --}}
+            <form id="myForm" method="post" action="{{ route('store.category') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="form-body mt-4">
+                <div class="row">
+                <div class="col-lg-8">
+                <div class="border border-3 p-4 rounded">
 
                 {{-- Product Name --}}
-                <div class="mb-3">
+                <div class="form-group mb-3">
                     <label for="inputProductTitle" class="form-label">Product Name</label>
-                    <input type="text" name="product_name" class="form-control" id="inputProductTitle" placeholder="Enter product title">
-                  </div>
-                  {{-- Short Description --}}
-                  <div class="mb-3">
-                    <label for="inputProductDescription" class="form-label">Short Description</label>
-                    <textarea name="product_short_desription" class="form-control" rows="2" placeholder="Add your short text..."></textarea>
-                  </div>
-                  {{-- Long Description --}}
-                  <div class="mb-3">
-                    <label for="inputProductDescription" class="form-label">Long Description</label>
-                        <textarea id="mytextarea" name="product_long_desription" placeholder="Add your long text..."></textarea>
-                  </div>
-                  {{-- Mutli Images --}}
-                  <div class="mb-3">
-                    <label for="inputProductDescription" class="form-label">Multi Images</label>
-                        <input name="multi_image[]" id="image-uploadify" type="file" accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple>
-                  </div>
-                  {{-- Thambnail --}}
-                  <div class="mb-3">
-                    <label for="inputProductDescription" class="form-label">Main Thambnail</label>
-                        <input name="product_thambnail" class="form-control" type="file" id="formFile" onChange = "mainThanmUrl(this)">
-                        <img src="" id="mainThumbnail" alt="">
-                  </div>
+                    <input type="text" name="product_name" class="form-control" id="inputProductTitle" placeholder="Add product title">
                 </div>
-               </div>
-               <div class="col-lg-4">
-                <div class="border border-3 p-4 rounded">
-                  <div class="row g-3">
-                    {{--  Product Price --}}
-                    <div class="col-md-6">
-                        <label class="form-label">Product Price</label>
-                        <input name="product_price" type="text" class="form-control" placeholder="00.00">
-                      </div>
-                      {{-- Product Discount --}}
-                      <div class="col-md-6">
-                        <label class="form-label">Product Discount</label>
-                        <input name="product_discount" type="text" class="form-control" placeholder="00.00">
-                      </div>
-                      {{--  Product Code --}}
-                      <div class="col-md-6">
-                        <label class="form-label">Product Code</label>
-                        <input name="product_code" type="text" class="form-control" placeholder="00.00">
-                      </div>
-                      {{-- Product Quantity --}}
-                      <div class="col-md-6">
-                        <label class="form-label">Product Quantity</label>
-                        <input name="product_qty" type="text" class="form-control" placeholder="00.00">
-                      </div>
-                      {{-- Product Brand --}}
-                      <div class="col-12">
-                        <label class="form-label">Product Brand</label>
-                        <select name="brand_id" class="form-select">
-                            <option>Select Brand</option>
+                {{-- Short Description --}}
+                <div class="form-group mb-3">
+                    <label for="inputProductDescription" class="form-label">Short Description</label>
+                    <textarea name="product_short_description" class="form-control" rows="2" placeholder="Add your short text here..."></textarea>
+                </div>
+                {{-- Long Description --}}
+                <div class="form-group mb-3">
+                    <label for="inputProductDescription" class="form-label">Long Description</label>
+                    <textarea name="product_long_description" id="mytextarea" placeholder="Add your long text here..."></textarea>
+                </div>
+                {{-- Mutli Images --}}
+                <div class="form-group mb-3">
+                    <label for="inputProductDescription" class="form-label">Multi Images</label>
+                    <input name="multi_image[]" id="image-uploadify" type="file"
+                            accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" 
+                            multiple class="form-control @error('multi_image') is-invalid @enderror">
+                    @error('multi_image')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                {{-- Thambnail --}}
+                <div class="form-group mb-3">
+                    <label for="inputProductDescription" class="form-label">Main Thambnail</label>
+                    <input name="product_thambnail" class="form-control" type="file" id="formFile" onChange = "mainThanmUrl(this)">
+                    <img src="" id="mainThumbnail" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="border border-3 p-4 rounded">
+                <div class="row g-3">
+                {{--  Product Price --}}
+                <div class="form-group col-md-6">
+                    <label class="form-label">Product Price</label>
+                    <input name="product_price" type="text" class="form-control" placeholder="00.00">
+                </div>
+                {{-- Product Discount --}}
+                <div class="form-group col-md-6">
+                    <label class="form-label">Product Discount</label>
+                    <input name="product_discount" type="text" class="form-control" placeholder="00.00">
+                </div>
+                {{--  Product Code --}}
+                <div class="form-group col-md-6">
+                    <label class="form-label">Product Code</label>
+                    <input name="product_code" type="text" class="form-control" placeholder="00.00">
+                </div>
+                {{-- Product Quantity --}}
+                <div class="form-group col-md-6">
+                    <label class="form-label">Product Quantity</label>
+                    <input name="product_qty" type="text" class="form-control" placeholder="00.00">
+                </div>
+                {{-- Product Brand --}}
+                <div class="form-group col-12">
+                    <label class="form-label">Product Brand</label>
+                        <select name="product_brand_id" id="product_brand_id" class="form-select">
+                            <option></option>
                             @foreach($brands as $brand)
                                 <option value="{{ $brand->id }}">{{ $brand->brand_name }}</option>
                             @endforeach
-                          </select>
-                      </div>
-                      {{-- Product Category --}}
-                      <div class="col-12">
-                        <label class="form-label">Product Category</label>
-                        <select name="category_id" class="form-select">
-                            <option>Select Category</option>
-                                @foreach($categories as $cat)
-                                    <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
-                                @endforeach
-                          </select>
-                      </div>
-                      {{-- Product Subcategory --}}
-                      <div class="col-12">
-                        <label class="form-label">Product SubCategory</label>
-                        <select name="subcategory_id" class="form-select">
+                        </select>
+                </div>
+                {{-- Product Category --}}
+                <div class="form-group col-12">
+                <label class="form-label">Product Category</label>
+                    <select name="product_category_id" id="product_category_id" class="form-select">
+                        <option></option>
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
+                            @endforeach
+                    </select>
+                </div>
+                {{-- Product Subcategory --}}
+                <div class="form-group col-12">
+                    <label class="form-label">Product SubCategory</label>
+                        <select name="product_subcategory_id" id="product_subcategory_id" class="form-select">
                             <option></option>
-                
-                            </select>
-                      </div>
-                      {{-- Select Vendor --}}
-                      <div class="col-12">
-                        <label class="form-label">Select Vendor</label>
-                        <select name="vendor_id" class="form-select">
-                            <option>Select Vendor</option>
-                                @foreach($activeVendor as $vendor)
-                                    <option value="{{ $vendor->id }}">{{ $vendor->vendor_shop_name }}</option>
-                                @endforeach
-                          </select>
-                      </div>
-                      {{-- Product Color --}}
-                      <div class="col-12">
-                        <label class="form-label">Product Color</label>
-                        <input type="text" name="product_color" class="form-control visually-hidden" 
-                            data-role="tagsinput" placeholder="Enter Product Color" value="Red,Blue,Green">
-                      </div>
-                      {{-- Product Size --}}
-                      <div class="col-12">
-                        <label class="form-label">Product Size</label>
-                        <input type="text" name="product_size" class="form-control visually-hidden" 
-                            data-role="tagsinput" placeholder="Enter Product Size" value="Small,Medium,Large">
-                      </div>
-                      {{-- Product Tags --}}
-                      <div class="col-12">
-                        <label class="form-label">Product Tags</label>
-                        <input type="text" name="product_tags" class="form-control visually-hidden" 
-                            data-role="tagsinput" placeholder="Enter Product Tags">
-                      </div>
-                      {{-- Deals --}}
-                      <div class="col-12">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input name="product_hot_deals" class="form-check-input" type="checkbox" value="1">
-                                    <label>Hot Deals</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input name="product_featured" class="form-check-input" type="checkbox" value="1">
-                                    <label>Featured</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input name="product_special_offer" class="form-check-input" type="checkbox" value="1">
-                                    <label>Special Offer</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input name="product_special_deals" class="form-check-input" type="checkbox" value="1">
-                                    <label>Special Deals</label>
-                                </div>
+        
+                    </select>
+                </div>
+                {{-- Select Vendor --}}
+                <div class="form-group col-12">
+                <label class="form-label">Select Vendor</label>
+                    <select name="product_vendor_id" id="product_vendor_id" class="form-select">
+                        <option></option>
+                            @foreach($activeVendor as $vendor)
+                                <option value="{{ $vendor->id }}">{{ $vendor->vendor_shop_name }}</option>
+                            @endforeach
+                    </select>
+                </div>
+                {{-- Product Color --}}
+                <div class="form-group col-12">
+                    <label class="form-label">Product Color</label>
+                    <input type="text" name="product_color" id="product_color" class="form-control" 
+                        data-role="tagsinput" placeholder="Add Product Color">
+                </div>
+                {{-- Product Size --}}
+                <div class="form-group col-12">
+                    <label class="form-label">Product Size</label>
+                    <input type="text" name="product_size" class="form-control visually-hidden" 
+                        data-role="tagsinput" placeholder="Add Product Size">
+                </div>
+                {{-- Product Tags --}}
+                <div class="form-group col-12">
+                    <label class="form-label">Product Tags</label>
+                    <input type="text" name="product_tags" class="form-control visually-hidden" 
+                        data-role="tagsinput" placeholder="Add Product Tags">
+                </div>
+                {{-- Deals --}}
+                <div class="col-12">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input name="product_hot_deals" class="form-check-input" type="checkbox" value="1">
+                                <label>Hot Deals</label>
                             </div>
                         </div>
-                      </div>
-                      <hr>
-                      <div class="col-12">
-                          <div class="d-grid">
-                             <button type="button" class="btn btn-info">Add Product</button>
-                          </div>
-                      </div>
-                  </div> 
-              </div>
-              </div>
-           </div><!--end row-->
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input name="product_featured" class="form-check-input" type="checkbox" value="1">
+                                <label>Featured</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input name="product_special_offer" class="form-check-input" type="checkbox" value="1">
+                                <label>Special Offer</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input name="product_special_deals" class="form-check-input" type="checkbox" value="1">
+                                <label>Special Deals</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                    <div class="d-grid">
+                        <button type="submit" id="submit-button" class="btn btn-info px-4">Add Product</button>
+                    </div>
+                </div>
+            </div> 
         </div>
-      </div>
-  </div>
-</div>
-<!-- Page Content -->
+    </div>
+</div><!--end row-->
+    </div><!-- form-body mt-4 -->
+        </div><!--end card-body p-4 -->
+            </form><!-- end form -->
+                </div><!--end card -->
+                    </div><!-- Page Content -->
 
 <!-- Thumbnail Load Image -->
 <script type="text/javascript">
@@ -199,29 +210,120 @@
 <!-- Select category and subcategory dynamically -->
 <script type="text/javascript">
     $(document).ready(function(){
-        $('select[name="category_id"]').on('change', function(){
-            var category_id = $(this).val();
-            if (category_id) {
+        $('select[name="product_category_id"]').on('change', function(){
+            var product_category_id = $(this).val();
+            if (product_category_id) {
                 $.ajax({
-                    url: "{{ url('/subcategory/ajax') }}/" + category_id,
+                    url: "{{ url('/subcategory/ajax') }}/" + product_category_id,
                     type: "GET",
                     dataType:"json",
                     success:function(data){
-                        $('select[name="subcategory_id"]').html('');
-                        var d = $('select[name="subcategory_id"]').empty();
+                        $('select[name="product_subcategory_id"]').html('');
+                        var d = $('select[name="product_subcategory_id"]').empty();
                         $.each(data, function(key, value){
-                            $('select[name="subcategory_id"]').append('<option value="'+ value.id + '">' + value.sub_category_name + '</option>');
+                            $('select[name="product_subcategory_id"]').append('<option value="'+ value.id + '">' + value.sub_category_name + '</option>');
                         });
                     },
                 });
             } else {
-                alert('danger');
+                alert('You need to make sure all the fields are filled..!!!');
             }
         });
     });
 </script>
 
+{{-- Validation min.JS --}}
+<script type="text/javascript">
+    $(document).ready(function (){
+        $('#myForm').validate({
+            rules: {
+                product_name: {
+                    required: true,
+                },
+                product_short_description: {
+                    required: true,
+                },
+                product_thambnail: {
+                    required: true,
+                },
+                product_price: {
+                    required: true,
+                },
+                product_discount: {
+                    required: true,
+                },
+                product_code: {
+                    required: true,
+                },
+                product_qty: {
+                    required: true,
+                },
+                product_brand_id: {
+                    required: true,
+                },
+                product_category_id: {
+                    required: true,
+                },
+                product_subcategory_id: {
+                    required: true,
+                }, 
+                product_vendor_id: {
+                    required: true,
+                },
+            },
+            messages: {
+                product_name: {
+                    required: 'Please Add Product Name',
+                },
+                product_short_description:{
+                    required: 'Please Add Short Description',
+                },
+                product_thambnail:{
+                    required: 'Please Add Thambnail Image',
+                },
+                product_price: {
+                    required: 'Please Add Product Price',
+                },
+                product_discount: {
+                    required: 'Please Add Product Discount',
+                },
+                product_code: {
+                    required: 'Please Add Product Code',
+                },
+                product_qty: {
+                    required: 'Please Add Product Quantity',
+                },
+                product_brand_id: {
+                    required: 'Please Select Brand',
+                },
+                product_category_id: {
+                    required: 'Please Select Category',
+                },
+                product_subcategory_id: {
+                    required: 'Please Select Subacategory',
+                },
+                product_vendor_id: {
+                    required: 'Please Select Vendor',
+                },          
+            },
+            errorElement : 'span', 
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+                
+            },
+            highlight: function(element, errorClass, validClass){
+                $(element).addClass('is-invalid');
+                console.log('Highlighting:', element.name);
+            },
+            unhighlight: function(element, errorClass, validClass){
+                $(element).removeClass('is-invalid');
+                console.log('Unhighlighting:', element.name);
+            },
 
+        });
+    });
+</script>
 
 @endsection
 {{-- End Section --}}

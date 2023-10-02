@@ -150,4 +150,13 @@ class SubCategoryController extends Controller
 
         return redirect()->route('all.subcategory')->with($not_succ);
     }
+
+    // Return the list of subcategories when category picked
+    public function getSubCategoryAjax($category_id)
+    {
+        $subcat = SubCategory::where('category_id', $category_id)  
+                                ->orderBy('sub_category_name', 'asc')
+                                ->get();
+        return json_encode($subcat);                        
+    }
 }

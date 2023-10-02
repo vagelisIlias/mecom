@@ -198,7 +198,7 @@
 
 	<!-- Validation min.JS -->
 	<script src="{{ asset('adminbackend/assets/js/validate.min.js') }}"></script>
-
+	
 	<!-- Index.js -->
     <script src="{{ asset('adminbackend/assets/js/index.js') }}"></script>
 

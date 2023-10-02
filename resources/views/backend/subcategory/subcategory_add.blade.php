@@ -84,7 +84,7 @@
             },
             messages :{
                 category_id: {
-                    required : 'Please Select a Category', // Updated message
+                    required : 'Please Select a Category',
                 },
                 sub_category_name: {
                     required : 'Please Enter Sub Category Name',

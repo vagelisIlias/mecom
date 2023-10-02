@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->integer('brand_id');
-            $table->integer('category_id');
-            $table->integer('subcategory_id');
-            $table->string('vendor_id')->nullable();
+            $table->integer('product_brand_id');
+            $table->integer('product_category_id');
+            $table->integer('product_subcategory_id');
+            $table->string('product_vendor_id')->nullable();
             $table->string('product_name');
             $table->string('product_slug');
             $table->string('product_code');
@@ -47,10 +47,10 @@ return new class extends Migration
     {   
         // Drop individual columns if needed
         Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('brand_id');
-            $table->dropColumn('category_id');
-            $table->dropColumn('subcategory_id');
-            $table->dropColumn('vendor_id');
+            $table->dropColumn('product_brand_id');
+            $table->dropColumn('product_category_id');
+            $table->dropColumn('product_subcategory_id');
+            $table->dropColumn('product_vendor_id');
             $table->dropColumn('product_name');
             $table->dropColumn('product_slug');
             $table->dropColumn('product_code');
