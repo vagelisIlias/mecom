@@ -106,10 +106,8 @@
                       <div class="col-12">
                         <label class="form-label">Product SubCategory</label>
                         <select name="subcategory_id" class="form-select">
-                            <option>Select SubCategory</option>
-                                @foreach($subcategories as $subcat)
-                                    <option value="{{ $subcat->id }}">{{ $subcat->sub_category_name }}</option>
-                                @endforeach
+                            <option></option>
+                
                             </select>
                       </div>
                       {{-- Select Vendor --}}
@@ -196,6 +194,31 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+</script>
+
+<!-- Select category and subcategory dynamically -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('select[name="category_id"]').on('change', function(){
+            var category_id = $(this).val();
+            if (category_id) {
+                $.ajax({
+                    url: "{{ url('/subcategory/ajax') }}/" + category_id,
+                    type: "GET",
+                    dataType:"json",
+                    success:function(data){
+                        $('select[name="subcategory_id"]').html('');
+                        var d = $('select[name="subcategory_id"]').empty();
+                        $.each(data, function(key, value){
+                            $('select[name="subcategory_id"]').append('<option value="'+ value.id + '">' + value.sub_category_name + '</option>');
+                        });
+                    },
+                });
+            } else {
+                alert('danger');
+            }
+        });
+    });
 </script>
 
 
