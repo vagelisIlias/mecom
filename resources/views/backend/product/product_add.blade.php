@@ -27,7 +27,7 @@
         <h5 class="card-title">Add New Product</h5>
           <hr/>
             {{-- Form starts here --}}
-            <form id="myForm" method="post" action="{{ route('store.category') }}" enctype="multipart/form-data">
+            <form id="myForm" method="post" action="{{ route('store.product') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-body mt-4">
                 <div class="row">
@@ -53,8 +53,8 @@
                 <div class="form-group mb-3">
                     <label for="inputProductDescription" class="form-label">Multi Images</label>
                     <input name="multi_image[]" id="image-uploadify" type="file"
-                            accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" 
-                            multiple class="form-control @error('multi_image') is-invalid @enderror">
+                        accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" 
+                        multiple class="form-control @error('multi_image') is-invalid @enderror">
                     @error('multi_image')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -232,7 +232,7 @@
     });
 </script>
 
-{{-- Validation min.JS --}}
+{{-- Validation min.JS, creating validation for inputs --}}
 <script type="text/javascript">
     $(document).ready(function (){
         $('#myForm').validate({

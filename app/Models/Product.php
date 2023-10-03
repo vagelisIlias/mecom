@@ -10,4 +10,10 @@ class Product extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    // Define the relationship to Multiimage model
+    public function multiImages()
+    {
+        return $this->hasMany(MultiImage::class);
+    }
 }

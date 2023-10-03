@@ -42,7 +42,7 @@ class CategoryController extends Controller
             Image::make($image)->resize(120, 120)->save(public_path($image_path));
             $save_url = $image_path;
     
-            // Create The rand
+            // Create The category
             Category::create([
                 'category_name' => ucwords($request->category_name),
                 'category_slug' => strtolower(str_replace(' ', '-', $request->category_name)),
