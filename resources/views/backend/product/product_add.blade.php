@@ -52,46 +52,41 @@
                 {{-- Mutli Images --}}
                 <div class="form-group mb-3">
                     <label for="inputProductDescription" class="form-label">Multi Images</label>
-                    <input name="multi_image[]" id="image-uploadify" type="file"
-                        accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" 
-                        multiple class="form-control @error('multi_image') is-invalid @enderror">
-                    @error('multi_image')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
+                    <input name="multi_image[]" type="file" multiple class="form-control" id="multi-image-input">
+                </div>
+                <div id="image-preview-container">
+                    <!-- Preview and remove buttons for uploaded images will be inserted here -->
                 </div>
                 {{-- Thambnail --}}
                 <div class="form-group mb-3">
-                    <label for="inputProductDescription" class="form-label">Main Thambnail</label>
-                    <input name="product_thambnail" class="form-control" type="file" id="formFile" onChange = "mainThanmUrl(this)">
-                    <img src="" id="mainThumbnail" alt="">
+                    <label for="inputProductDescription" class="form-label">Main Thumbnail</label>
+                    <input name="product_thambnail" class="form-control" type="file" id="main-thumbnail-input" onchange="previewMainThumbnail(this)">
+                    <div id="main-thumbnail-preview"></div>
                 </div>
             </div>
         </div>
-
         <div class="col-lg-4">
             <div class="border border-3 p-4 rounded">
                 <div class="row g-3">
                 {{--  Product Price --}}
                 <div class="form-group col-md-6">
                     <label class="form-label">Product Price</label>
-                    <input name="product_price" type="text" class="form-control" placeholder="00.00">
+                    <input name="product_price" type="text" class="form-control" placeholder="00.00 £">
                 </div>
                 {{-- Product Discount --}}
                 <div class="form-group col-md-6">
                     <label class="form-label">Product Discount</label>
-                    <input name="product_discount" type="text" class="form-control" placeholder="00.00">
+                    <input name="product_discount" type="text" class="form-control" placeholder="00.00 £">
                 </div>
                 {{--  Product Code --}}
                 <div class="form-group col-md-6">
                     <label class="form-label">Product Code</label>
-                    <input name="product_code" type="text" class="form-control" placeholder="00.00">
+                    <input name="product_code" type="text" class="form-control" placeholder="00.00 £">
                 </div>
                 {{-- Product Quantity --}}
                 <div class="form-group col-md-6">
                     <label class="form-label">Product Quantity</label>
-                    <input name="product_qty" type="text" class="form-control" placeholder="00.00">
+                    <input name="product_qty" type="text" class="form-control">
                 </div>
                 {{-- Product Brand --}}
                 <div class="form-group col-12">
@@ -154,25 +149,25 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="form-check">
-                                <input name="product_hot_deals" class="form-check-input" type="checkbox" value="1">
+                                <input name="product_hot_deals" class="form-check-input" type="checkbox" value="hot-deals">
                                 <label>Hot Deals</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-check">
-                                <input name="product_featured" class="form-check-input" type="checkbox" value="1">
+                                <input name="product_featured" class="form-check-input" type="checkbox" value="featured">
                                 <label>Featured</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-check">
-                                <input name="product_special_offer" class="form-check-input" type="checkbox" value="1">
+                                <input name="product_special_offer" class="form-check-input" type="checkbox" value="special-offer">
                                 <label>Special Offer</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-check">
-                                <input name="product_special_deals" class="form-check-input" type="checkbox" value="1">
+                                <input name="product_special_deals" class="form-check-input" type="checkbox" value="special-deals">
                                 <label>Special Deals</label>
                             </div>
                         </div>
@@ -193,19 +188,6 @@
             </form><!-- end form -->
                 </div><!--end card -->
                     </div><!-- Page Content -->
-
-<!-- Thumbnail Load Image -->
-<script type="text/javascript">
-    function mainThanmUrl(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e){
-                $('#mainThumbnail').attr('src', e.target.result).width(120).height(120);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-</script>
 
 <!-- Select category and subcategory dynamically -->
 <script type="text/javascript">
@@ -323,6 +305,83 @@
 
         });
     });
+</script>
+
+<!-- Multi-Image Load -->
+<script>
+    // Function to handle file input change
+    function handleFileInputChange() {
+        const input = document.getElementById('multi-image-input');
+        const previewContainer = document.getElementById('image-preview-container');
+        const files = input.files;
+
+        // Clear existing previews
+        previewContainer.innerHTML = '';
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const previewDiv = document.createElement('div');
+                previewDiv.className = 'image-preview';
+
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'preview-image';
+                img.width = 120; // Set the width
+                img.height = 120; // Set the height
+
+                const removeButton = document.createElement('button');
+                removeButton.innerHTML = '<i class="fa-solid fa-delete-left"></i>'; // Use Font Awesome icon HTML
+                removeButton.className = 'btn btn-sm remove-image custom-remove-button'; // Add a custom class
+                removeButton.addEventListener('click', function () {
+                    // Remove the corresponding image preview
+                    previewContainer.removeChild(previewDiv);
+                    // Clear the file input value for the removed image
+                    input.value = '';
+                });
+
+                previewDiv.appendChild(img);
+                previewDiv.appendChild(removeButton);
+                previewContainer.appendChild(previewDiv);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Add event listener to the file input
+    const multiImageInput = document.getElementById('multi-image-input');
+    multiImageInput.addEventListener('change', handleFileInputChange);
+</script>
+
+<!-- Thumbnail Load Image -->
+<script>
+    // Function to handle main thumbnail file input change
+    function previewMainThumbnail(input) {
+        const previewContainer = document.getElementById('main-thumbnail-preview');
+        const file = input.files[0];
+
+        // Clear existing preview
+        previewContainer.innerHTML = '';
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'main-thumbnail-image';
+                img.width = 120; // Set the width
+                img.height = 120; // Set the height
+
+                previewContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
 </script>
 
 @endsection

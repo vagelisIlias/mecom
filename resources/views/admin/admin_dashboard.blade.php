@@ -13,7 +13,6 @@
 	<link href="{{ asset('adminbackend/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
 	<link href="{{ asset('adminbackend/assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
 	<link href="{{ asset('adminbackend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
-	<link href="{{ asset('adminbackend/assets/plugins/Drag-And-Drop/dist/imageuploadify.min.css') }}" rel="stylesheet" />
 	<link href="{{ asset('adminbackend/assets/plugins/input-tags/css/tagsinput.css')}}" rel="stylesheet" />
 	<!-- loader-->
 	<link href="{{ asset('adminbackend/assets/css/pace.min.css') }}" rel="stylesheet" />
@@ -237,14 +236,6 @@
 	
 	<!-- Add Sweetalert code and return it in code.js for delete button -->
 	<script src="{{ asset('adminbackend/assets/js/code.js') }}"></script>
-
-	<!-- Upload Images -->
-	<script src="{{ asset('adminbackend/assets/plugins/Drag-And-Drop/dist/imageuploadify.min.js')}}"></script>
-	<script>
-		$(document).ready(function () {
-			$('#image-uploadify').imageuploadify();
-		})
-	</script>
 
 	<!-- Tags -->
 	<script src="{{ asset('adminbackend/assets/plugins/input-tags/js/tagsinput.js') }}"></script>

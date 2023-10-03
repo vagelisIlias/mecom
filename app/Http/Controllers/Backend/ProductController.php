@@ -43,7 +43,7 @@ class ProductController extends Controller
         try {
             $image = $request->file('product_thambnail');
             $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-            $image_path = 'upload/products/thambnail' . $name_gen;
+            $image_path = 'upload/products/thambnail/' . $name_gen;
             Image::make($image)->resize(800, 800)->save(public_path($image_path));
             $save_url = $image_path;
 
@@ -69,7 +69,7 @@ class ProductController extends Controller
                 'product_special_offer' => $request->product_special_offer,
                 'product_special_deals' => $request->product_special_deals,
                 'product_status' => 1,
-                'product_slug' => strtolower(str_replace(' ', '-', $request->product_slug)),
+                'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
             ]);
 
             // Image validaation
@@ -81,11 +81,11 @@ class ProductController extends Controller
             $product_id = $product->id;
 
             // Multiple Images
-            $images = $request->file('multi_image');
-            foreach($images as $img) 
+            $umlti_images = $request->file('multi_image');
+            foreach($umlti_images as $img) 
             {
                 $make_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
-                $multi_image_path = 'upload/products/multi_image' . $make_name;
+                $multi_image_path = 'upload/products/multi_image/' . $make_name;
                 Image::make($img)->resize(800, 800)->save(public_path($multi_image_path));
                 $save_multi_url = $multi_image_path;
 
@@ -113,6 +113,4 @@ class ProductController extends Controller
             return redirect()->back()->with($not_error);
         }
     }
-
-
 }

@@ -31,10 +31,10 @@ return new class extends Migration
             $table->text('product_short_description');
             $table->text('product_long_description');
             $table->string('product_thambnail');
-            $table->integer('product_hot_deals')->nullable();
-            $table->integer('product_featured')->nullable();
-            $table->integer('product_special_offer')->nullable();
-            $table->integer('product_special_deals')->nullable();
+            $table->string('product_hot_deals')->nullable();
+            $table->string('product_featured')->nullable();
+            $table->string('product_special_offer')->nullable();
+            $table->string('product_special_deals')->nullable();
             $table->integer('product_status')->default(0);
             $table->timestamps();
         });
