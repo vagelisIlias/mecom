@@ -53,6 +53,7 @@
                 <div class="form-group mb-3">
                     <label for="inputProductDescription" class="form-label">Multi Images</label>
                     <input name="multi_image[]" type="file" multiple class="form-control" id="multi-image-input">
+                    <small class="text-muted">Note: The images will be automatically resized with a total size of less than 2MB</small>
                 </div>
                 <div id="image-preview-container">
                     <!-- Preview and remove buttons for uploaded images will be inserted here -->
@@ -62,6 +63,7 @@
                     <label for="inputProductDescription" class="form-label">Main Thumbnail</label>
                     <input name="product_thambnail" class="form-control" type="file" id="main-thumbnail-input" onchange="previewMainThumbnail(this)">
                     <div id="main-thumbnail-preview"></div>
+                    <small class="text-muted">Note: The image will be automatically resized with a total size of less than 2MB</small>
                 </div>
             </div>
         </div>
@@ -227,6 +229,8 @@
                 },
                 product_thambnail: {
                     required: true,
+                    accept: "image/jpeg,image/png,image/gif",
+                    max: 2048,
                 },
                 product_price: {
                     required: true,
@@ -252,6 +256,11 @@
                 product_vendor_id: {
                     required: true,
                 },
+                'multi_image[]': {
+                    required: true,
+                    accept: "image/jpeg,image/png,image/gif",
+                    max: 2048,
+                }
             },
             messages: {
                 product_name: {
@@ -286,7 +295,11 @@
                 },
                 product_vendor_id: {
                     required: 'Please Select Vendor',
-                },          
+                },
+                'multi_image[]': {
+                    required: 'Please Add Multi Images',
+                    accept: 'Only image files are allowed',
+                }         
             },
             errorElement : 'span', 
             errorPlacement: function (error, element) {
