@@ -61,7 +61,7 @@
                             <div class="row">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="submit" class="btn btn-primary px-4" value="Add SubCategory"/>
+                                    <input type="submit" class="btn btn-primary px-4" value="Update SubCategory"/>
                                 </div>
                             </div>
                         </div>

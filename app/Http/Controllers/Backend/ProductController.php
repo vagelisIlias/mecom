@@ -13,6 +13,7 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\MultiImage;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 
 class ProductController extends Controller
@@ -51,7 +52,7 @@ class ProductController extends Controller
             $product = Product::create([
                 'product_name' => ucwords($request->product_name),
                 'product_short_description' => ucfirst($request->product_short_description),
-                'product_long_description' => ucfirst($request->product_long_description),
+                'product_long_description' => $request->product_long_description,
                 'product_thambnail' => $save_url,
                 'product_price' => $request->product_price,
                 'product_discount' => $request->product_discount,
@@ -61,14 +62,14 @@ class ProductController extends Controller
                 'product_category_id' => $request->product_category_id,
                 'product_subcategory_id' => $request->product_subcategory_id,
                 'product_vendor_id' => $request->product_vendor_id,
-                'product_color' => ucwords($request->product_color),
-                'product_size' => ucwords($request->product_size),
+                'product_color' => $request->product_color,
+                'product_size' => $request->product_size,
                 'product_tags' => $request->product_tags,
                 'product_hot_deals' => $request->product_hot_deals,
                 'product_featured' => $request->product_featured,
                 'product_special_offer' => $request->product_special_offer,
                 'product_special_deals' => $request->product_special_deals,
-                'product_status' => 1,
+                'product_status' => 'active',
                 'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
             ]);
 
@@ -112,5 +113,53 @@ class ProductController extends Controller
 
             return redirect()->back()->with($not_error);
         }
+    }
+
+    // Create the Method to Check Product Name Existence in Database
+    public function checkProductExistence(Request $request)
+    {
+        try
+            {
+            // Retrieve the product name and product_vendor_id from the request
+            $productName = $request->product_name;
+
+            // Initialize the vendorShopName variable
+            $vendorShopName = '';
+
+            // Check if a product with the same name already exists
+            $exists = Product::where('product_name', $productName)
+                                ->exists();
+
+            if ($exists) {
+                // Get the vendor ID associated with the product
+                $product = Product::where('product_name', $productName)->first();
+                $vendorId = $product->product_vendor_id;
+
+                // Get the vendor's shop name based on the vendor ID
+                $vendor = User::find($vendorId);
+                $vendorShopName = $vendor->vendor_shop_name;
+            } 
+
+            // Return a JSON response indicating whether the product exists and the vendor's shop name
+            return response()->json(['exists' => $exists, 'vendor_shop_name' => $vendorShopName]);
+
+        } catch (\Exception $e){
+            return response()->json(['error' => 'An error occurred while checking product existence.']);
+        }        
+    }
+
+    // Edit Product
+    public function editProduct($id)
+    {   
+        // Return all the Models 
+        $activeVendor = User::where('status', 'active')
+                                ->where('role', 'vendor')
+                                ->latest()
+                                ->get();    
+        $brands = Brand::latest()->get();
+        $categories = Category::latest()->get();
+        $subcategories = SubCategory::latest()->get();
+        $product = Product::findOrFail($id);
+        return view('backend.product.product_edit', compact('brands','categories','subcategories','activeVendor', 'product'));
     }
 }

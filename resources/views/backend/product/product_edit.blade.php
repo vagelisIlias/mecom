@@ -9,13 +9,13 @@
 <div class="page-content">
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Add New Product</div>
+        <a href="{{ route('all.product') }}" class="breadcrumb-title pe-3">Edit Product</a>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add New Product</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
                 </ol>
             </nav>
         </div>
@@ -24,7 +24,7 @@
 
 <div class="card">
     <div class="card-body p-4">
-        <h5 class="card-title">Add New Product</h5>
+        <h5 class="card-title">Edit Product</h5>
           <hr/>
             {{-- Form starts here --}}
             <form id="myForm" method="post" action="{{ route('store.product') }}" enctype="multipart/form-data">
@@ -37,7 +37,7 @@
                 {{-- Product Name --}}
                 <div class="form-group mb-3">
                     <label for="inputProductTtitl" class="form-label">Product Name</label>
-                    <input type="text" name="product_name" class="form-control" id="inputProductName" placeholder="Add product title">
+                    <input type="text" name="product_name" class="form-control" id="inputProductName" value="{{ $product->product_name }}" placeholder="Add product title">
                     <div id="product-exists-message" class="text-warning" style="margin-top: 10px;"> 
                         <!-- Preview The Name Existence here -->
                     </div>
@@ -45,30 +45,47 @@
                 {{-- Short Description --}}
                 <div class="form-group mb-3">
                     <label for="inputProductDescription" class="form-label">Short Description</label>
-                    <textarea name="product_short_description" class="form-control" rows="2" placeholder="Add your short text here..."></textarea>
+                    <textarea name="product_short_description" class="form-control" rows="2" placeholder="Add your short text here...">{{ $product->product_short_description }}</textarea>
                 </div>
                 {{-- Long Description --}}
                 <div class="form-group mb-3">
                     <label for="inputProductDescription" class="form-label">Long Description</label>
-                    <textarea name="product_long_description" id="mytextarea" placeholder="Add your long text here..."></textarea>
+                    <textarea name="product_long_description" id="mytextarea" placeholder="Add your long text here...">{!! $product->product_long_description !!}</textarea>
                 </div>
+
+
                 {{-- Mutli Images --}}
-                <div class="form-group mb-3">
-                    <label for="inputProductDescription" class="form-label">Multi Images</label>
-                    <input name="multi_image[]" type="file" multiple class="form-control" id="multi-image-input">
+                {{-- <div class="form-group mb-3">
+                    <label for="inputProductDescription" class="form-label">Multi Images</label> --}}
+
+                    {{-- Display existing images --}}
+                    {{-- @if ($product->images->count() > 0)
+                        <div class="existing-images">
+                            @foreach ($product->images as $image)
+                                <div class="existing-image">
+                                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="Product Image">
+                                    <button class="remove-image" data-image-id="{{ $image->id }}">Remove</button>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif --}}
+                    
+                    {{-- <input name="multi_image[]" type="file" multiple class="form-control" id="multi-image-input">
                     <small class="text-muted">Note: The images will be automatically resized with a total size of less than 2MB</small>
                 </div>
                 <div id="image-preview-container">
                     <!-- Preview and remove buttons for uploaded images will be inserted here -->
-                </div>
+                </div> --}}
                 {{-- Thambnail --}}
-                <div class="form-group mb-3">
+                {{-- <div class="form-group mb-3">
                     <label for="inputProductDescription" class="form-label">Main Thumbnail</label>
                     <input name="product_thambnail" class="form-control" type="file" id="main-thumbnail-input" onchange="previewMainThumbnail(this)">
                     <div id="main-thumbnail-preview"></div>
                     <small class="text-muted">Note: The image will be automatically resized with a total size of less than 2MB</small>
                 </div>
-            </div>
+            </div> --}}
+
+
         </div>
         <div class="col-lg-4">
             <div class="border border-3 p-4 rounded">
@@ -76,22 +93,22 @@
                 {{--  Product Price --}}
                 <div class="form-group col-md-6">
                     <label class="form-label">Product Price</label>
-                    <input name="product_price" type="text" class="form-control" placeholder="Add Product Price">
+                    <input name="product_price" type="text" class="form-control" placeholder="Add Product Price" value="{{ $product->product_price }}">
                 </div>
                 {{-- Product Discount --}}
                 <div class="form-group col-md-6">
                     <label class="form-label">Product Discount</label>
-                    <input name="product_discount" type="text" class="form-control" placeholder="Add Product Discount">
+                    <input name="product_discount" type="text" class="form-control" placeholder="Add Product Discount" value="{{ $product->product_discount }}">
                 </div>
                 {{--  Product Code --}}
                 <div class="form-group col-md-6">
                     <label class="form-label">Product Code</label>
-                    <input name="product_code" type="text" class="form-control" placeholder="Add Product Code">
+                    <input name="product_code" type="text" class="form-control" placeholder="00.00 £" value="{{ $product->product_code }}">
                 </div>
                 {{-- Product Quantity --}}
                 <div class="form-group col-md-6">
                     <label class="form-label">Product Quantity</label>
-                    <input name="product_qty" type="text" class="form-control" placeholder="Add Product Quantity">
+                    <input name="product_qty" type="text" class="form-control" value="{{ $product->product_qty }}">
                 </div>
                 {{-- Product Brand --}}
                 <div class="form-group col-12">
@@ -118,7 +135,9 @@
                     <label class="form-label">Product SubCategory</label>
                         <select name="product_subcategory_id" id="product_subcategory_id" class="form-select">
                             <option></option>
-        
+                            @foreach($subcategories as $subcat)
+                                <option value="{{ $subcat->id }}">{{ $subcat->sub_category_name }}</option>
+                            @endforeach
                     </select>
                 </div>
                 {{-- Select Vendor --}}
@@ -135,19 +154,19 @@
                 <div class="form-group col-12">
                     <label class="form-label">Product Color</label>
                     <input type="text" name="product_color" id="product_color" class="form-control" 
-                        data-role="tagsinput" placeholder="Add Product Color">
+                        data-role="tagsinput" placeholder="Add Product Color" value="{{ $product->product_color }}">
                 </div>
                 {{-- Product Size --}}
                 <div class="form-group col-12">
                     <label class="form-label">Product Size</label>
                     <input type="text" name="product_size" class="form-control visually-hidden" 
-                        data-role="tagsinput" placeholder="Add Product Size">
+                        data-role="tagsinput" placeholder="Add Product Size" value="{{ $product->product_size }}">
                 </div>
                 {{-- Product Tags --}}
                 <div class="form-group col-12">
                     <label class="form-label">Product Tags</label>
                     <input type="text" name="product_tags" class="form-control visually-hidden" 
-                        data-role="tagsinput" placeholder="Add Product Tags">
+                        data-role="tagsinput" placeholder="Add Product Tags" value="{{ $product->product_tags }}">
                 </div>
                 {{-- Deals --}}
                 <div class="col-12">
@@ -181,7 +200,7 @@
                 <hr> 
                 <div class="col-12">
                     <div class="d-grid">
-                        <button type="submit" id="submit-button" class="btn btn-info px-4">Add Product</button>
+                        <button type="submit" id="submit-button" class="btn btn-info px-4">Update Product</button>
                     </div>
                 </div>
             </div> 

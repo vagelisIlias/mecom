@@ -46,10 +46,11 @@
                                 <td>{{ $item->sub_category_name }}</td>
                                 <td>
                                     <a href="{{ route('edit.subcategory', $item->id) }}" 
-                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;">
-                                        <i class="fa-solid fa-pen-to-square" style="color: #8d45aa;"></i>
+                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Edit Subcategory">
+                                        <i class="fa-solid fa-pen-to-square" style="color: #800fd7;"></i>
                                     </a>
-                                    <a href="{{ route('delete.subcategory', $item->id) }}" id="delete" style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative;">
+                                    <a href="{{ route('delete.subcategory', $item->id) }}" id="delete" 
+                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative;" title="Delete Subcategory">
                                         <i class="fa-solid fa-trash"  style="color: #ca4983;" ></i>
                                     </a>
                                 </td>

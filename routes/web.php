@@ -127,6 +127,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/all/product', 'allProduct')->name('all.product');
         Route::get('/add/product', 'addProduct')->name('add.product');
         Route::post('/store/product', 'storeProduct')->name('store.product');
+        Route::post('/check/product/existence', 'checkProductExistence')->name('check.product.existence');
+        Route::get('/edit/product/{id}', 'editProduct')->name('edit.product');
+        
     });
 });
 

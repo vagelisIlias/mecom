@@ -35,7 +35,7 @@ return new class extends Migration
             $table->string('product_featured')->nullable();
             $table->string('product_special_offer')->nullable();
             $table->string('product_special_deals')->nullable();
-            $table->integer('product_status')->default(0);
+            $table->string('product_status')->default('active');
             $table->timestamps();
         });
     }

@@ -46,12 +46,12 @@
                                 <td><img src="{{ asset($item->brand_image) }}" style="width: 60px; height: 50px;"></td>
                                 <td>
                                     <a href="{{ route('edit.brand', $item->id) }}"
-                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;">
-                                        <i class="fa-solid fa-pen-to-square" style="color: #8d45aa;"></i>
+                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Edit Brand">
+                                        <i class="fa-solid fa-pen-to-square" style="color: #800fd7;"></i>
                                     </a>    
                                     <a href="{{ route('delete.brand', $item->id) }}" id="delete" 
-                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative;">
-                                        <i class="fa-solid fa-trash"  style="color: #ca4983;"></i>
+                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative;" title="Delete Brand">
+                                        <i class="fa-solid fa-trash"  style="color: #ca4983;" ></i>
                                     </a>
                                 </td>
                             </tr>
