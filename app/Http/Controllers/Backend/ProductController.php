@@ -115,7 +115,7 @@ class ProductController extends Controller
         }
     }
 
-    // Create the Method to Check Product Name Existence in Database
+    // Create Method to Check Product Name Existence in Database
     public function checkProductExistence(Request $request)
     {
         try
@@ -160,6 +160,93 @@ class ProductController extends Controller
         $categories = Category::latest()->get();
         $subcategories = SubCategory::latest()->get();
         $product = Product::findOrFail($id);
-        return view('backend.product.product_edit', compact('brands','categories','subcategories','activeVendor', 'product'));
+        $mutliImages = MultiImage::where('product_id', $product->id)
+                                    ->get();
+        return view('backend.product.product_edit', compact('brands','categories','subcategories','activeVendor', 'product', 'mutliImages'));
+    }
+
+    // Update Product
+    public function updateProduct(Request $request)
+    {
+        try{
+            // Update the product using the validated data
+            $product_id = $request->id;
+            $old_thambnail = $request->old_thambnail;
+
+            // validate the image
+            $request->validate([
+                'product_thambnail' => 'nullable|image|mimes:png,jpeg,jpg|max:2048',
+            ],
+            [
+                'product_thambnail.image' => 'The image you trying to upload is not valid or the format is not supported. Make sure the maximum file size is 2MB',
+                'product_thambnail.max' => 'The image size must be less than 2MB, please resize the image and try again',
+            ]);
+
+            // Checking the image existance and creating path
+            if ($request->hasFile('product_thambnail')) {
+                $image = $request->file('product_thambnail');
+                $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+                $image_path = 'upload/products/thambnail/' . $name_gen;
+                Image::make($image)->resize(800, 800)->save(public_path($image_path));
+
+                if (file_exists($old_thambnail)) {
+                    unlink($old_thambnail);
+                }
+
+                $save_url = $image_path;
+            } else {
+                // Use the old image if no new image is uploaded.
+                $save_url = $old_thambnail; 
+            }
+
+            // Create Product
+            Product::findOrFail($product_id)->update([
+                'product_name' => ucwords($request->product_name),
+                'product_short_description' => ucfirst($request->product_short_description),
+                'product_long_description' => $request->product_long_description,
+                'product_thambnail' => $save_url,
+                'product_price' => $request->product_price,
+                'product_discount' => $request->product_discount,
+                'product_code' => $request->product_code,
+                'product_qty' => $request->product_qty,
+                'product_brand_id' => $request->product_brand_id,
+                'product_category_id' => $request->product_category_id,
+                'product_subcategory_id' => $request->product_subcategory_id,
+                'product_vendor_id' => $request->product_vendor_id,
+                'product_color' => $request->product_color,
+                'product_size' => $request->product_size,
+                'product_tags' => $request->product_tags,
+                'product_hot_deals' => $request->product_hot_deals,
+                'product_featured' => $request->product_featured,
+                'product_special_offer' => $request->product_special_offer,
+                'product_special_deals' => $request->product_special_deals,
+                'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
+            ]);
+
+            // Success message notification
+            if ($request->file('product_thambnail')) {
+                $message = 'Product with Image Updated Successfully';
+                $alertType = 'success';
+            } else {
+                // Info message notification
+                $message = 'Product without Image Updated Successfully';
+                $alertType = 'info';
+            }
+            $notification = [
+                'message' => $message,
+                'alert-type' => $alertType,
+            ];
+
+            return redirect()->route('all.product')->with($notification);
+
+        } catch (\Exception $e) {
+            // Handle errors, log them, and return an error response
+            $not_error = [
+                'message' => ' ' . $e->getMessage(),
+                'alert-type' => 'error',
+            ];
+
+            return redirect()->back()->with($not_error);
+        }
     }
 }

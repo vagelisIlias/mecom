@@ -57,7 +57,7 @@
                             <div class="row">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="submit" class="btn btn-primary px-4" value="Add SubCategory"/>
+                                    <input type="submit" class="btn px-4" style="background-color: rgb(202, 18, 177); color: white;"value="Add SubCategory"/>
                                 </div>
                             </div>
                         </div>

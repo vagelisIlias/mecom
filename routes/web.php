@@ -129,7 +129,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/store/product', 'storeProduct')->name('store.product');
         Route::post('/check/product/existence', 'checkProductExistence')->name('check.product.existence');
         Route::get('/edit/product/{id}', 'editProduct')->name('edit.product');
-        
+        Route::post('/update/product/{id}/{old_thambnail}', 'updateProduct')->name('update.product');
     });
 });
 

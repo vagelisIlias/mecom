@@ -58,15 +58,15 @@
                     <input name="multi_image[]" type="file" multiple class="form-control" id="multi-image-input">
                     <small class="text-muted">Note: The images will be automatically resized with a total size of less than 2MB</small>
                 </div>
-                <div id="image-preview-container">
+                <div id="image-preview-container" style="display: flex; flex-wrap: wrap;">
                     <!-- Preview and remove buttons for uploaded images will be inserted here -->
-                </div>
+                </div>  
                 {{-- Thambnail --}}
                 <div class="form-group mb-3">
-                    <label for="inputProductDescription" class="form-label">Main Thumbnail</label>
+                    <label for="inputProductDescription" class="form-label">Main Thumbnail Image</label>
                     <input name="product_thambnail" class="form-control" type="file" id="main-thumbnail-input" onchange="previewMainThumbnail(this)">
                     <div id="main-thumbnail-preview"></div>
-                    <small class="text-muted">Note: The image will be automatically resized with a total size of less than 2MB</small>
+                    <small class="text-muted">Note: The image must be in JPG, JPEG, PNG, GIF, BMP, or WebP format with a total size of less than 2MB</small>
                 </div>
             </div>
         </div>
@@ -217,7 +217,6 @@
     });
 </script>
 
-
 {{-- Validation min.JS, creating validation for inputs --}}
 <script type="text/javascript">
     $(document).ready(function (){
@@ -342,8 +341,8 @@
                 img.height = 120; // Set the height
 
                 const removeButton = document.createElement('button');
-                removeButton.innerHTML = '<i class="fa-solid fa-delete-left"></i>'; // Use Font Awesome icon HTML
-                removeButton.className = 'btn btn-sm remove-image custom-remove-button'; // Add a custom class
+                removeButton.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: #e60f0f; margin-bottom: 85px; margin-left: -5px;"></i>';
+                removeButton.className = 'btn btn-sm remove-image custom-remove-button';
                 removeButton.addEventListener('click', function () {
                     // Remove the corresponding image preview
                     previewContainer.removeChild(previewDiv);

@@ -22,7 +22,7 @@
         </div>
         <div class="ms-auto">
             <div class="btn-group">
-                <a href="{{ route('add.product') }}" class="btn btn-primary">Add Product</a>
+                <a href="{{ route('add.product') }}" class="btn btn" style="background-color: rgb(202, 18, 177); color: white;">Add Product</a>
             </div>
         </div>
     </div>

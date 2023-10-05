@@ -17,7 +17,7 @@
         </div>
         <div class="ms-auto">
             <div class="btn-group">
-                <a href="{{ route('add.subcategory') }}" class="btn btn-primary">Add SubCategory</a>
+                <a href="{{ route('add.subcategory') }}" class="btn" style="background-color: rgb(202, 18, 177); color: white;">Add SubCategory</a>
             </div>
         </div>
     </div>
