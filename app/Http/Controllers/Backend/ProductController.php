@@ -187,18 +187,13 @@ class ProductController extends Controller
                 $image = $request->file('product_thambnail');
                 $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
                 $image_path = 'upload/products/thambnail/' . $name_gen;
-                Image::make($image)->resize(800, 800)->save(public_path($image_path));
 
-                if (file_exists($old_thambnail)) {
-                    unlink($old_thambnail);
-                }
-
-                $save_url = $image_path;
-            } else {
-                // Use the old image if no new image is uploaded.
-                $save_url = $old_thambnail; 
-            }
-
+                // Resize and save the image
+                Image::make($image)->resize(800, 800)
+                                ->save(public_path($image_path));
+            $save_url = file_exists($old_thambnail) ? (unlink($old_thambnail) ? $image_path : $old_thambnail) : $image_path;    
+            };
+           
             // Create Product
             Product::findOrFail($product_id)->update([
                 'product_name' => ucwords($request->product_name),
@@ -223,15 +218,47 @@ class ProductController extends Controller
                 'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
             ]);
 
-            // Success message notification
-            if ($request->file('product_thambnail')) {
-                $message = 'Product with Image Updated Successfully';
-                $alertType = 'success';
-            } else {
-                // Info message notification
-                $message = 'Product without Image Updated Successfully';
-                $alertType = 'info';
-            }
+            // // Validate the image
+            // $request->validate([
+            //     "multi_image.*" => "nullable|image|mimes:png,jpeg,jpg|max:2048",
+            // ], [
+            //     "multi_image.*.image" => 'One or more multi images you are trying to upload are not valid or the format is not supported. Make sure the maximum file size is 2MB',
+            //     "multi_image.*.max" => 'One or more multi images size must be less than 2MB, please resize the image and try again',
+            // ]);
+
+            // // Requested the multi images
+            // $multi_images = $request->multi_image;
+
+            // foreach($multi_images as $id => $multi_img) 
+            // {   
+            //     $imgFindOrFail = MultiImage::findOrFail($id);
+
+            //     // Checking the image existance and creating path
+            //     if ($multi_img) {
+            //         // Generate a unique file name
+            //         $make_name = hexdec(uniqid()) . '.' . $multi_img->getClientOriginalExtension();
+            //         $multi_image_path = 'upload/products/multi_image/' . $make_name;
+
+            //         // Resize and save the image
+            //         Image::make($multi_img)->resize(800, 800)
+            //                     ->save(public_path($multi_image_path));
+
+            //         // Checking if the image exists and unlink it
+            //         $save_multi_url = file_exists($imgFindOrFail->multi_image) ? (unlink($imgFindOrFail->multi_image) ? $multi_image_path : $multi_img) : $multi_img;
+                    
+            //         $imgFindOrFail->where("id", $id)->update([
+            //             'multi_image' => $save_multi_url,
+            //         ]);
+            //     }
+            // }
+
+            //Set the success message
+            $message = $request->hasFile('product_thambnail')
+            ? 'Product with Multi Images Updated Successfully'
+            : 'Product without Multi Images Updated Successfully';
+
+            $alertType = $request->hasFile('product_thambnail') ? 'success' : 'info';
+
             $notification = [
                 'message' => $message,
                 'alert-type' => $alertType,
@@ -239,6 +266,7 @@ class ProductController extends Controller
 
             return redirect()->route('all.product')->with($notification);
 
+            return redirect()->route('all.product');
         } catch (\Exception $e) {
             // Handle errors, log them, and return an error response
             $not_error = [
