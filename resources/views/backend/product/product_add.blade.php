@@ -5,6 +5,9 @@
 <!-- Image Reload JS & Validation min.JS Include jQuery and jQuery Validation -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
+<!-- FilePond Scripts -->
+<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+
 <!-- Page Content -->
 <div class="page-content">
     <!--breadcrumb-->
@@ -53,19 +56,18 @@
                     <textarea name="product_long_description" id="mytextarea" placeholder="Add your long text here..."></textarea>
                 </div>
                 {{-- Mutli Images --}}
-                <div class="form-group mb-3">
-                    <label for="inputProductDescription" class="form-label">Multi Images</label>
-                    <input name="multi_image[]" type="file" multiple class="form-control" id="multi-image-input">
+                {{-- <div class="form-group mb-3">
+                    <label for="multi_image" class="form-label">Multi Images</label>
+                    <input name="multi_image[]" type="file" multiple id="multi_image">
                     <small class="text-muted">Note: The images will be automatically resized with a total size of less than 2MB</small>
                 </div>
                 <div id="image-preview-container" style="display: flex; flex-wrap: wrap;">
                     <!-- Preview and remove buttons for uploaded images will be inserted here -->
-                </div>  
+                </div>   --}}
                 {{-- Thambnail --}}
                 <div class="form-group mb-3">
-                    <label for="inputProductDescription" class="form-label">Main Thumbnail Image</label>
-                    <input name="product_thambnail" class="form-control" type="file" id="main-thumbnail-input" onchange="previewMainThumbnail(this)">
-                    <div id="main-thumbnail-preview"></div>
+                    <label for="thumbnail_image" class="form-label">Main Thumbnail Image</label>
+                    <input name="product_thambnail" type="file" id="thumbnail_image">
                     <small class="text-muted">Note: The image must be in JPG, JPEG, PNG, GIF, BMP, or WebP format with a total size of less than 2MB</small>
                 </div>
             </div>
@@ -315,82 +317,39 @@
     });
 </script>
 
-<!-- Multi-Image Load -->
-<script type="text/javascript">
-    // Function to handle file input change
-    function handleFileInputChange() {
-        const input = document.getElementById('multi-image-input');
-        const previewContainer = document.getElementById('image-preview-container');
-        const files = input.files;
+<!-- Initialize FilePond for Multi-Images -->
+<script>
+    // Get a reference to the multi-image input element
+    const multiImageInputElement = document.getElementById('multi_image');
 
-        // Clear existing previews
-        previewContainer.innerHTML = '';
-
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                const previewDiv = document.createElement('div');
-                previewDiv.className = 'image-preview';
-
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = 'preview-image';
-                img.width = 120; // Set the width
-                img.height = 120; // Set the height
-
-                const removeButton = document.createElement('button');
-                removeButton.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: #e60f0f; margin-bottom: 85px; margin-left: -5px;"></i>';
-                removeButton.className = 'btn btn-sm remove-image custom-remove-button';
-                removeButton.addEventListener('click', function () {
-                    // Remove the corresponding image preview
-                    previewContainer.removeChild(previewDiv);
-                    // Clear the file input value for the removed image
-                    input.value = '';
-                });
-
-                previewDiv.appendChild(img);
-                previewDiv.appendChild(removeButton);
-                previewContainer.appendChild(previewDiv);
-            };
-
-            reader.readAsDataURL(file);
-        }
-    }
-
-    // Add event listener to the file input
-    const multiImageInput = document.getElementById('multi-image-input');
-    multiImageInput.addEventListener('change', handleFileInputChange);
+    // Create a FilePond instance for multi-images
+    const multiImagePond = FilePond.create(multiImageInputElement);
+    FilePond.setOptions({
+    server: {
+        process: '/',
+        revert: '/',  
+        },
+    });
 </script>
 
-<!-- Thumbnail Load Image -->
-<script type="text/javascript">
-    // Function to handle main thumbnail file input change
-    function previewMainThumbnail(input) {
-        const previewContainer = document.getElementById('main-thumbnail-preview');
-        const file = input.files[0];
+<!-- Initialize FilePond for Main Thumbnail Image -->
+<script>
+    // Get a reference to the main thumbnail image input element
+    const mainThumbnailInputElement = document.getElementById('thumbnail_image');
 
-        // Clear existing preview
-        previewContainer.innerHTML = '';
-
-        if (file) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = 'main-thumbnail-image';
-                img.width = 120; // Set the width
-                img.height = 120; // Set the height
-
-                previewContainer.appendChild(img);
-            };
-
-            reader.readAsDataURL(file);
-        }
-    }
+    // Create a FilePond instance for the main thumbnail image
+    const mainThumbnailPond = FilePond.create(mainThumbnailInputElement);
+    FilePond.setOptions({
+    server: {
+        process: '/tmp_thumbnail_image',
+        revert: '/tmp_thumbnail_image_delete',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            }  
+        },
+    });
 </script>
+
 
 <!-- Checking if the product name already exists in database -->
 <script type="text/javascript">

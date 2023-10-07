@@ -13,6 +13,7 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\MultiImage;
 use App\Models\User;
+use App\Models\TemporaryFile;
 use Illuminate\Support\Facades\Log;
 
 
@@ -40,14 +41,17 @@ class ProductController extends Controller
 
     // Store Product
     public function storeProduct(Request $request)
-    {
+    {   
+        $tmp_file = TemporaryFile::where('folder', $request->image)->first(); 
         try {
-            $image = $request->file('product_thambnail');
-            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-            $image_path = 'upload/products/thambnail/' . $name_gen;
-            Image::make($image)->resize(800, 800)->save(public_path($image_path));
-            $save_url = $image_path;
-
+            if($tmp_file){
+                $image = $request->file('product_thambnail');
+                $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+                $image_path = 'upload/products/thambnail/' . $name_gen;
+                Image::make($image)->resize(800, 800)->save(public_path($image_path));
+                $save_url = $image_path;
+            }
+            
             // Create Product
             $product = Product::create([
                 'product_name' => ucwords($request->product_name),
@@ -113,6 +117,31 @@ class ProductController extends Controller
 
             return redirect()->back()->with($not_error);
         }
+    }
+
+    // Creating a route for temporary images 
+    public function tmpThumbnailImage(Request $request)
+    {
+        if ($request->hasFile('product_thambnail')) {
+            $image = $request->file('product_thambnail');
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+            $image_path = 'upload/tmp/' . $name_gen;
+            Image::make($image)->resize(800, 800)->save(public_path($image_path));
+            
+            // Store the image in the public/upload/products/thambnail directory
+            $image->move(public_path($image_path), $name_gen);
+        
+            // Create a record in your database if needed
+            TemporaryFile::create([
+                'folder' => $image_path,
+                'file' => $name_gen
+            ]);
+        
+            return $$save_ur;
+        }
+
+        // Return an empty string as text/plain response is required
+        return '';
     }
 
     // Create Method to Check Product Name Existence in Database
@@ -191,7 +220,8 @@ class ProductController extends Controller
                 // Resize and save the image
                 Image::make($image)->resize(800, 800)
                                 ->save(public_path($image_path));
-            $save_url = file_exists($old_thambnail) ? (unlink($old_thambnail) ? $image_path : $old_thambnail) : $image_path;    
+
+                $save_url = file_exists($old_thambnail) ? (unlink($old_thambnail) ? $image_path : $old_thambnail) : $image_path;    
             };
            
             // Create Product
@@ -254,8 +284,8 @@ class ProductController extends Controller
 
             //Set the success message
             $message = $request->hasFile('product_thambnail')
-            ? 'Product with Multi Images Updated Successfully'
-            : 'Product without Multi Images Updated Successfully';
+            ? 'Product with Image Updated Successfully'
+            : 'Product without Image Updated Successfully';
 
             $alertType = $request->hasFile('product_thambnail') ? 'success' : 'info';
 

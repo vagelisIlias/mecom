@@ -55,45 +55,11 @@
                     <label for="inputProductDescription" class="form-label">Long Description</label>
                     <textarea name="product_long_description" id="mytextarea" placeholder="Add your long text here...">{!! $product->product_long_description !!}</textarea>
                 </div>
-               {{-- Mutli Images --}}
-                {{-- <div class="mb-3">
-                    <label for="inputProductDescription" class="form-label">Update Multi Images</label>
-                    <table class="table mb-0 table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Change Image</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($mutliImages as $key => $img)
-                            <tr>
-                                <td>{{ ++$key }}</td>
-                                <td>
-                                    <img src="{{ asset($img->multi_image) }}" alt="" style="width: 100px; height: 100px;">
-                                </td>
-                                <td>
-                                    <label title="Choose Files">
-                                        <input class="form-control" type="file" name="multi_image[{{$img->id}}]">
-                                    </label>
-                                </td>
-                                <td>
-                                    <a href="{{ route('delete.subcategory', $img->id) }}" id="delete" 
-                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative;" title="Delete Image">
-                                        <i class="fa-solid fa-trash" style="color: #ca4983;" ></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <small class="text-muted">Note: The images will be automatically resized with a total size of less than 2MB</small>
-                </div> --}}
+                {{-- Mutli Images --}}
+              
                 {{-- Thambnail --}}
-                <div class="mb-3" style="margin-top: 10px;">
-                    <label for="formFile" class="form-label">Main Thumbnail Image</label>
+                <div class="form-group mb-3">
+                    <label for="inputProductDescription" class="form-label">Main Thumbnail Image</label>
                     <input name="product_thambnail" class="form-control" type="file" id="main-thumbnail-input" onchange="previewMainThumbnail(this)">
                         <div id="main-thumbnail-preview" style="margin-top: 8px;">
                             <img src="{{ asset($product->product_thambnail) }}" alt="" style="width: 100px; height: 100px; margin-top: 8px;">

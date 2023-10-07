@@ -127,11 +127,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/all/product', 'allProduct')->name('all.product');
         Route::get('/add/product', 'addProduct')->name('add.product');
         Route::post('/store/product', 'storeProduct')->name('store.product');
+        //Creating a temporary folder route for FilePond
+        Route::post('/tmp_thumbnail_image', 'tmpThumbnailImage');
+        
+        // Checking if product exists in database
         Route::post('/check/product/existence', 'checkProductExistence')->name('check.product.existence');
         Route::get('/edit/product/{id}', 'editProduct')->name('edit.product');
         Route::post('/update/product', 'updateProduct')->name('update.product');
     });
 });
+
+
 
 // Middleware authedication route
 Route::middleware('auth')->group(function () {
