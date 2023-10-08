@@ -13,8 +13,8 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\MultiImage;
 use App\Models\User;
-use App\Models\TemporaryFile;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProductController extends Controller
@@ -42,64 +42,63 @@ class ProductController extends Controller
     // Store Product
     public function storeProduct(Request $request)
     {   
-        $tmp_file = TemporaryFile::where('folder', $request->image)->first(); 
         try {
-            if($tmp_file){
-                $image = $request->file('product_thambnail');
-                $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-                $image_path = 'upload/products/thambnail/' . $name_gen;
-                Image::make($image)->resize(800, 800)->save(public_path($image_path));
-                $save_url = $image_path;
-            }
+            if ($request->hasFile('product_thambnail')) {
+                $image_tham = $request->file('product_thambnail');
+                $name_gen = hexdec(uniqid()) . '.' . $image_tham->getClientOriginalExtension();
+                $tham_image_path = 'upload/products/thambnail/' . $name_gen;
+                Image::make($image_tham)->resize(800, 800)->save(public_path($tham_image_path));
+                $save_url = $tham_image_path;
             
-            // Create Product
-            $product = Product::create([
-                'product_name' => ucwords($request->product_name),
-                'product_short_description' => ucfirst($request->product_short_description),
-                'product_long_description' => $request->product_long_description,
-                'product_thambnail' => $save_url,
-                'product_price' => $request->product_price,
-                'product_discount' => $request->product_discount,
-                'product_code' => $request->product_code,
-                'product_qty' => $request->product_qty,
-                'product_brand_id' => $request->product_brand_id,
-                'product_category_id' => $request->product_category_id,
-                'product_subcategory_id' => $request->product_subcategory_id,
-                'product_vendor_id' => $request->product_vendor_id,
-                'product_color' => $request->product_color,
-                'product_size' => $request->product_size,
-                'product_tags' => $request->product_tags,
-                'product_hot_deals' => $request->product_hot_deals,
-                'product_featured' => $request->product_featured,
-                'product_special_offer' => $request->product_special_offer,
-                'product_special_deals' => $request->product_special_deals,
-                'product_status' => 'active',
-                'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
-            ]);
-
-            // Image validaation
-            $request->validate([
-                'multi_image' => 'required',
-            ]);
-
-            // Retrieve the product's ID from the model instance
-            $product_id = $product->id;
-
-            // Multiple Images
-            $umlti_images = $request->file('multi_image');
-            foreach($umlti_images as $img) 
-            {
-                $make_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
-                $multi_image_path = 'upload/products/multi_image/' . $make_name;
-                Image::make($img)->resize(800, 800)->save(public_path($multi_image_path));
-                $save_multi_url = $multi_image_path;
-
-                MultiImage::create([
-                    'product_id' => $product_id,
-                    'multi_image' => $save_multi_url,
+                // Create Product
+                Product::create([
+                    'product_name' => ucwords($request->product_name),
+                    'product_short_description' => ucfirst($request->product_short_description),
+                    'product_long_description' => $request->product_long_description,
+                    'product_thambnail' => $save_url,
+                    'product_price' => $request->product_price,
+                    'product_discount' => $request->product_discount,
+                    'product_code' => $request->product_code,
+                    'product_qty' => $request->product_qty,
+                    'product_brand_id' => $request->product_brand_id,
+                    'product_category_id' => $request->product_category_id,
+                    'product_subcategory_id' => $request->product_subcategory_id,
+                    'product_vendor_id' => $request->product_vendor_id,
+                    'product_color' => $request->product_color,
+                    'product_size' => $request->product_size,
+                    'product_tags' => $request->product_tags,
+                    'product_hot_deals' => $request->product_hot_deals,
+                    'product_featured' => $request->product_featured,
+                    'product_special_offer' => $request->product_special_offer,
+                    'product_special_deals' => $request->product_special_deals,
+                    'product_status' => 'active',
+                    'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
                 ]);
             }
 
+            // // Image validaation
+            // $request->validate([
+            //     'multi_image' => 'required',
+            // ]);
+
+            // // Retrieve the product's ID from the model instance
+            // $product_id = $product->id;
+
+            // // Multiple Images
+            // $umlti_images = $request->file('multi_image');
+            // foreach($umlti_images as $img) 
+            // {
+            //     $make_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
+            //     $multi_image_path = 'upload/products/multi_image/' . $make_name;
+            //     Image::make($img)->resize(800, 800)->save(public_path($multi_image_path));
+            //     $save_multi_url = $multi_image_path;
+
+            //     MultiImage::create([
+            //         'product_id' => $product_id,
+            //         'multi_image' => $save_multi_url,
+            //     ]);
+            // }
+   
             // Success message notification
             $not_succ = [
                 'message' => 'Product Created Successfully',
@@ -111,39 +110,14 @@ class ProductController extends Controller
         } catch (\Exception $e){
             // Handle errors, log them, and return an error response
             $not_error = [
-                'message' => 'An error occurred while saving the product' . $e->getMessage(),
+                'message' => 'An error occurred while saving the product ' . $e->getMessage(),
                 'alert-type' => 'error',
             ];
 
             return redirect()->back()->with($not_error);
         }
     }
-
-    // Creating a route for temporary images 
-    public function tmpThumbnailImage(Request $request)
-    {
-        if ($request->hasFile('product_thambnail')) {
-            $image = $request->file('product_thambnail');
-            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-            $image_path = 'upload/tmp/' . $name_gen;
-            Image::make($image)->resize(800, 800)->save(public_path($image_path));
-            
-            // Store the image in the public/upload/products/thambnail directory
-            $image->move(public_path($image_path), $name_gen);
-        
-            // Create a record in your database if needed
-            TemporaryFile::create([
-                'folder' => $image_path,
-                'file' => $name_gen
-            ]);
-        
-            return $$save_ur;
-        }
-
-        // Return an empty string as text/plain response is required
-        return '';
-    }
-
+   
     // Create Method to Check Product Name Existence in Database
     public function checkProductExistence(Request $request)
     {

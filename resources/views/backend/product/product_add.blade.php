@@ -5,8 +5,8 @@
 <!-- Image Reload JS & Validation min.JS Include jQuery and jQuery Validation -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-<!-- FilePond Scripts -->
-<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+<!-- Drop Zone -->
+<script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>	
 
 <!-- Page Content -->
 <div class="page-content">
@@ -40,10 +40,7 @@
                 {{-- Product Name --}}
                 <div class="form-group mb-3">
                     <label for="inputProductTtitl" class="form-label">Product Name</label>
-                    <input type="text" name="product_name" class="form-control" id="inputProductName" placeholder="Add product title">
-                    <div id="product-exists-message" class="text-warning" style="margin-top: 10px;"> 
-                        <!-- Preview The Name Existence here -->
-                    </div>
+                    <input type="text" name="product_name" class="form-control" placeholder="Add product title">
                 </div>
                 {{-- Short Description --}}
                 <div class="form-group mb-3">
@@ -56,19 +53,17 @@
                     <textarea name="product_long_description" id="mytextarea" placeholder="Add your long text here..."></textarea>
                 </div>
                 {{-- Mutli Images --}}
-                {{-- <div class="form-group mb-3">
-                    <label for="multi_image" class="form-label">Multi Images</label>
-                    <input name="multi_image[]" type="file" multiple id="multi_image">
-                    <small class="text-muted">Note: The images will be automatically resized with a total size of less than 2MB</small>
-                </div>
-                <div id="image-preview-container" style="display: flex; flex-wrap: wrap;">
-                    <!-- Preview and remove buttons for uploaded images will be inserted here -->
-                </div>   --}}
-                {{-- Thambnail --}}
+                <div class="form-group dropzone" id="multi_image" name="multi_image[]">
+                    <div class="dz-default dz-message"><span>Drop your Multi Images here or Click to Upload</span></div>
+                </div><br>
+                <!-- Thumbnail Image Preview -->
                 <div class="form-group mb-3">
-                    <label for="thumbnail_image" class="form-label">Main Thumbnail Image</label>
-                    <input name="product_thambnail" type="file" id="thumbnail_image">
-                    <small class="text-muted">Note: The image must be in JPG, JPEG, PNG, GIF, BMP, or WebP format with a total size of less than 2MB</small>
+                    <label for="product_thumbnail" class="form-label">Thumbnail Image</label>
+                    <input name="product_thumbnail" class="form-control" type="file" id="product_thumbnail" onchange="previewThumbnailImage(this)">
+                </div>
+                <div id="image-remove-button">
+                    <!-- Image Preview -->
+                    <img id="thumbnail-preview" src="" alt="Thumbnail Preview" style="display: none;">
                 </div>
             </div>
         </div>
@@ -183,7 +178,7 @@
                 <hr> 
                 <div class="col-12">
                     <div class="d-grid">
-                        <button type="submit" id="submit-button" class="btn btn-info px-4">Add Product</button>
+                        <button type="submit" id="submit-button" class="btn btn" style="background-color: rgb(202, 18, 177); color: white;">Add Product</button>
                     </div>
                 </div>
             </div> 
@@ -196,7 +191,88 @@
                 </div><!--end card -->
                     </div><!-- Page Content -->
 
-<!-- Select category and subcategory dynamically -->
+<!-- Drop Zone -->
+<script type="text/javascript">
+    var dropzone = new Dropzone('#multi_image', {
+        url: "{{ route('store.product') }}", 
+        thumbnailWidth: 200,
+        maxFilesize: 2,
+        paramName: 'multi_image',
+        acceptedFiles: ".jpeg, .jpg, .png, .gif",
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        success: function (file, response) {
+        // Trigger a SweetAlert message when files are successfully uploaded
+        Swal.fire({
+            title: 'Success!',
+            text: 'Successfully Uploaded',
+            icon: 'success',
+            timer: 2000, // Set the message to auto-close after 2 seconds (adjust as needed)
+            showConfirmButton: false
+            });
+        }
+    });
+
+// Event handler for when a file is added
+dropzone.on("addedfile", function(file) {
+    // Create a remove button and add it to the preview
+    var removeButton = Dropzone.createElement('<div class="dz-remove" data-dz-remove><i class="fa-solid fa-circle-xmark" style="color: #d51a1a; cursor: pointer; position: absolute; top: 0; right: 0; font-size: 25px; z-index: 99;"></i></div>');
+    var previewElement = file.previewElement;
+    previewElement.appendChild(removeButton);
+
+    // Event handler for the remove button
+    removeButton.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.removeFile(file);
+    });
+});
+</script> 
+
+<!-- Thumbnail Image Load -->
+<script type="text/javascript">
+    function previewThumbnailImage(input) {
+        var preview = document.getElementById("thumbnail-preview");
+        var file = input.files[0];
+        
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = "block"; // Show the image preview
+                preview.style.width = "120px"; // Set the width to 120px
+                preview.style.height = "120px"; // Set the height to 120px
+                preview.style.borderRadius = "10px"; // Apply rounded corners (adjust the value as needed)
+    
+                // Create new Elements
+                var removeButton = document.createElement("div");
+                removeButton.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: #d51a1a; cursor: pointer;  position: relative; bottom: 120px; left: 100px; font-size: 25px; z-index: 99;"></i>';
+    
+                // Append the remove button to the container that holds the image
+                var imageContainer = document.getElementById("image-remove-button");
+                imageContainer.appendChild(removeButton);
+    
+                // Add an event listener to the remove button
+                removeButton.addEventListener("click", function() {
+                    // Remove the image
+                    preview.src = "";
+                    preview.style.display = "none";
+    
+                    // Remove the remove button
+                    imageContainer.removeChild(removeButton);
+                });
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+            preview.style.display = "none";
+        }
+    }
+    </script>
+    
+
+<!-- Select Category and Subcategory Dynamically -->
 <script type="text/javascript">
     $(document).ready(function() {
         $('select[name="product_category_id"]').on('change', function() {
@@ -230,11 +306,6 @@
                 product_short_description: {
                     required: true,
                 },
-                product_thambnail: {
-                    required: true,
-                    accept: "image/jpeg,image/png,image/gif",
-                    max: 2048,
-                },
                 product_price: {
                     required: true,
                 },
@@ -256,11 +327,6 @@
                 product_vendor_id: {
                     required: true,
                 },
-                'multi_image[]': {
-                    required: true,
-                    accept: "image/jpeg,image/png,image/gif",
-                    max: 2048,
-                }
             },
             messages: {
                 product_name: {
@@ -268,9 +334,6 @@
                 },
                 product_short_description:{
                     required: 'Please Add Short Description',
-                },
-                product_thambnail:{
-                    required: 'Please Add Thambnail Image',
                 },
                 product_price: {
                     required: 'Please Add Product Price',
@@ -292,11 +355,7 @@
                 },
                 product_vendor_id: {
                     required: 'Please Select Vendor',
-                },
-                'multi_image[]': {
-                    required: 'Please Add Multi Images',
-                    accept: 'Only image files are allowed',
-                }         
+                },        
             },
             errorElement : 'span', 
             errorPlacement: function (error, element) {
@@ -312,44 +371,9 @@
                 $(element).removeClass('is-invalid');
                 console.log('Unhighlighting:', element.name);
             },
-
         });
     });
 </script>
-
-<!-- Initialize FilePond for Multi-Images -->
-<script>
-    // Get a reference to the multi-image input element
-    const multiImageInputElement = document.getElementById('multi_image');
-
-    // Create a FilePond instance for multi-images
-    const multiImagePond = FilePond.create(multiImageInputElement);
-    FilePond.setOptions({
-    server: {
-        process: '/',
-        revert: '/',  
-        },
-    });
-</script>
-
-<!-- Initialize FilePond for Main Thumbnail Image -->
-<script>
-    // Get a reference to the main thumbnail image input element
-    const mainThumbnailInputElement = document.getElementById('thumbnail_image');
-
-    // Create a FilePond instance for the main thumbnail image
-    const mainThumbnailPond = FilePond.create(mainThumbnailInputElement);
-    FilePond.setOptions({
-    server: {
-        process: '/tmp_thumbnail_image',
-        revert: '/tmp_thumbnail_image_delete',
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            }  
-        },
-    });
-</script>
-
 
 <!-- Checking if the product name already exists in database -->
 <script type="text/javascript">

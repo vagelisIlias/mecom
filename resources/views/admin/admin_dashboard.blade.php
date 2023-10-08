@@ -32,9 +32,9 @@
 	<!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
-	<!-- FilePond Styles -->
-	<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
-
+	<!-- Drop Zone -->
+	<link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
+	
 	<title>Admin Dashboard</title>
 </head>
 
