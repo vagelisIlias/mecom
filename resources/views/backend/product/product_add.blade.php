@@ -39,8 +39,11 @@
 
                 {{-- Product Name --}}
                 <div class="form-group mb-3">
-                    <label for="inputProductTtitl" class="form-label">Product Name</label>
-                    <input type="text" name="product_name" class="form-control" placeholder="Add product title">
+                    <label for="inputProductName" class="form-label">Product Name</label>
+                    <input type="text" name="product_name" class="form-control" id="inputProductName" placeholder="Add product title">
+                    <div id="product-exists-message" class="text-warning" style="margin-top: 10px;"> 
+                        <!-- Preview The Name Existence here -->
+                    </div>
                 </div>
                 {{-- Short Description --}}
                 <div class="form-group mb-3">
@@ -262,6 +265,14 @@ dropzone.on("addedfile", function(file) {
                     // Remove the remove button
                     imageContainer.removeChild(removeButton);
                 });
+                // Trigger a SweetAlert message when files are successfully uploaded
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Image successfully loaded',
+                    icon: 'success',
+                    timer: 2000, 
+                    showConfirmButton: false
+                });
             };
             reader.readAsDataURL(file);
         } else {
@@ -269,9 +280,8 @@ dropzone.on("addedfile", function(file) {
             preview.style.display = "none";
         }
     }
-    </script>
+</script>
     
-
 <!-- Select Category and Subcategory Dynamically -->
 <script type="text/javascript">
     $(document).ready(function() {
