@@ -71,28 +71,22 @@ class ProductController extends Controller
                 'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
             ]);
 
-            // Retrieve the product's ID from the model instance
-            $product_id = $product->id;
-            
-            // Handle multiple images
             if ($request->hasFile('multi_image')) {
-               
-                $multi_image = $request->file('multi_image');
-               
-                foreach ($multi_image as $img) {
-                    $make_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
-                    $multi_image_path = 'upload/products/multi_image/' . $make_name;
-                    Image::make($img)->resize(800, 800)->save(public_path($multi_image_path));
+                $product_id = $product->id; // Move this inside the if statement
+                
+                foreach ($request->file('multi_image') as $multi_img) {
+                    $name_gen = hexdec(uniqid()) . '.' . $multi_img->getClientOriginalExtension();
+                    $multi_image_path = 'upload/products/multi_image/' . $name_gen;
+                    Image::make($multi_img)->resize(800, 800)->save(public_path($multi_image_path));
                     $save_multi_url = $multi_image_path;
-
-                    // Create a record in the database for each image
+                    
                     MultiImage::create([
                         'product_id' => $product_id,
                         'multi_image' => $save_multi_url,
                     ]);
                 }
             }
-            
+                    
             // Success message notification
             $not_succ = [
                 'message' => 'Product Created Successfully',
@@ -100,8 +94,6 @@ class ProductController extends Controller
             ];
     
           return redirect()->route('all.product')->with($not_succ);
-        
-            dd($request);
         } catch (\Exception $e){
             // Handle errors, log them, and return an error response
             $not_error = [
@@ -113,6 +105,7 @@ class ProductController extends Controller
         }
     }
 
+    
     // Create Method to Check Product Name Existence in Database
     public function checkProductExistence(Request $request)
     {

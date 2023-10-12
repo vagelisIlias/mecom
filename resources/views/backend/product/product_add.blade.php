@@ -5,8 +5,6 @@
 <!-- Image Reload JS & Validation min.JS Include jQuery and jQuery Validation -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-<!-- Drop Zone -->
-<script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>	
 
 <!-- Page Content -->
 <div class="page-content">
@@ -55,19 +53,23 @@
                     <label for="inputProductDescription" class="form-label">Long Description</label>
                     <textarea name="product_long_description" id="mytextarea" placeholder="Add your long text here..."></textarea>
                 </div>
-               {{-- Mutli Images --}}
-               <div class="dropzone" id="multi_image" name="multi_image[]">
-                    <div class="dz-default dz-message"><span>Drop your Multi Images here or Click to Upload</span></div>
+                {{-- Mutli Images --}}
+                <div class="form-group mb-3" style="border: 2px dashed #ccc; padding: 40px; text-align: center; position: relative;">
+                    <input name="multi_image[]" id="multi_image" class="form-control" type="file" multiple style="display: none;" onchange="previewMultiImage(this)">
+                    <label for="multi_image" style="font-size: 18px; font-weight: bold; cursor: pointer;">
+                        <i class="fas fa-upload"></i> Click Here to Upload Your Multi Images
+                    </label>
+                    <div id="multi-image-preview-container" style="display: flex; flex-wrap: wrap; margin-top: 15px;"></div>
                 </div>
-                <br>
-                <!-- Thumbnail Image Preview -->
-                <div class="form-group mb-3">
-                    <label for="product_thambnail" class="form-label">Thumbnail Image</label>
-                    <input name="product_thambnail" class="form-control" type="file" id="product_thambnail" onchange="previewThumbnailImage(this)">
-                </div>
-                <div id="image-remove-button">
-                    <!-- Image Preview -->
-                    <img id="thumbnail-preview" src="" alt="Thumbnail Preview" style="display: none;">
+                {{-- Thumbnail Image --}}
+                <div class="form-group mb-3" style="border: 2px dashed #ccc; padding: 40px; text-align: center; position: relative;">
+                    <input name="product_thambnail" id="product_thambnail" class="form-control" type="file" style="display: none;" onchange="previewThumbnailImage(this)">
+                    <label for="product_thambnail" style="font-size: 18px; font-weight: bold; cursor: pointer;">
+                        <i class="fas fa-upload"></i> Click Here to Upload Your Thambnail Image | Please Pick One Image
+                    </label>
+                    <div id="image-remove-button" style="margin-top: 15px;">
+                        <img id="thumbnail-preview" src="" alt="Thumbnail Preview" style="display: none;">
+                    </div>
                 </div>
             </div>
         </div>
@@ -195,44 +197,58 @@
                 </div><!--end card -->
                     </div><!-- Page Content -->
 
-<!-- Drop Zone -->
+<!-- Mutli Image -->
 <script type="text/javascript">
-    var dropzone = new Dropzone('#multi_image', {
-        url: "{{ route('store.product') }}", 
-        thumbnailWidth: 200,
-        maxFilesize: 2,
-        paramName: 'multi_image[]',
-        acceptedFiles: ".jpeg, .jpg, .png, .gif",
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        success: function (file, response) {
-            // Trigger a SweetAlert message when files are successfully uploaded
-            Swal.fire({
-                title: 'Success!',
-                text: 'Successfully Uploaded',
-                icon: 'success',
-                timer: 2000, // Set the message to auto-close after 2 seconds (adjust as needed)
-                showConfirmButton: false
-            });
+    function previewMultiImage(input) {
+        var imageContainer = document.getElementById("multi-image-preview-container");
+
+        for (var i = 0; i < input.files.length; i++) {
+            var file = input.files[i];
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = (function (file) {
+                    return function (e) {
+                        var preview = document.createElement("img");
+                        preview.src = e.target.result;
+                        preview.style.width = "120px";
+                        preview.style.height = "120px";
+                        preview.style.borderRadius = "10px";
+                   
+                        var removeButton = document.createElement("button");
+                        removeButton.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: #d51a1a; cursor: pointer; position: relative; bottom: 60px; right: 30px; font-size: 25px; z-index: 1;"></i>';
+                        removeButton.style.backgroundColor = "transparent";
+                        removeButton.style.border = "none"; 
+                        removeButton.style.outline = "none"; 
+                        removeButton.style.cursor = "pointer";
+                        
+                        var marginBetweenImages = "10px";
+                        preview.style.marginRight = marginBetweenImages;
+                        preview.style.marginBottom = marginBetweenImages;
+
+                        removeButton.addEventListener("click", function () {
+                            // Remove the image and the remove button
+                            imageContainer.removeChild(preview);
+                            imageContainer.removeChild(removeButton);
+                        });
+
+                        imageContainer.appendChild(preview);
+                        imageContainer.appendChild(removeButton);
+                    };
+                })(file);
+                reader.readAsDataURL(file);
+            }
         }
-    });
-
-    // Event handler for when a file is added
-    dropzone.on("addedfile", function(file) {
-       
-        // Create a remove button and add it to the preview
-        var removeButton = Dropzone.createElement('<div class="dz-remove" data-dz-remove><i class="fa-solid fa-circle-xmark" style="color: #d51a1a; cursor: pointer; position: absolute; top: 0; right: 0; font-size: 25px; z-index: 99;"></i></div>');
-        var previewElement = file.previewElement;
-        previewElement.appendChild(removeButton);
-
-        // Event handler for the remove button
-        removeButton.addEventListener("click", function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            dropzone.removeFile(file);
+        // Trigger a SweetAlert message when files are successfully uploaded
+        Swal.fire({
+            title: 'Success!',
+            text: 'Images successfully loaded',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
         });
-    });
+    }
 </script>
 
 <!-- Thumbnail Image Load -->
@@ -245,14 +261,14 @@
             var reader = new FileReader();
             reader.onload = function(e) {
                 preview.src = e.target.result;
-                preview.style.display = "block"; // Show the image preview
-                preview.style.width = "120px"; // Set the width to 120px
-                preview.style.height = "120px"; // Set the height to 120px
-                preview.style.borderRadius = "10px"; // Apply rounded corners (adjust the value as needed)
+                preview.style.display = "block"; 
+                preview.style.width = "120px"; 
+                preview.style.height = "120px"; 
+                preview.style.borderRadius = "10px"; 
     
                 // Create new Elements
                 var removeButton = document.createElement("div");
-                removeButton.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: #d51a1a; cursor: pointer;  position: relative; bottom: 120px; left: 100px; font-size: 25px; z-index: 99;"></i>';
+                // removeButton.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: #d51a1a; cursor: pointer;  position: absolute; bottom: 140px; left: 140px; font-size: 25px; z-index: 1;"></i>';
     
                 // Append the remove button to the container that holds the image
                 var imageContainer = document.getElementById("image-remove-button");

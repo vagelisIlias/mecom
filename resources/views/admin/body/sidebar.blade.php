@@ -42,7 +42,6 @@
                 </li>
                 <li> <a href="{{ route('add.category') }}"><i class="bx bx-right-arrow-alt"></i>Add Category</a>
                 </li>
-                </li>
             </ul>
         </li>
         <li>
@@ -56,7 +55,6 @@
                 </li>
                 <li> <a href="{{ route('add.subcategory') }}"><i class="bx bx-right-arrow-alt"></i>Add SubCategory</a>
                 </li>
-                </li>
             </ul>
         </li>
         <li>
@@ -69,7 +67,6 @@
                 <li> <a href="{{ route('all.product') }}"><i class="bx bx-right-arrow-alt"></i>All Product</a>
                 </li>
                 <li> <a href="{{ route('add.product') }}"><i class="bx bx-right-arrow-alt"></i>Add Product</a>
-                </li>
                 </li>
             </ul>
         </li> 
