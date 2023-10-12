@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Models\SubCategory;
 use App\Models\Category;
@@ -13,9 +12,6 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\MultiImage;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-
 
 class ProductController extends Controller
 {
@@ -42,72 +38,78 @@ class ProductController extends Controller
     // Store Product
     public function storeProduct(Request $request)
     {   
-        if ($request->hasFile('product_thambnail')) {
-            try {
+        try {
+            if ($request->hasFile('product_thambnail')) {
                 $image = $request->file('product_thambnail');
                 $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
                 $tham_image_path = 'upload/products/thambnail/' . $name_gen;
                 Image::make($image)->resize(800, 800)->save(public_path($tham_image_path));
                 $save_url = $tham_image_path;
-        
-                // Create Product
-                $product = Product::create([
-                    'product_name' => ucwords($request->product_name),
-                    'product_short_description' => ucfirst($request->product_short_description),
-                    'product_long_description' => $request->product_long_description,
-                    'product_thambnail' => $save_url,
-                    'product_price' => $request->product_price,
-                    'product_discount' => $request->product_discount,
-                    'product_code' => $request->product_code,
-                    'product_qty' => $request->product_qty,
-                    'product_brand_id' => $request->product_brand_id,
-                    'product_category_id' => $request->product_category_id,
-                    'product_subcategory_id' => $request->product_subcategory_id,
-                    'product_vendor_id' => $request->product_vendor_id,
-                    'product_color' => $request->product_color,
-                    'product_size' => $request->product_size,
-                    'product_tags' => $request->product_tags,
-                    'product_hot_deals' => $request->product_hot_deals,
-                    'product_featured' => $request->product_featured,
-                    'product_special_offer' => $request->product_special_offer,
-                    'product_special_deals' => $request->product_special_deals,
-                    'product_status' => 'active',
-                    'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
-                ]);
+            }
+            // Create Product
+            $product = Product::create([
+                'product_name' => ucwords($request->product_name),
+                'product_short_description' => ucfirst($request->product_short_description),
+                'product_long_description' => $request->product_long_description,
+                'product_thambnail' => $save_url,
+                'product_price' => $request->product_price,
+                'product_discount' => $request->product_discount,
+                'product_code' => $request->product_code,
+                'product_qty' => $request->product_qty,
+                'product_brand_id' => $request->product_brand_id,
+                'product_category_id' => $request->product_category_id,
+                'product_subcategory_id' => $request->product_subcategory_id,
+                'product_vendor_id' => $request->product_vendor_id,
+                'product_color' => $request->product_color,
+                'product_size' => $request->product_size,
+                'product_tags' => $request->product_tags,
+                'product_hot_deals' => $request->product_hot_deals,
+                'product_featured' => $request->product_featured,
+                'product_special_offer' => $request->product_special_offer,
+                'product_special_deals' => $request->product_special_deals,
+                'product_status' => 'active',
+                'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
+            ]);
 
-                // Retrieve the product's ID from the model instance
-                $product_id = $product->id;
-        
-                // Multiple Images
-                $umlti_images = $request->file('multi_image');
-                foreach($umlti_images as $img) {
+            // Retrieve the product's ID from the model instance
+            $product_id = $product->id;
+            
+            // Handle multiple images
+            if ($request->hasFile('multi_image')) {
+               
+                $multi_image = $request->file('multi_image');
+               
+                foreach ($multi_image as $img) {
                     $make_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
                     $multi_image_path = 'upload/products/multi_image/' . $make_name;
                     Image::make($img)->resize(800, 800)->save(public_path($multi_image_path));
                     $save_multi_url = $multi_image_path;
-        
+
+                    // Create a record in the database for each image
                     MultiImage::create([
                         'product_id' => $product_id,
                         'multi_image' => $save_multi_url,
                     ]);
                 }
-        
-                // Success message notification
-                $not_succ = [
-                    'message' => 'Product Created Successfully',
-                    'alert-type' => 'success',
-                ];
-        
-                return redirect()->route('all.product')->with($not_succ);
-            } catch (\Exception $e){
-                // Handle errors, log them, and return an error response
-                $not_error = [
-                    'message' => 'An error occurred while saving the product ' . $e->getMessage(),
-                    'alert-type' => 'error',
-                ];
-        
-                return redirect()->back()->with($not_error);
             }
+            
+            // Success message notification
+            $not_succ = [
+                'message' => 'Product Created Successfully',
+                'alert-type' => 'success',
+            ];
+    
+          return redirect()->route('all.product')->with($not_succ);
+        
+            dd($request);
+        } catch (\Exception $e){
+            // Handle errors, log them, and return an error response
+            $not_error = [
+                'message' => 'An error occurred while saving the product ' . $e->getMessage(),
+                'alert-type' => 'error',
+            ];
+    
+            return redirect()->back()->with($not_error);
         }
     }
 

@@ -55,14 +55,15 @@
                     <label for="inputProductDescription" class="form-label">Long Description</label>
                     <textarea name="product_long_description" id="mytextarea" placeholder="Add your long text here..."></textarea>
                 </div>
-                {{-- Mutli Images --}}
-                <div class="form-group dropzone" id="multi_image" name="multi_image[]">
+               {{-- Mutli Images --}}
+               <div class="dropzone" id="multi_image" name="multi_image[]">
                     <div class="dz-default dz-message"><span>Drop your Multi Images here or Click to Upload</span></div>
-                </div><br>
+                </div>
+                <br>
                 <!-- Thumbnail Image Preview -->
                 <div class="form-group mb-3">
-                    <label for="product_thumbnail" class="form-label">Thumbnail Image</label>
-                    <input name="product_thumbnail" class="form-control" type="file" id="product_thumbnail" onchange="previewThumbnailImage(this)">
+                    <label for="product_thambnail" class="form-label">Thumbnail Image</label>
+                    <input name="product_thambnail" class="form-control" type="file" id="product_thambnail" onchange="previewThumbnailImage(this)">
                 </div>
                 <div id="image-remove-button">
                     <!-- Image Preview -->
@@ -200,38 +201,39 @@
         url: "{{ route('store.product') }}", 
         thumbnailWidth: 200,
         maxFilesize: 2,
-        paramName: 'multi_image',
+        paramName: 'multi_image[]',
         acceptedFiles: ".jpeg, .jpg, .png, .gif",
         headers: {
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
         success: function (file, response) {
-        // Trigger a SweetAlert message when files are successfully uploaded
-        Swal.fire({
-            title: 'Success!',
-            text: 'Successfully Uploaded',
-            icon: 'success',
-            timer: 2000, // Set the message to auto-close after 2 seconds (adjust as needed)
-            showConfirmButton: false
+            // Trigger a SweetAlert message when files are successfully uploaded
+            Swal.fire({
+                title: 'Success!',
+                text: 'Successfully Uploaded',
+                icon: 'success',
+                timer: 2000, // Set the message to auto-close after 2 seconds (adjust as needed)
+                showConfirmButton: false
             });
         }
     });
 
-// Event handler for when a file is added
-dropzone.on("addedfile", function(file) {
-    // Create a remove button and add it to the preview
-    var removeButton = Dropzone.createElement('<div class="dz-remove" data-dz-remove><i class="fa-solid fa-circle-xmark" style="color: #d51a1a; cursor: pointer; position: absolute; top: 0; right: 0; font-size: 25px; z-index: 99;"></i></div>');
-    var previewElement = file.previewElement;
-    previewElement.appendChild(removeButton);
+    // Event handler for when a file is added
+    dropzone.on("addedfile", function(file) {
+       
+        // Create a remove button and add it to the preview
+        var removeButton = Dropzone.createElement('<div class="dz-remove" data-dz-remove><i class="fa-solid fa-circle-xmark" style="color: #d51a1a; cursor: pointer; position: absolute; top: 0; right: 0; font-size: 25px; z-index: 99;"></i></div>');
+        var previewElement = file.previewElement;
+        previewElement.appendChild(removeButton);
 
-    // Event handler for the remove button
-    removeButton.addEventListener("click", function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        dropzone.removeFile(file);
+        // Event handler for the remove button
+        removeButton.addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.removeFile(file);
+        });
     });
-});
-</script> 
+</script>
 
 <!-- Thumbnail Image Load -->
 <script type="text/javascript">
@@ -316,6 +318,9 @@ dropzone.on("addedfile", function(file) {
                 product_short_description: {
                     required: true,
                 },
+                product_thambnail: {
+                    required: true,
+                },
                 product_price: {
                     required: true,
                 },
@@ -365,7 +370,10 @@ dropzone.on("addedfile", function(file) {
                 },
                 product_vendor_id: {
                     required: 'Please Select Vendor',
-                },        
+                },
+                product_thambnail: {
+                    required: 'Please Add Image',
+                },      
             },
             errorElement : 'span', 
             errorPlacement: function (error, element) {
