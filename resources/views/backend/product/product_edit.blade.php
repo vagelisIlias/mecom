@@ -31,7 +31,7 @@
                 @csrf
                 <input type="hidden" name="id" value="{{ $product->id }}">
                 <input type="hidden" name="old_thambnail" value="{{ $product->product_thambnail }}">
-
+                
                 <div class="form-body mt-4">
                 <div class="row">
                 <div class="col-lg-8">
@@ -56,15 +56,40 @@
                     <textarea name="product_long_description" id="mytextarea" placeholder="Add your long text here...">{!! $product->product_long_description !!}</textarea>
                 </div>
                 {{-- Mutli Images --}}
-              
-                {{-- Thambnail --}}
-                <div class="form-group mb-3">
-                    <label for="inputProductDescription" class="form-label">Main Thumbnail Image</label>
-                    <input name="product_thambnail" class="form-control" type="file" id="main-thumbnail-input" onchange="previewMainThumbnail(this)">
-                        <div id="main-thumbnail-preview" style="margin-top: 8px;">
-                            <img src="{{ asset($product->product_thambnail) }}" alt="" style="width: 100px; height: 100px; margin-top: 8px;">
-                        </div>
-                    <small class="text-muted">Note: The image must be in JPG, JPEG, PNG, GIF, BMP, or WebP format with a total size of less than 2MB</small>
+                <div class="form-group mb-3" style="border: 2px dashed #ccc; padding: 40px; text-align: center; position: relative;">
+                    <input name="multi_image[]" id="multi_image" class="form-control" type="file" multiple style="display: none;" onchange="previewMultiImage(this)">
+                    <label for="multi_image" style="font-size: 18px; font-weight: bold; cursor: pointer;">
+                        <i class="fas fa-upload"></i> Click Here to Upload Your New Images
+                    </label>
+                    <div id="multi-image-preview-container" style="display: flex; flex-wrap: wrap; margin-top: 15px; width: 100%; margin: 0 auto;">
+                        @foreach($mutliImages as $img)
+                            <div class="image-wrapper" style="display: flex; align-items: center; margin: 10px;">
+                                <img src="{{ asset($img->multi_image) }}" alt="Thumbnail Image" style="width: 150px; height: 150px; border-radius: 15px;">
+                                <div class="image-actions" style=" display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
+                                    <label for="file-upload" style="cursor: pointer;" title="Upload Image">
+                                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 20px; color: #113892;"></i>
+                                        <input id="file-upload" type="file" id="new_multi_image" name="new_multi_image[{{ $img->id }}]" style="display: none;" />
+                                    </label>
+                                    <a href="{{ route('delete.multi.image', $img->id) }}" id="delete" style="font-size: 22px; text-decoration: none; color: #ca4983;" title="Delete Image">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <small>Note: Hit the <i class="fa-solid fa-cloud-arrow-up" style="color: #113892;"></i> to upload a new image, hit the <i class="fa-solid fa-trash" style="color: #ca4983;"></i> to delete an image, hit the Update Product button to save.</small> 
+                </div>
+                {{-- Thumbnail Image --}}
+                <div class="form-group mb-3" style="border: 2px dashed #ccc; padding: 40px; text-align: center; position: relative;">
+                    <input name="product_thambnail" id="product_thambnail" class="form-control" type="file" style="display: none;" onchange="previewThumbnailImage(this)">
+                    <label for="product_thambnail" style="font-size: 18px; font-weight: bold; cursor: pointer;">
+                        <i class="fas fa-upload"></i> Click Here to Upload Your Thambnail Image
+                    </label>
+                    <div id="image-remove-button" style="display: flex; flex-wrap: wrap; margin-top: 15px; text-align: left; position: relative;">
+                        <img src="{{ asset($product->product_thambnail) }}" alt="Thumbnail Image" style="width: 120px; height: 120px; top: 0; left: 0; border-radius: 15px;" >
+                        <img id="thumbnail-preview" alt="Thumbnail Preview" style="width: 120px; height: 120px; display: none; top: 0; left: 0;">
+                    </div> 
+                    <small>Note: The new image will be replaced once you hit the Update Product</small>                   
                 </div>
             </div>
         </div>
@@ -193,6 +218,101 @@
             </form><!-- end form -->
                 </div><!--end card -->
                     </div><!-- Page Content -->
+
+<!-- Mutli Image -->
+<script type="text/javascript">
+    function previewMultiImage(input) {
+        var imageContainer = document.getElementById("multi-image-preview-container");
+        for (var i = 0; i < input.files.length; i++) {
+            var file = input.files[i];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = (function (file) {
+                    return function (e) {
+                        var preview = document.createElement("img");
+                        preview.src = e.target.result;
+                        preview.style.width = "120px";
+                        preview.style.height = "120px";
+                        preview.style.borderRadius = "10px";
+                        preview.style.marginTop = "15px";
+                   
+                        var removeButton = document.createElement("button");
+                        removeButton.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: #d51a1a; cursor: pointer; position: relative; top: 5px; right: 5px; font-size: 25px; z-index: 1;"></i>';
+                        removeButton.style.backgroundColor = "transparent";
+                        removeButton.style.border = "none";
+                        removeButton.style.outline = "none";
+                        removeButton.style.cursor = "pointer";
+
+                        // Adjust the top and right values according to your layout
+                        removeButton.style.position = "relative";
+                        removeButton.style.bottom = "50px";
+                        removeButton.style.right = "15px";
+                
+                        removeButton.addEventListener("click", function () {
+                            // Remove the image and the remove button
+                            imageContainer.removeChild(preview);
+                            imageContainer.removeChild(removeButton);
+                        });
+
+                        imageContainer.appendChild(preview);
+                        imageContainer.appendChild(removeButton);
+                    };
+                })(file);
+                reader.readAsDataURL(file);
+            }
+        }
+        // Trigger a SweetAlert message when files are successfully uploaded
+        Swal.fire({
+            title: 'Success!',
+            text: 'Images successfully loaded',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    }
+</script>
+
+<!-- Thumbnail Image Load -->
+<script type="text/javascript">
+    function previewThumbnailImage(input) {
+        var preview = document.getElementById("thumbnail-preview");
+        var file = input.files[0];
+        
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = "block"; 
+                preview.style.width = "120px"; 
+                preview.style.height = "120px"; 
+                preview.style.borderRadius = "15px"; 
+                preview.style.marginLeft = "10px";
+    
+                // Add an event listener to the remove button
+                removeButton.addEventListener("click", function() {
+                    // Remove the image
+                    preview.src = "";
+                    preview.style.display = "none";
+    
+                    // Remove the remove button
+                    imageContainer.removeChild(removeButton);
+                });
+                // Trigger a SweetAlert message when files are successfully uploaded
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Image successfully loaded',
+                    icon: 'success',
+                    timer: 2000, 
+                    showConfirmButton: false
+                });
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+            preview.style.display = "none";
+        }
+    }
+</script>
 
 <!-- Select category and subcategory dynamically -->
 <script type="text/javascript">

@@ -214,7 +214,7 @@
                         preview.src = e.target.result;
                         preview.style.width = "120px";
                         preview.style.height = "120px";
-                        preview.style.borderRadius = "10px";
+                        preview.style.borderRadius = "15px";
                    
                         var removeButton = document.createElement("button");
                         removeButton.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: #d51a1a; cursor: pointer; position: relative; bottom: 60px; right: 30px; font-size: 25px; z-index: 1;"></i>';
@@ -264,7 +264,7 @@
                 preview.style.display = "block"; 
                 preview.style.width = "120px"; 
                 preview.style.height = "120px"; 
-                preview.style.borderRadius = "10px"; 
+                preview.style.borderRadius = "15px"; 
     
                 // Create new Elements
                 var removeButton = document.createElement("div");

@@ -72,7 +72,7 @@ class ProductController extends Controller
             ]);
 
             if ($request->hasFile('multi_image')) {
-                $product_id = $product->id; // Move this inside the if statement
+                $product_id = $product->id; 
                 
                 foreach ($request->file('multi_image') as $multi_img) {
                     $name_gen = hexdec(uniqid()) . '.' . $multi_img->getClientOriginalExtension();
@@ -159,7 +159,7 @@ class ProductController extends Controller
     // Update Product
     public function updateProduct(Request $request)
     {
-        try{
+        try {
             // Update the product using the validated data
             $product_id = $request->id;
             $old_thambnail = $request->old_thambnail;
@@ -244,6 +244,42 @@ class ProductController extends Controller
             //     }
             // }
 
+            // $new_multi_image = $request->new_multi_image;
+
+            // // Validate the image
+            // $request->validate([
+            //     'new_multi_image' => 'nullable|image|mimes:png,jpeg,jpg|max:2048',
+            // ],
+            // [
+            //     'new_multi_image.image' => 'The image you are trying to upload is not valid or the format is not supported. Make sure the maximum file size is 2MB',
+            //     'new_multi_image.max' => 'The image size must be less than 2MB, please resize the image and try again',
+            // ]);
+
+            // // Handle the uploaded images
+            // foreach ($new_multi_image as $id => $img) {
+            //     $imgUn = MultiImage::findOrFail($id);
+            //     file_exists($imgUn->mutli_image) ? unlink($imgUn->mutli_image) : '';
+            //     $imageName = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
+            //     // Public path
+            //     $imagePath = 'upload/products/multi_image/' . $imageName;
+
+            //     // Resize and save the image
+            //     Image::make($img)->resize(800, 800)->save(public_path($imagePath));
+
+            
+            //     // Update the multi-image record with the new image path
+            //     MultiImage::where("id", $id)->update([
+            //         'multi_image' => $imagePath,
+            //     ]);
+            // }
+            // // Success message notification
+            // $notification = [
+            //     'message' => 'Multi Image Replaced Successfully',
+            //     'alert-type' => 'success',
+            // ];
+
+            // return redirect()->back()->with($notification);
+
             //Set the success message
             $message = $request->hasFile('product_thambnail')
             ? 'Product with Image Updated Successfully'
@@ -257,8 +293,6 @@ class ProductController extends Controller
             ];
 
             return redirect()->route('all.product')->with($notification);
-
-            return redirect()->route('all.product');
         } catch (\Exception $e) {
             // Handle errors, log them, and return an error response
             $not_error = [
@@ -268,5 +302,33 @@ class ProductController extends Controller
 
             return redirect()->back()->with($not_error);
         }
+    }
+    
+    // Delete Multi Images
+    public function deleteMultiImage($id)
+    {
+        try {
+            // Find or fail the id
+            $deleteMultiImage = MultiImage::findOrFail($id);
+            $img = $deleteMultiImage->multi_image;
+            unlink($img);
+
+            // Delete the Thambnail with specific id
+            $deleteMultiImage->delete();
+
+            // Success message notification
+            $not_succ = [
+                'message' => 'Multi Image Deleted Successfully',
+                'alert-type' => 'success',
+            ];
+        } catch (\Exception $e) {
+            // Error message notification
+            $not_error = [
+                'message' => 'Error deleting thambnail image' . $e->getMessage(),
+                'alert-type' => 'error',
+            ];
+            return redirect()->back()->with($not_error);
+        }
+        return redirect()->back()->with($not_succ);
     }
 }

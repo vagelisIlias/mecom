@@ -130,7 +130,7 @@ class SubCategoryController extends Controller
         try {
             // Find or fail the id
             $deleteSubCategory = SubCategory::findOrFail($id);
-
+          
             // Delete the subcategory with specific id
             $deleteSubCategory->delete();
 
