@@ -31,6 +31,9 @@
                 @csrf
                 <input type="hidden" name="id" value="{{ $product->id }}">
                 <input type="hidden" name="old_thambnail" value="{{ $product->product_thambnail }}">
+                @foreach($mutliImages as $image)
+                    <input type="hidden" name="multi_id[]" value="{{ $image->id }}">
+                @endforeach
                 
                 <div class="form-body mt-4">
                 <div class="row">
@@ -68,7 +71,7 @@
                                 <div class="image-actions" style=" display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
                                     <label for="file-upload" style="cursor: pointer;" title="Upload Image">
                                         <i class="fa-solid fa-cloud-arrow-up" style="font-size: 20px; color: #113892;"></i>
-                                        <input id="file-upload" type="file" id="new_multi_image" name="new_multi_image[{{ $img->id }}]" style="display: none;" />
+                                        <input id="file-upload" type="file" name="new_multi_image[{{ $img->id }}]" style="display: none;" />
                                     </label>
                                     <a href="{{ route('delete.multi.image', $img->id) }}" id="delete" style="font-size: 22px; text-decoration: none; color: #ca4983;" title="Delete Image">
                                         <i class="fa-solid fa-trash"></i>
@@ -77,7 +80,7 @@
                             </div>
                         @endforeach
                     </div>
-                    <small>Note: Hit the <i class="fa-solid fa-cloud-arrow-up" style="color: #113892;"></i> to upload a new image, hit the <i class="fa-solid fa-trash" style="color: #ca4983;"></i> to delete an image, hit the Update Product button to save.</small> 
+                    <small>Note: Hit the <i class="fa-solid fa-cloud-arrow-up" style="color: #113892;"></i> to replace existing image, hit the <i class="fa-solid fa-trash" style="color: #ca4983;"></i> to delete an existing image, hit the "Update Product" to save all changes</small> 
                 </div>
                 {{-- Thumbnail Image --}}
                 <div class="form-group mb-3" style="border: 2px dashed #ccc; padding: 40px; text-align: center; position: relative;">
@@ -277,32 +280,23 @@
     function previewThumbnailImage(input) {
         var preview = document.getElementById("thumbnail-preview");
         var file = input.files[0];
-        
+
         if (file) {
             var reader = new FileReader();
             reader.onload = function(e) {
                 preview.src = e.target.result;
-                preview.style.display = "block"; 
-                preview.style.width = "120px"; 
-                preview.style.height = "120px"; 
-                preview.style.borderRadius = "15px"; 
+                preview.style.display = "block";
+                preview.style.width = "120px";
+                preview.style.height = "120px";
+                preview.style.borderRadius = "15px";
                 preview.style.marginLeft = "10px";
-    
-                // Add an event listener to the remove button
-                removeButton.addEventListener("click", function() {
-                    // Remove the image
-                    preview.src = "";
-                    preview.style.display = "none";
-    
-                    // Remove the remove button
-                    imageContainer.removeChild(removeButton);
-                });
+
                 // Trigger a SweetAlert message when files are successfully uploaded
                 Swal.fire({
                     title: 'Success!',
-                    text: 'Image successfully loaded',
+                    text: 'Thambnail Image successfully loaded',
                     icon: 'success',
-                    timer: 2000, 
+                    timer: 2000,
                     showConfirmButton: false
                 });
             };
@@ -416,36 +410,6 @@
 
         });
     });
-</script>
-
-<!-- Multi-Image Load -->
-
-<!-- Thumbnail Load Image -->
-<script type="text/javascript">
-    // Function to handle main thumbnail file input change
-    function previewMainThumbnail(input) {
-        const previewContainer = document.getElementById('main-thumbnail-preview');
-        const file = input.files[0];
-
-        // Clear existing preview
-        previewContainer.innerHTML = '';
-
-        if (file) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = 'main-thumbnail-image';
-                img.width = 120; // Set the width
-                img.height = 120; // Set the height
-
-                previewContainer.appendChild(img);
-            };
-
-            reader.readAsDataURL(file);
-        }
-    }
 </script>
 
 <!-- Checking if the product name already exists in database -->

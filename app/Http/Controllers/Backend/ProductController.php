@@ -71,6 +71,14 @@ class ProductController extends Controller
                 'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
             ]);
 
+            // Validate the multi image
+            $request->validate([
+                "multi_image.*" => "nullable|image|mimes:png,jpeg,jpg|max:2048",
+            ], [
+                "multi_image.*.image" => 'One or more multi images you are trying to upload are not valid or the format is not supported. Make sure the maximum file size is 2MB',
+                "multi_image.*.max" => 'One or more multi images size must be less than 2MB, please resize the image and try again',
+            ]);
+
             if ($request->hasFile('multi_image')) {
                 $product_id = $product->id; 
                 
@@ -173,21 +181,26 @@ class ProductController extends Controller
                 'product_thambnail.max' => 'The image size must be less than 2MB, please resize the image and try again',
             ]);
 
-            // Checking the image existance and creating path
+             // Checking the image existence and creating path
             if ($request->hasFile('product_thambnail')) {
                 $image = $request->file('product_thambnail');
                 $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
                 $image_path = 'upload/products/thambnail/' . $name_gen;
-
+                if (file_exists($old_thambnail)) {
+                    unlink($old_thambnail);
+                }
                 // Resize and save the image
                 Image::make($image)->resize(800, 800)
-                                ->save(public_path($image_path));
+                    ->save(public_path($image_path));
 
-                $save_url = file_exists($old_thambnail) ? (unlink($old_thambnail) ? $image_path : $old_thambnail) : $image_path;    
-            };
-           
+                $save_url = $image_path;
+            } else {
+                $save_url = $old_thambnail;
+            }
+
+            $product = Product::findOrFail($product_id);
             // Create Product
-            Product::findOrFail($product_id)->update([
+            $product->update([
                 'product_name' => ucwords($request->product_name),
                 'product_short_description' => ucfirst($request->product_short_description),
                 'product_long_description' => $request->product_long_description,
@@ -209,41 +222,30 @@ class ProductController extends Controller
                 'product_special_deals' => $request->product_special_deals,
                 'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
             ]);
+            
+            // Validate the multi image
+            $request->validate([
+                "multi_image.*" => "nullable|image|mimes:png,jpeg,jpg|max:2048",
+            ], [
+                "multi_image.*.image" => 'One or more multi images you are trying to upload are not valid or the format is not supported. Make sure the maximum file size is 2MB',
+                "multi_image.*.max" => 'One or more multi images size must be less than 2MB, please resize the image and try again',
+            ]);
 
-            // // Validate the image
-            // $request->validate([
-            //     "multi_image.*" => "nullable|image|mimes:png,jpeg,jpg|max:2048",
-            // ], [
-            //     "multi_image.*.image" => 'One or more multi images you are trying to upload are not valid or the format is not supported. Make sure the maximum file size is 2MB',
-            //     "multi_image.*.max" => 'One or more multi images size must be less than 2MB, please resize the image and try again',
-            // ]);
-
-            // // Requested the multi images
-            // $multi_images = $request->multi_image;
-
-            // foreach($multi_images as $id => $multi_img) 
-            // {   
-            //     $imgFindOrFail = MultiImage::findOrFail($id);
-
-            //     // Checking the image existance and creating path
-            //     if ($multi_img) {
-            //         // Generate a unique file name
-            //         $make_name = hexdec(uniqid()) . '.' . $multi_img->getClientOriginalExtension();
-            //         $multi_image_path = 'upload/products/multi_image/' . $make_name;
-
-            //         // Resize and save the image
-            //         Image::make($multi_img)->resize(800, 800)
-            //                     ->save(public_path($multi_image_path));
-
-            //         // Checking if the image exists and unlink it
-            //         $save_multi_url = file_exists($imgFindOrFail->multi_image) ? (unlink($imgFindOrFail->multi_image) ? $multi_image_path : $multi_img) : $multi_img;
+            if ($request->hasFile('multi_image')) {
+                $product_id = $product->id; 
+                
+                foreach ($request->file('multi_image') as $multi_img) {
+                    $name_gen = hexdec(uniqid()) . '.' . $multi_img->getClientOriginalExtension();
+                    $multi_image_path = 'upload/products/multi_image/' . $name_gen;
+                    Image::make($multi_img)->resize(800, 800)->save(public_path($multi_image_path));
+                    $save_multi_url = $multi_image_path;
                     
-            //         $imgFindOrFail->where("id", $id)->update([
-            //             'multi_image' => $save_multi_url,
-            //         ]);
-            //     }
-            // }
-
+                    MultiImage::create([
+                        'product_id' => $product_id,
+                        'multi_image' => $save_multi_url,
+                    ]);
+                }
+            }
             // $new_multi_image = $request->new_multi_image;
 
             // // Validate the image
@@ -291,8 +293,9 @@ class ProductController extends Controller
                 'message' => $message,
                 'alert-type' => $alertType,
             ];
-
             return redirect()->route('all.product')->with($notification);
+            
+
         } catch (\Exception $e) {
             // Handle errors, log them, and return an error response
             $not_error = [
@@ -303,7 +306,7 @@ class ProductController extends Controller
             return redirect()->back()->with($not_error);
         }
     }
-    
+
     // Delete Multi Images
     public function deleteMultiImage($id)
     {
