@@ -31,10 +31,7 @@
                 @csrf
                 <input type="hidden" name="id" value="{{ $product->id }}">
                 <input type="hidden" name="old_thambnail" value="{{ $product->product_thambnail }}">
-                @foreach($mutliImages as $image)
-                    <input type="hidden" name="multi_id[]" value="{{ $image->id }}">
-                @endforeach
-                
+              
                 <div class="form-body mt-4">
                 <div class="row">
                 <div class="col-lg-8">
@@ -67,12 +64,8 @@
                     <div id="multi-image-preview-container" style="display: flex; flex-wrap: wrap; margin-top: 15px; width: 100%; margin: 0 auto;">
                         @foreach($mutliImages as $img)
                             <div class="image-wrapper" style="display: flex; align-items: center; margin: 10px;">
-                                <img src="{{ asset($img->multi_image) }}" alt="Thumbnail Image" style="width: 150px; height: 150px; border-radius: 15px;">
+                                <img src="{{ asset($img->multi_image) }}" alt="Thumbnail Image" style="width: 130px; height: 130px; border-radius: 15px;">
                                 <div class="image-actions" style=" display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
-                                    <label for="file-upload" style="cursor: pointer;" title="Upload Image">
-                                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 20px; color: #113892;"></i>
-                                        <input id="file-upload" type="file" name="new_multi_image[{{ $img->id }}]" style="display: none;" />
-                                    </label>
                                     <a href="{{ route('delete.multi.image', $img->id) }}" id="delete" style="font-size: 22px; text-decoration: none; color: #ca4983;" title="Delete Image">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
@@ -80,7 +73,7 @@
                             </div>
                         @endforeach
                     </div>
-                    <small>Note: Hit the <i class="fa-solid fa-cloud-arrow-up" style="color: #113892;"></i> to replace existing image, hit the <i class="fa-solid fa-trash" style="color: #ca4983;"></i> to delete an existing image, hit the "Update Product" to save all changes</small> 
+                    <small sytle="margin-topL 10px;">Note: hit the <i class="fa-solid fa-trash" style="color: #ca4983;"></i> to delete an existing image, hit the "Update Product" to save all changes</small> 
                 </div>
                 {{-- Thumbnail Image --}}
                 <div class="form-group mb-3" style="border: 2px dashed #ccc; padding: 40px; text-align: center; position: relative;">
@@ -234,8 +227,8 @@
                     return function (e) {
                         var preview = document.createElement("img");
                         preview.src = e.target.result;
-                        preview.style.width = "120px";
-                        preview.style.height = "120px";
+                        preview.style.width = "130px";
+                        preview.style.height = "130px";
                         preview.style.borderRadius = "10px";
                         preview.style.marginTop = "15px";
                    
