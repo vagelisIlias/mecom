@@ -167,7 +167,7 @@ class ProductController extends Controller
     public function updateProduct(Request $request)
     {
         try {
-            // Update the product using id and old old_thambnail decalred as hidden parameter
+            // Update the product using id and old thumbnail declared as a hidden parameter
             $product_id = $request->id;
             $old_thambnail = $request->old_thambnail;
 
@@ -180,7 +180,7 @@ class ProductController extends Controller
                 'product_thambnail.max' => 'The image size must be less than 2MB, please resize the image and try again',
             ]);
 
-             // Checking the image existence and creating path
+            // Checking the image existence and creating path
             if ($request->hasFile('product_thambnail')) {
                 $image = $request->file('product_thambnail');
                 $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
@@ -282,7 +282,7 @@ class ProductController extends Controller
             $img = $deleteMultiImage->multi_image;
             unlink($img);
 
-            // Delete the Thambnail with specific id
+            // Delete the Thambnail 
             $deleteMultiImage->delete();
 
             // Success message notification
@@ -290,6 +290,7 @@ class ProductController extends Controller
                 'message' => 'Image Deleted Successfully',
                 'alert-type' => 'success',
             ];
+            return redirect()->back()->with($not_succ);
         } catch (\Exception $e) {
             // Error message notification
             $not_error = [
@@ -298,6 +299,79 @@ class ProductController extends Controller
             ];
             return redirect()->back()->with($not_error);
         }
-        return redirect()->back()->with($not_succ);
     }
+
+    // Delete Product
+    public function deleteProduct($id) 
+    {
+        try {
+            // Find the product and associated multi-images
+            $product = Product::findOrFail($id);
+            // Checking the Method in the Product Model
+            $multiImages = $product->multiImages;
+    
+            // Delete the multi-images
+            foreach ($multiImages as $image) {
+                $multiImagePath = $image->multi_image;
+                if (file_exists($multiImagePath)) {
+                    unlink($multiImagePath);
+                }
+                $image->delete();
+            }
+
+            // Unlink the Product Thambnail Image
+            $productThumbnailPath = $product->product_thambnail;
+            if (file_exists($productThumbnailPath)) {
+                unlink($productThumbnailPath);
+            }
+
+            // Delete the product
+            $product->delete();
+
+            // Success message notification
+            $notification = [
+                'message' => 'Product and Related Images Deleted uccessfully',
+                'alert-type' => 'success',
+            ];
+            return redirect()->back()->with($notification);
+        } catch (\Exception $e) {
+            // Error message notification
+            $errorNotification = [
+                'message' => 'Error deleting product: ' . $e->getMessage(),
+                'alert-type' => 'error',
+            ];
+            return redirect()->back()->with($errorNotification);
+        }
+    }
+
+    // Change Product Status
+    public function changeProductStatus($id)
+    {
+        $changeProductStatus = Product::findOrFail($id);
+
+        if($changeProductStatus->product_status == 'inactive') {
+            $changeProductStatus->update([
+                'product_status' => 'active',
+            ]);
+
+            // Pass the success message
+            $not_succ = [
+                'message' => 'Product has been Activated Successfully',
+                'alert-type' => 'success',
+            ];
+        } else {
+            $changeProductStatus->update([
+                'product_status' => 'inactive',
+            ]);
+
+            // Pass the success message
+            $not_succ = [
+                'message' => 'Product has been Deactivated Successfully',
+                'alert-type' => 'success',
+            ];
+        }
+        return redirect()->route('all.product')->with($not_succ); 
+    }
+
 }
+

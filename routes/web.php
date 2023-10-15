@@ -131,7 +131,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/edit/product/{id}', 'editProduct')->name('edit.product');
         Route::post('/update/product', 'updateProduct')->name('update.product');
         Route::get('/delete/multi/image/{id}', 'deleteMultiImage')->name('delete.multi.image');
-        
+        Route::get('/delete/product/{id}', 'deleteProduct')->name('delete.product');
+        Route::get('/change/product/status/{id}', 'changeProductStatus')->name('change.product.status');        
     });
 });
 

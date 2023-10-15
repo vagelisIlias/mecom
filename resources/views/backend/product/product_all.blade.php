@@ -11,15 +11,14 @@
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">All Active Product: 
-                        <span class="badge rounded-pill bg-success"> {{ $allProduct->where('product_status', 'active')->count() }} </span>
+                    <li class="breadcrumb-item active" aria-current="page">All Active Product:
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">All Inactive Product: 
-                        <span class="badge rounded-pill bg-danger"> {{ $allProduct->where('product_status', 'inactive')->count() }} </span>
+                        <span class="badge rounded-pill" style="font-size: 18px; color: #ea5252"> {{ $allProduct->where('product_status', 'inactive')->count() }}</span>
                     </li>
                 </ol>
             </nav>
-        </div>
+        </div>  
         <div class="ms-auto">
             <div class="btn-group">
                 <a href="{{ route('add.product') }}" class="btn btn" style="background-color: rgb(202, 18, 177); color: white;">Add Product</a>
@@ -54,29 +53,36 @@
                                 <td>{{ $item->product_qty }}</td>
                                 <td>
                                     <div style="font-size: 14px; border-radius: 50px; color: whitesmoke; display: inline-block; padding: 3px 10px;
-                                        background-color: {{ ($item->product_discount == '') ? 'grey' : 'green' }};">
-                                        {{ ($item->product_discount !== '') ? round(($item->product_discount / $item->product_price) * 100) . '%' : 'No Discount' }}
+                                        background-color: {{ empty($item->product_discount) || ($item->product_discount === 0) ? '#43A6C6' : '#ff9248' }};">
+                                        {{ empty($item->product_discount) || $item->product_discount === 0 ? 'No Discount' : round(($item->product_discount / $item->product_price) * 100) . '%' }}
                                     </div>
                                 </td>
                                 <td>
                                     <span style="font-size: 14px; border-radius: 50px; color: white; display: inline-block; padding: 5px 12px;
-                                        background-color: {{ $item->product_status == 'active' ? 'green' : 'rgb(185, 21, 24)' }}">
+                                        background-color: {{ $item->product_status == 'active' ? '#7A9D54' : '#ea5252' }}">
                                         {{ $item->product_status }}
                                     </span>
                                 </td>  
-                                <td> 
-                                    <a href="{{ route('edit.subcategory', $item->id) }}" 
-                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Product Details">
-                                        <i class="fa-solid fa-eye" style="color: #1267a4;"></i>
-                                    </a>
-                                    <a href="{{ route('edit.product', $item->id) }}" 
-                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Edit Product">
-                                        <i class="fa-solid fa-pen-to-square" style="color: #800fd7;"></i>
-                                    </a>
-                                    <a href="{{ route('delete.subcategory', $item->id) }}" id="delete" 
-                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative;" title="Delete Product">
-                                        <i class="fa-solid fa-trash"  style="color: #ca4983;" ></i>
-                                    </a>
+                                <td>
+                                    <div style="display: flex; align-items: center;">
+                                        {{-- <a href="{{ route('change.product.status', $item->id) }}"  
+                                            style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Product Status">
+                                           
+                                            {{ $item->status }}
+                                        </a> --}}
+                                        {{-- <a href="{{ route('edit.subcategory', $item->id) }}" 
+                                            style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Product Details">
+                                            <i class="fa-solid fa-eye" style="color: #1267a4;"></i>
+                                        </a> --}}
+                                        <a href="{{ route('edit.product', $item->id) }}" 
+                                            style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Edit Product">
+                                            <i class="fa-solid fa-pen-to-square" style="color: #4D4C7D"></i>
+                                        </a>
+                                        <a href="{{ route('delete.product', $item->id) }}" id="delete" 
+                                            style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Delete Product">
+                                            <i class="fa-solid fa-trash"  style="color: #db5a6b"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -101,3 +107,4 @@
 
 @endsection
 {{-- End Section --}}
+

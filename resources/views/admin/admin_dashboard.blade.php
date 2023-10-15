@@ -14,13 +14,16 @@
 	<link href="{{ asset('adminbackend/assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
 	<link href="{{ asset('adminbackend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
 	<link href="{{ asset('adminbackend/assets/plugins/input-tags/css/tagsinput.css')}}" rel="stylesheet" />
-	<!-- loader-->
+	
+	<!-- loader -->
 	<link href="{{ asset('adminbackend/assets/css/pace.min.css') }}" rel="stylesheet" />
 	<script src="{{ asset('adminbackend/assets/js/pace.min.js') }}"></script>
+
 	<!-- Bootstrap CSS -->
 	<link href="{{ asset('adminbackend/assets/css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('adminbackend/assets/css/app.css') }}" rel="stylesheet">
 	<link href="{{ asset('adminbackend/assets/css/icons.css') }}" rel="stylesheet">
+	
 	<!-- Theme Style CSS -->
 	<link rel="stylesheet" href="{{ asset('adminbackend/assets/css/dark-theme.css') }}" />
 	<link rel="stylesheet" href="{{ asset('adminbackend/assets/css/semi-dark.css') }}" />
@@ -31,6 +34,9 @@
 
 	<!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+	<!-- Toggle Switch Button -->
+	<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 
 	<title>Admin Dashboard</title>
 </head>
@@ -248,6 +254,9 @@
 		  selector: '#mytextarea'
 		});
 	</script>
+
+	<!-- Toggle Switch Button -->
+	<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>	
 
 </body>
 </html>

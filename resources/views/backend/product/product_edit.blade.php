@@ -85,7 +85,7 @@
                         <img src="{{ asset($product->product_thambnail) }}" alt="Thumbnail Image" style="width: 120px; height: 120px; top: 0; left: 0; border-radius: 15px;" >
                         <img id="thumbnail-preview" alt="Thumbnail Preview" style="width: 120px; height: 120px; display: none; top: 0; left: 0;">
                     </div> 
-                    <small>Note: The new image will be replaced once you hit the Update Product</small>                   
+                    <small>Note: The new image will be replaced once you hit the "Update Product"</small>                   
                 </div>
             </div>
         </div>
