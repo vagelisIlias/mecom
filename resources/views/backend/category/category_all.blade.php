@@ -47,11 +47,11 @@
                                 <td>
                                     <a href="{{ route('edit.category', $item->id) }}"
                                         style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Edit Category">
-                                        <i class="fa-solid fa-pen-to-square" style="color: #800fd7;"></i>
+                                        <i class="fa-solid fa-pen-to-square" style="color: #4D4C7D"></i>
                                     </a>    
                                     <a href="{{ route('delete.category', $item->id) }}" id="delete" 
                                         style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative;" title="Delete Category">
-                                        <i class="fa-solid fa-trash"  style="color: #ca4983;" ></i>
+                                        <i class="fa-solid fa-trash" style="color: #db5a6b"></i>
                                     </a>
                                 </td>
                             </tr>

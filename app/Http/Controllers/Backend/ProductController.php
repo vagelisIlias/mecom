@@ -307,11 +307,12 @@ class ProductController extends Controller
         try {
             // Find the product and associated multi-images
             $product = Product::findOrFail($id);
+
             // Checking the Method in the Product Model
-            $multiImages = $product->multiImages;
+            $all_images = MultiImage::where('product_id', $id)->get();
     
             // Delete the multi-images
-            foreach ($multiImages as $image) {
+            foreach ($all_images as $image) {
                 $multiImagePath = $image->multi_image;
                 if (file_exists($multiImagePath)) {
                     unlink($multiImagePath);
@@ -320,9 +321,9 @@ class ProductController extends Controller
             }
 
             // Unlink the Product Thambnail Image
-            $productThumbnailPath = $product->product_thambnail;
-            if (file_exists($productThumbnailPath)) {
-                unlink($productThumbnailPath);
+            $productThambnailPath = $product->product_thambnail;
+            if (file_exists($productThambnailPath)) {
+                unlink($productThambnailPath);
             }
 
             // Delete the product

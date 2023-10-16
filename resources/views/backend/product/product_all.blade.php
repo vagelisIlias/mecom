@@ -11,11 +11,9 @@
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">All Active Product:
+                    <li class="breadcrumb-item active" aria-current="page">All Product
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">All Inactive Product: 
-                        <span class="badge rounded-pill" style="font-size: 18px; color: #ea5252"> {{ $allProduct->where('product_status', 'inactive')->count() }}</span>
-                    </li>
+                   
                 </ol>
             </nav>
         </div>  
@@ -64,25 +62,26 @@
                                     </span>
                                 </td>  
                                 <td>
-                                    <div style="display: flex; align-items: center;">
-                                        {{-- <a href="{{ route('change.product.status', $item->id) }}"  
-                                            style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Product Status">
-                                           
-                                            {{ $item->status }}
-                                        </a> --}}
-                                        {{-- <a href="{{ route('edit.subcategory', $item->id) }}" 
-                                            style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Product Details">
-                                            <i class="fa-solid fa-eye" style="color: #1267a4;"></i>
-                                        </a> --}}
-                                        <a href="{{ route('edit.product', $item->id) }}" 
-                                            style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Edit Product">
-                                            <i class="fa-solid fa-pen-to-square" style="color: #4D4C7D"></i>
-                                        </a>
-                                        <a href="{{ route('delete.product', $item->id) }}" id="delete" 
-                                            style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Delete Product">
-                                            <i class="fa-solid fa-trash"  style="color: #db5a6b"></i>
-                                        </a>
-                                    </div>
+                                    <a href="{{ route('change.product.status', $item->id) }}"  
+                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;">
+                                        @if ($item->product_status == 'active')
+                                            <i class="fa-regular fa-thumbs-up" style="color: #7A9D54;" title="Inactive Product Status"></i>
+                                        @else
+                                            <i class="fa-regular fa-thumbs-down" style="color: #ea5252;" title="Active Product Status"></i>
+                                        @endif
+                                    </a>
+                                    {{-- <a href="{{ route('edit.subcategory', $item->id) }}" 
+                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Product Details">
+                                        <i class="fa-solid fa-eye" style="color: #1267a4;"></i>
+                                    </a> --}}
+                                    <a href="{{ route('edit.product', $item->id) }}" 
+                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Edit Product">
+                                        <i class="fa-solid fa-pen-to-square" style="color: #4D4C7D"></i>
+                                    </a>
+                                    <a href="{{ route('delete.product', $item->id) }}" id="delete" 
+                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Delete Product">
+                                        <i class="fa-solid fa-trash" style="color: #db5a6b"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

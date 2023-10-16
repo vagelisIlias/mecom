@@ -49,11 +49,11 @@
                             <td>{{ $item->role }}</td>
                             <td>
                                 @if($item->status == 'inactive')
-                                <span style="font-size: 12px; background-color: grey; border-radius: 50px; color: white; display: inline-block; padding: 5px 10px;">
+                                <span style="font-size: 12px; background-color: #ea5252; border-radius: 50px; color: white; display: inline-block; padding: 5px 10px;">
                                     {{ $item->status }}
                                 </span>
                                 @else
-                                    <span style="font-size: 12px; background-color: green; border-radius: 50px; color: white; display: inline-block; padding: 5px 10px;">
+                                    <span style="font-size: 12px; background-color: #7A9D54; border-radius: 50px; color: white; display: inline-block; padding: 5px 10px;">
                                         {{ $item->status }}
                                     </span>
                                 @endif

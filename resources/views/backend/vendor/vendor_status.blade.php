@@ -47,11 +47,11 @@
                             <td>{{ $item->vendor_join }}</td>
                             <td>
                                 @if($item->status == 'inactive')
-                                    <span style="font-size: 14px; background-color: grey; border-radius: 50px; color: white; display: inline-block; padding: 5px 12px;">
+                                    <span style="font-size: 14px; background-color: #ea5252; border-radius: 50px; color: white; display: inline-block; padding: 5px 12px;">
                                         {{ $item->status }}
                                     </span>
                                 @else
-                                    <span style="font-size: 14px; background-color: green; border-radius: 50px; color: white; display: inline-block; padding: 5px 12px;">
+                                    <span style="font-size: 14px; background-color: #7A9D54; border-radius: 50px; color: white; display: inline-block; padding: 5px 12px;">
                                         {{ $item->status }}
                                     </span>
                                 @endif
@@ -59,11 +59,11 @@
                             <td>
                                 <a href="{{ route('check.vendor.details', $item->id) }}"
                                     style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Edit Vendor">
-                                    <i class="fa-solid fa-pen-to-square" style="color: #800fd7;"></i>
+                                    <i class="fa-solid fa-pen-to-square" style="color: #4D4C7D"></i>
                                 </a>
                                 <a href="{{ route('delete.vendor.details', $item->id) }}" id="delete" 
                                     style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative;" title="Delete Vendor">
-                                    <i class="fa-solid fa-trash"  style="color: #ca4983;" ></i>
+                                    <i class="fa-solid fa-trash" style="color: #db5a6b"></i>
                                 </a>
                             </td>
                             

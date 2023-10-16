@@ -9,7 +9,9 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\VendorStatusChecker;
+use App\Http\Middleware\RedirectIfAuthenticatedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,13 +61,11 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
 Route::get('/become/vendor', [VendorController::class, 'becomeVendor'])->name('become.vendor');
 
 // Admin login route
-Route::get('/admin/login', [AdminController::class, 'adminLogin']);
+Route::get('/admin/login', [AdminController::class, 'adminLogin'])->middleware(RedirectIfAuthenticated::class);
 
 // Vendor Register | Login routes
-Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])
-    ->name('vendor.login');
-Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])
-    ->name('vendor.register');
+Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
+Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
 
 // Brand admin route with middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
