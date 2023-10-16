@@ -146,8 +146,8 @@ class AdminController extends Controller
         return redirect()->back()->with($not_succ);
     }
 
-
     // ----------------------- Vendor Status Details -------------------------------- //
+
     protected $vendorStatusDetails;
     
     public function __construct(VendorStatusDetails $vendorStatusDetails)
@@ -263,15 +263,12 @@ class AdminController extends Controller
         return redirect()->route('all.vendor.status')->with($not_succ);
     }
 
-    
     // -------------------------- User Status Details -------------------------------- //
+
     public function allUserStatus()
     {
         $allUserStatus = User::where('role','user')
                                 ->get();
         return view('backend.user.user_status', compact('allUserStatus'));
     }
-
-
-
 }
