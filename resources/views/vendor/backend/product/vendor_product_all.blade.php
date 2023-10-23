@@ -62,7 +62,7 @@
                                     </span>
                                 </td>  
                                 <td>
-                                    <a href="{{ route('change.product.status', $item->id) }}"  
+                                    <a href="{{ route('change.vendor.product.status', $item->id) }}"  
                                         style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;">
                                         @if ($item->product_status == 'active')
                                             <i class="fa-regular fa-thumbs-up" style="color: #7A9D54;" title="Inactive Product Status"></i>
@@ -74,11 +74,11 @@
                                         style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Product Details">
                                         <i class="fa-solid fa-eye" style="color: #1267a4;"></i>
                                     </a> --}}
-                                    <a href="{{ route('edit.product', $item->id) }}" 
+                                    <a href="{{ route('edit.vendor.product', $item->id) }}" 
                                         style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Edit Product">
                                         <i class="fa-solid fa-pen-to-square" style="color: #4D4C7D"></i>
                                     </a>
-                                    <a href="{{ route('delete.product', $item->id) }}" id="delete" 
+                                    <a href="{{ route('vendor.delete.product', $item->id) }}" id="delete" 
                                         style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Delete Product">
                                         <i class="fa-solid fa-trash" style="color: #db5a6b"></i>
                                     </a>

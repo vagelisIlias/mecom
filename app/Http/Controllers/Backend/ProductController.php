@@ -349,7 +349,7 @@ class ProductController extends Controller
 
             // Success message notification
             $notification = [
-                'message' => 'Product and Related Images Deleted uccessfully',
+                'message' => 'Product and Related Images Deleted Successfully',
                 'alert-type' => 'success',
             ];
             return redirect()->back()->with($notification);

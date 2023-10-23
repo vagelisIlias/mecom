@@ -66,6 +66,11 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
         Route::get('/vendor/subcategory/ajax/{category_id}', 'vendorGetSubCategoryAjax');
         Route::post('/vendor/store/product', 'vendorStoreProduct')->name('vendor.store.product');
         Route::post('/check/vendor/product/existence', 'checkVendorProductExistence')->name('check.vendor.product.existence');
+        Route::get('/edit/vendor/product/{id}', 'editVendorProduct')->name('edit.vendor.product');
+        Route::get('/change/vendor/product/status/{id}', 'changeVendorProductStatus')->name('change.vendor.product.status');
+        Route::post('/update/vendor/product', 'updateVendorProduct')->name('update.vendor.product');
+        Route::get('/delete/vendor/multi/image/{id}', 'deleteVendorMultiImage')->name('delete.vendor.multi.image');
+        Route::get('/vendor/delete/product/{id}', 'vendorDeleteProduct')->name('vendor.delete.product');
     });
 });
 
