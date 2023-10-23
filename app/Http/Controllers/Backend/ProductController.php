@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use App\Models\SubCategory;
 use App\Models\Category;
 use App\Models\Brand;
@@ -19,7 +18,7 @@ class ProductController extends Controller
     public function allProduct()
     {
         $allProduct = Product::latest()->get();
-        return view('backend.product.product_all', compact('allProduct'));
+        return view('admin.backend.product.product_all', compact('allProduct'));
     }
 
     // Add Product
@@ -32,13 +31,40 @@ class ProductController extends Controller
         $brands = Brand::latest()->get();
         $categories = Category::latest()->get();
         $subcategories = SubCategory::latest()->get();
-        return view('backend.product.product_add', compact('brands','categories','subcategories','activeVendor'));
+        return view('admin.backend.product.product_add', compact('brands','categories','subcategories','activeVendor'));
     }
 
     // Store Product
     public function storeProduct(Request $request)
     {   
         try {
+            // Initialize $save_url variable
+            $save_url = null;
+            $save_multi_url = null;
+
+            // Validate thumbnail image
+            $request->validate([
+                'product_thambnail' => 'required|image|mimes:png,jpeg,jpg|max:2048',
+            ], [
+                'product_thambnail.required' => 'You must upload a thumbnail image',
+                'product_thambnail.image' => 'The thumbnail must be an image',
+                'product_thambnail.mimes' => 'The thumbnail must be a file of type: jpeg, jpg, png',
+                'product_thambnail.max' => 'The thumbnail size must be less than 2MB',
+            ]);
+
+            // Validate multi-images
+            $request->validate([
+                'multi_image' => 'required|array|max:7',
+                'multi_image.*' => 'image|mimes:png,jpeg,jpg|max:2048',
+            ], [
+                'multi_image.required' => 'You must upload one or more multi images',
+                'multi_image.array' => 'The multi_image must be an array',
+                'multi_image.max' => 'You can upload up to 7 multi images',
+                'multi_image.*.image' => 'One or more images you are trying to upload are not valid or the format is not supported',
+                'multi_image.*.mimes' => 'One or more images must be of type: jpeg, jpg, png',
+                'multi_image.*.max' => 'One or more images size must be less than 2MB, please resize the image and try again',
+            ]);
+
             // Request the product to check if is valid
             if ($request->hasFile('product_thambnail')) {
                 $image = $request->file('product_thambnail');
@@ -46,7 +72,6 @@ class ProductController extends Controller
                 $tham_image_path = 'upload/products/thambnail/' . $name_gen;
                 Image::make($image)->resize(800, 800)->save(public_path($tham_image_path));
                 $save_url = $tham_image_path;
-            }
             // Create Product
             $product = Product::create([
                 'product_name' => ucwords($request->product_name),
@@ -71,14 +96,7 @@ class ProductController extends Controller
                 'product_status' => 'active',
                 'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
             ]);
-
-            // Validate the multi image
-            $request->validate([
-                "multi_image.*" => "nullable|image|mimes:png,jpeg,jpg|max:2048",
-            ], [
-                "multi_image.*.image" => 'One or more images you are trying to upload are not valid or the format is not supported',
-                "multi_image.*.max" => 'One or more images size must be less than 2MB, please resize the image and try again',
-            ]);
+        
             // Request if the image is valid
             if ($request->hasFile('multi_image')) {
                 $product_id = $product->id; 
@@ -101,11 +119,11 @@ class ProductController extends Controller
                 'alert-type' => 'success',
             ];
             return redirect()->route('all.product')->with($not_succ);
-
+        }
         } catch (\Exception $e){
             // Handle errors, log them, and return an error response
             $not_error = [
-                'message' => 'An error occurred while saving the product ' . $e->getMessage(),
+                'message' => '' . $e->getMessage(),
                 'alert-type' => 'error',
             ];
 
@@ -160,7 +178,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $mutliImages = MultiImage::where('product_id', $product->id)
                                     ->get();
-        return view('backend.product.product_edit', compact('brands','categories','subcategories','activeVendor', 'product', 'mutliImages'));
+        return view('admin.backend.product.product_edit', compact('brands','categories','subcategories','activeVendor', 'product', 'mutliImages'));
     }
 
     // Update Product

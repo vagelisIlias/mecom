@@ -18,13 +18,13 @@ class BrandController extends Controller
     {   
         // Checking the latest data added
         $allBrand = Brand::latest()->get();
-        return view('backend.brand.brand_all', compact('allBrand'));
+        return view('admin.backend.brand.brand_all', compact('allBrand'));
     }
 
     // Add Brand
     public function addBrand()
     {
-        return view('backend.brand.brand_add');
+        return view('admin.backend.brand.brand_add');
     }
     
     // Store Brand
@@ -72,7 +72,7 @@ class BrandController extends Controller
     public function editBrand($id)
     {
         $editBrand = Brand::findOrFail($id);
-        return view('backend.brand.brand_edit', compact('editBrand'));
+        return view('admin.backend.brand.brand_edit', compact('editBrand'));
     }
 
     // Update brand

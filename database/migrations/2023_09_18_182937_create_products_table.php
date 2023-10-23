@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('product_discount')->nullable();
             $table->text('product_short_description');
             $table->text('product_long_description');
-            $table->string('product_thambnail');
+            $table->string('product_thambnail')->nullable();
             $table->string('product_hot_deals')->nullable();
             $table->string('product_featured')->nullable();
             $table->string('product_special_offer')->nullable();

@@ -1,22 +1,21 @@
-@extends('admin.admin_dashboard')
+@extends('vendor.vendor_dashboard')
 {{-- Start Section --}}
-@section('admin')
+@section('vendor')
 
 <!-- Image Reload JS & Validation min.JS Include jQuery and jQuery Validation -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
 
 <!-- Page Content -->
 <div class="page-content">
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <a href="{{ route('all.product') }}" class="breadcrumb-title pe-3">All Product</a>
+        <a href="{{ route('all.vendor.product') }}" class="breadcrumb-title pe-3">All Vendor Product</a>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add New Product</li>
+                    <li class="breadcrumb-item active" aria-current="page">Add New Vendor Product</li>
                 </ol>
             </nav>
         </div>
@@ -25,10 +24,10 @@
 
 <div class="card">
     <div class="card-body p-4">
-        <h5 class="card-title">Add New Product</h5>
+        <h5 class="card-title">Add New Vendor Product</h5>
           <hr/>
             {{-- Form starts here --}}
-            <form id="myForm" method="post" action="{{ route('store.product') }}" enctype="multipart/form-data">
+            <form id="myForm" method="post" action="{{ route('vendor.store.product') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-body mt-4">
                 <div class="row">
@@ -121,17 +120,6 @@
                     <label class="form-label">Product SubCategory</label>
                         <select name="product_subcategory_id" id="product_subcategory_id" class="form-select">
                             <option></option>
-        
-                    </select>
-                </div>
-                {{-- Select Vendor --}}
-                <div class="form-group col-12">
-                <label class="form-label">Select Vendor</label>
-                    <select name="product_vendor_id" id="product_vendor_id" class="form-select">
-                        <option></option>
-                            @foreach($activeVendor as $vendor)
-                                <option value="{{ $vendor->id }}">{{ $vendor->vendor_shop_name }}</option>
-                            @endforeach
                     </select>
                 </div>
                 {{-- Product Color --}}
@@ -306,7 +294,7 @@
         $('select[name="product_category_id"]').on('change', function() {
             var product_category_id = $(this).val() || '';
             $.ajax({
-                url: `{{ url('/subcategory/ajax') }}/${product_category_id}`,
+                url: `{{ url('vendor/subcategory/ajax') }}/${product_category_id}`,
                 type: "GET",
                 dataType: "json",
                 success: function(data) {
@@ -417,7 +405,7 @@ $(document).ready(() => {
 
         // Send an AJAX request to check if the product name already exists in database
         $.ajax({
-            url: '{{ route('check.product.existence') }}',
+            url: '{{ route('check.vendor.product.existence') }}',
             method: 'POST',
             data: {
                 product_name: productName,

@@ -83,7 +83,7 @@
          </div>
         </div>
     </div><!--end row-->
-
+    
 <!-- <div class="row">
     {{-- <div class="col-12 col-lg-8 col-xl-8 d-flex">
        <div class="card radius-10 w-100">
@@ -462,6 +462,7 @@
            </div>
         </div>
       </div><!--End Row--> --}}
+
 
       <div class="card radius-10">
         <div class="card-body">

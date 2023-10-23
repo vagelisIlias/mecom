@@ -1,6 +1,6 @@
-@extends('admin.admin_dashboard')
+@extends('vendor.vendor_dashboard')
 {{-- Start Section --}}
-@section('admin')
+@section('vendor')
 
 <div class="page-content">
     <!--breadcrumb-->
@@ -19,7 +19,7 @@
         </div>  
         <div class="ms-auto">
             <div class="btn-group">
-                {{-- <a href="{{ route('add.product') }}" class="btn btn" style="background-color: rgb(202, 18, 177); color: white;">Add Product</a> --}}
+                <a href="{{ route('add.vendor.product') }}" class="btn btn" style="background-color: rgb(202, 18, 177); color: white;">Add Product</a>
             </div>
         </div>
     </div>

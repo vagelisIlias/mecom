@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('multi_images', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->string('multi_image');
+            $table->string('multi_image')->nullable();
             $table->timestamps();
 
             $table->foreign('product_id')

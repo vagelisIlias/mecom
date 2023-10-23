@@ -277,7 +277,6 @@
     </div>
 </div>
 
-
 {{-- JS --}}
 <script type="text/javascript">
     $(document).ready(function() {

@@ -24,7 +24,7 @@ class SubCategoryController extends Controller
                 ->get();
                 //dd($allSubCategory);
 
-        return view('backend.subcategory.subcategory_all', compact('allSubCategory'));
+        return view('admin.backend.subcategory.subcategory_all', compact('allSubCategory'));
     }
 
 
@@ -32,7 +32,7 @@ class SubCategoryController extends Controller
     public function addSubCategory()
     {   
         $categories = Category::orderBy('category_name', 'asc')->get();
-        return view('backend.subcategory.subcategory_add', compact('categories'));
+        return view('admin.backend.subcategory.subcategory_add', compact('categories'));
     }
 
     // Store SubCategory
@@ -81,7 +81,7 @@ class SubCategoryController extends Controller
         $editSubcategory = SubCategory::findOrFail($id);
 
         // Return a view for editing the subcategory, passing the subcategory and categories as data
-        return view('backend.subcategory.subcategory_edit', compact('editSubcategory', 'categories'));
+        return view('admin.backend.subcategory.subcategory_edit', compact('editSubcategory', 'categories'));
     }
 
 

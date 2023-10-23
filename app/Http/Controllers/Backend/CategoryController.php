@@ -18,13 +18,13 @@ class CategoryController extends Controller
     {   
         // Checking the latest data added
         $allCategory = Category::latest()->get();
-        return view('backend.category.category_all', compact('allCategory'));
+        return view('admin.backend.category.category_all', compact('allCategory'));
     }
 
     // Add Category
     public function addCategory()
     {
-        return view('backend.category.category_add');
+        return view('admin.backend.category.category_add');
     }
 
     // Store Category
@@ -72,7 +72,7 @@ class CategoryController extends Controller
     public function editCategory($id)
     {
         $editCategory = Category::findOrFail($id);
-        return view('backend.category.category_edit', compact('editCategory'));
+        return view('admin.backend.category.category_edit', compact('editCategory'));
     }
 
     // Update Category

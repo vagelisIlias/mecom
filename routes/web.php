@@ -1,15 +1,17 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\VendorController;
-use App\Http\Controllers\VendorProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\VendorStatus;
+use App\Http\Controllers\Backend\UserStatus;
+use App\Http\Controllers\VendorBackend\VendorProductController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\VendorStatusChecker;
 use App\Http\Middleware\RedirectIfAuthenticatedController;
@@ -25,7 +27,7 @@ use App\Http\Middleware\RedirectIfAuthenticatedController;
 |
 */
 
-// Replace the custom welcome with frontend index
+// Replace the Custom Welcome with Frontend Index
 Route::get('/', function () {
     return view('frontend.index');
 });
@@ -48,7 +50,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/update/password', [AdminController::class, 'adminUpdatePassword'])->name('admin.update.password');
 });
 
-// Vendor Dashboard
+// Vendor Dashboard In Admin Dashboard
 Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorController::class, 'vendorDashboard'])->name('vendor.dashboard')->middleware('status:active');;
     Route::get('/vendor/logout', [VendorController::class, 'vendorLogout'])->name('vendor.logout');
@@ -57,23 +59,27 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/change/password', [VendorController::class, 'vendorChangePassword'])->name('vendor.change.password');
     Route::post('/vendor/update/password', [VendorController::class, 'vendorUpdatePassword'])->name('vendor.update.password');
     
-    // Vendor Product Controller Add Product 
+    // Vendor Product Controller In Vendor Dashboard All && Add product
     Route::controller(VendorProductController::class)->group(function () {
         Route::get('/all/vendor/product', 'allVendorProduct')->name('all.vendor.product');
+        Route::get('/add/vendor/product', 'addVendorProduct')->name('add.vendor.product');
+        Route::get('/vendor/subcategory/ajax/{category_id}', 'vendorGetSubCategoryAjax');
+        Route::post('/vendor/store/product', 'vendorStoreProduct')->name('vendor.store.product');
+        Route::post('/check/vendor/product/existence', 'checkVendorProductExistence')->name('check.vendor.product.existence');
     });
 });
 
 // Become a Vendor
 Route::get('/become/vendor', [VendorController::class, 'becomeVendor'])->name('become.vendor');
 
-// Admin login route
+// Admin Login Route
 Route::get('/admin/login', [AdminController::class, 'adminLogin'])->middleware(RedirectIfAuthenticated::class);
 
 // Vendor Register | Login routes
 Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
 Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
 
-// Brand admin route with middleware
+// Brand Admin Route with Middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(BrandController::class)->group(function () {
         Route::get('/all/brand', 'allBrand')->name('all.brand');
@@ -85,7 +91,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
-// Category admin route with middleware
+// Category Admin Route with Middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/all/category', 'allCategory')->name('all.category');
@@ -97,7 +103,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
-// SubCategory admin route with middleware
+// SubCategory Admin Route with Middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(SubCategoryController::class)->group(function () {
         Route::get('/all/subcategory', 'allSubCategory')->name('all.subcategory');
@@ -110,9 +116,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
-// Vendor Active/Inactive admin route with middleware
+// Vendor Status Active/Inactive Admin Route with Middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::controller(AdminController::class)->group(function () {
+    Route::controller(VendorStatus::class)->group(function () {
         Route::get('/all/vendor/status', 'allVendorStatus')->name('all.vendor.status');
         Route::get('/check/vendor/details/{id}', 'checkVendorDetails')->name('check.vendor.details');
         Route::post('/change/vendor/status/', 'changeVendorStatus')->name('change.vendor.status');
@@ -120,14 +126,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
-// Users admin route with middleware
+// Users Admin Route with Middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::controller(AdminController::class)->group(function () {
+    Route::controller(UserStatus::class)->group(function () {
         Route::get('/all/user/status', 'allUserStatus')->name('all.user.status');
     });
 });
 
-// Product admin route with middleware
+// Product Admin Route with Middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(ProductController::class)->group(function () {
         Route::get('/all/product', 'allProduct')->name('all.product');

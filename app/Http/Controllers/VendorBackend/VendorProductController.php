@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\VendorBackend;
 
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
@@ -21,133 +21,159 @@ class VendorProductController extends Controller
     public function allVendorProduct()
     {   
         $id = Auth::user()->id;
-        $allVendorProduct = Product::where('vendor_id', $id)->latest()->get();
+        $allVendorProduct = Product::where('product_vendor_id', $id)->latest()->get();
         return view('vendor.backend.product.vendor_product_all', compact('allVendorProduct'));
     }
 
-    // // Add Product
-    // public function addProduct()
-    // {   
-    //     $activeVendor = User::where('status', 'active')
-    //                             ->where('role', 'vendor')
-    //                             ->latest()
-    //                             ->get();    
-    //     $brands = Brand::latest()->get();
-    //     $categories = Category::latest()->get();
-    //     $subcategories = SubCategory::latest()->get();
-    //     return view('backend.product.product_add', compact('brands','categories','subcategories','activeVendor'));
-    // }
+    // Add Product
+    public function addVendorProduct()
+    {    
+        $brands = Brand::latest()->get();
+        $categories = Category::latest()->get();
+        $subcategories = SubCategory::latest()->get();
+        return view('vendor.backend.product.vendor_product_add', compact('brands','categories','subcategories'));
+    }
 
-    // // Store Product
-    // public function storeProduct(Request $request)
-    // {   
-    //     try {
-    //         // Request the product to check if is valid
-    //         if ($request->hasFile('product_thambnail')) {
-    //             $image = $request->file('product_thambnail');
-    //             $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-    //             $tham_image_path = 'upload/products/thambnail/' . $name_gen;
-    //             Image::make($image)->resize(800, 800)->save(public_path($tham_image_path));
-    //             $save_url = $tham_image_path;
-    //         }
-    //         // Create Product
-    //         $product = Product::create([
-    //             'product_name' => ucwords($request->product_name),
-    //             'product_short_description' => ucfirst($request->product_short_description),
-    //             'product_long_description' => $request->product_long_description,
-    //             'product_thambnail' => $save_url,
-    //             'product_price' => $request->product_price,
-    //             'product_discount' => $request->product_discount,
-    //             'product_code' => $request->product_code,
-    //             'product_qty' => $request->product_qty,
-    //             'product_brand_id' => $request->product_brand_id,
-    //             'product_category_id' => $request->product_category_id,
-    //             'product_subcategory_id' => $request->product_subcategory_id,
-    //             'product_vendor_id' => $request->product_vendor_id,
-    //             'product_color' => $request->product_color,
-    //             'product_size' => $request->product_size,
-    //             'product_tags' => $request->product_tags,
-    //             'product_hot_deals' => $request->product_hot_deals,
-    //             'product_featured' => $request->product_featured,
-    //             'product_special_offer' => $request->product_special_offer,
-    //             'product_special_deals' => $request->product_special_deals,
-    //             'product_status' => 'active',
-    //             'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
-    //         ]);
+    // Return the list of subcategories when category picked
+    public function vendorGetSubCategoryAjax($category_id)
+    {
+        $subcat = SubCategory::where('category_id', $category_id)  
+                                ->orderBy('sub_category_name', 'asc')
+                                ->get();
+        return json_encode($subcat);                        
+    }
 
-    //         // Validate the multi image
-    //         $request->validate([
-    //             "multi_image.*" => "nullable|image|mimes:png,jpeg,jpg|max:2048",
-    //         ], [
-    //             "multi_image.*.image" => 'One or more images you are trying to upload are not valid or the format is not supported',
-    //             "multi_image.*.max" => 'One or more images size must be less than 2MB, please resize the image and try again',
-    //         ]);
-    //         // Request if the image is valid
-    //         if ($request->hasFile('multi_image')) {
-    //             $product_id = $product->id; 
-    //             // Looping though images
-    //             foreach ($request->file('multi_image') as $multi_img) {
-    //                 $name_gen = hexdec(uniqid()) . '.' . $multi_img->getClientOriginalExtension();
-    //                 $multi_image_path = 'upload/products/multi_image/' . $name_gen;
-    //                 Image::make($multi_img)->resize(800, 800)->save(public_path($multi_image_path));
-    //                 $save_multi_url = $multi_image_path;
-                    
-    //                 MultiImage::create([
-    //                     'product_id' => $product_id,
-    //                     'multi_image' => $save_multi_url,
-    //                 ]);
-    //             }
-    //         }     
-    //         // Success message notification
-    //         $not_succ = [
-    //             'message' => 'Product Created Successfully',
-    //             'alert-type' => 'success',
-    //         ];
-    //         return redirect()->route('all.product')->with($not_succ);
+    // Store Product
+    public function vendorStoreProduct(Request $request)
+    {   
+        $id = Auth::user()->id;
+        try {
+            // Initialize save url for product and mutli-images variable
+            $save_url = null;
+            $save_multi_url = null;
 
-    //     } catch (\Exception $e){
-    //         // Handle errors, log them, and return an error response
-    //         $not_error = [
-    //             'message' => 'An error occurred while saving the product ' . $e->getMessage(),
-    //             'alert-type' => 'error',
-    //         ];
+            // Validate thumbnail image
+            $request->validate([
+                'product_thambnail' => 'required|image|mimes:png,jpeg,jpg|max:2048',
+            ], [
+                'product_thambnail.required' => 'You must upload a thumbnail image',
+                'product_thambnail.image' => 'The thumbnail must be an image',
+                'product_thambnail.mimes' => 'The thumbnail must be a file of type: jpeg, jpg, png',
+                'product_thambnail.max' => 'The thumbnail size must be less than 2MB',
+            ]);
 
-    //         return redirect()->back()->with($not_error);
-    //     }
-    // }
+            // Validate multi-images
+            $request->validate([
+                'multi_image' => 'required|array|max:7',
+                'multi_image.*' => 'image|mimes:png,jpeg,jpg|max:2048',
+            ], [
+                'multi_image.required' => 'You must upload one or more multi images',
+                'multi_image.array' => 'The multi_image must be an array',
+                'multi_image.max' => 'You can upload up to 7 multi images',
+                'multi_image.*.image' => 'One or more images you are trying to upload are not valid or the format is not supported',
+                'multi_image.*.mimes' => 'One or more images must be of type: jpeg, jpg, png',
+                'multi_image.*.max' => 'One or more images size must be less than 2MB, please resize the image and try again',
+            ]);
 
-    // // Create Method to Check Product Name Existence in Database
-    // public function checkProductExistence(Request $request)
-    // {
-    //     try
-    //         {
-    //         // Retrieve the product name and product_vendor_id from the request
-    //         $productName = $request->product_name;
+            // Request the product to check if is valid
+            if ($request->hasFile('product_thambnail')) {
+                $image = $request->file('product_thambnail');
+                $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+                $tham_image_path = 'upload/products/thambnail/' . $name_gen;
+                Image::make($image)->resize(800, 800)->save(public_path($tham_image_path));
+                $save_url = $tham_image_path;
 
-    //         // Initialize the vendorShopName variable
-    //         $vendorShopName = '';
+                // Create Product
+                $product = Product::create([
+                    'product_name' => ucwords($request->product_name),
+                    'product_short_description' => ucfirst($request->product_short_description),
+                    'product_long_description' => $request->product_long_description,
+                    'product_thambnail' => $save_url,
+                    'product_price' => $request->product_price,
+                    'product_discount' => $request->product_discount,
+                    'product_code' => $request->product_code,
+                    'product_qty' => $request->product_qty,
+                    'product_brand_id' => $request->product_brand_id,
+                    'product_category_id' => $request->product_category_id,
+                    'product_subcategory_id' => $request->product_subcategory_id,
+                    'product_vendor_id' => $id,
+                    'product_color' => $request->product_color,
+                    'product_size' => $request->product_size,
+                    'product_tags' => $request->product_tags,
+                    'product_hot_deals' => $request->product_hot_deals,
+                    'product_featured' => $request->product_featured,
+                    'product_special_offer' => $request->product_special_offer,
+                    'product_special_deals' => $request->product_special_deals,
+                    'product_status' => 'active',
+                    'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
+                ]);
+        
+                // Request if the image is valid
+                if ($request->hasFile('multi_image')) {
+                    $product_id = $product->id; 
+                    // Looping though images
+                    foreach ($request->file('multi_image') as $multi_img) {
+                        $name_gen = hexdec(uniqid()) . '.' . $multi_img->getClientOriginalExtension();
+                        $multi_image_path = 'upload/products/multi_image/' . $name_gen;
+                        Image::make($multi_img)->resize(800, 800)->save(public_path($multi_image_path));
+                        $save_multi_url = $multi_image_path;
+                        
+                        MultiImage::create([
+                            'product_id' => $product_id,
+                            'multi_image' => $save_multi_url,
+                        ]);
+                    }
+                }     
+                // Success message notification
+                $not_succ = [
+                    'message' => 'Vendor Product Created Successfully',
+                    'alert-type' => 'success',
+                ];
+                return redirect()->route('all.vendor.product')->with($not_succ);
+            }
+        } catch (\Exception $e){
+            // Handle errors, log them, and return an error response
+            $not_error = [
+                'message' => '' . $e->getMessage(),
+                'alert-type' => 'error',
+            ];
 
-    //         // Check if a product with the same name already exists
-    //         $exists = Product::where('product_name', $productName)
-    //                             ->exists();
+            return redirect()->back()->with($not_error);
+        }
+    }
 
-    //         if ($exists) {
-    //             // Get the vendor ID associated with the product
-    //             $product = Product::where('product_name', $productName)->first();
-    //             $vendorId = $product->product_vendor_id;
+    // Create Method to Check Product Name Existence in Database
+    public function checkVendorProductExistence(Request $request)
+    {
+        try
+            {
+            // Retrieve the product name and product_vendor_id from the request
+            $productName = $request->product_name;
 
-    //             // Get the vendor's shop name based on the vendor ID
-    //             $vendor = User::find($vendorId);
-    //             $vendorShopName = $vendor->vendor_shop_name;
-    //         } 
+            // Initialize the vendorShopName variable
+            $vendorShopName = '';
 
-    //         // Return a JSON response indicating whether the product exists and the vendor's shop name
-    //         return response()->json(['exists' => $exists, 'vendor_shop_name' => $vendorShopName]);
+            // Check if a product with the same name already exists
+            $exists = Product::where('product_name', $productName)
+                                ->exists();
 
-    //     } catch (\Exception $e){
-    //         return response()->json(['error' => 'An error occurred while checking product existence']);
-    //     }        
-    // }
+            if ($exists) {
+                // Get the vendor ID associated with the product
+                $product = Product::where('product_name', $productName)->first();
+                $vendorId = $product->product_vendor_id;
+
+                // Get the vendor's shop name based on the vendor ID
+                $vendor = User::find($vendorId);
+                $vendorShopName = $vendor->vendor_shop_name;
+            } 
+
+            // Return a JSON response indicating whether the product exists and the vendor's shop name
+            return response()->json(['exists' => $exists, 'vendor_shop_name' => $vendorShopName]);
+
+        } catch (\Exception $e){
+            return response()->json(['error' => 'An error occurred while checking product existence']);
+        }        
+    }
 
     // // Edit Product
     // public function editProduct($id)
