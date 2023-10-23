@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Backend;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Hash;
 use App\Models\Category;
-use Illuminate\Support\Str;
+
 
 class CategoryController extends Controller
 {
@@ -33,8 +31,14 @@ class CategoryController extends Controller
         // Validate the request
         $request->validate([
             'category_name' => 'required|string|max:255',
+            'category_image' => 'required|image|mimes:png,jpeg,jpg|max:2048',
+        ], [
+            'category_image.required' => 'You must upload a category image',
+            'category_image.image' => 'The category image must be an image',
+            'category_image.mimes' => 'The category image must be a file of type: jpeg, jpg, png',
+            'category_image.max' => 'The category image size must be less than 2MB',
         ]);
-
+        
         try {
             $image = $request->file('category_image');
             $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();

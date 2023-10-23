@@ -43,7 +43,7 @@ class SubCategoryController extends Controller
             'category_id' => 'required',
             'sub_category_name' => 'required|string|max:255',
         ]);
-
+        
         try {
             // Create method to save the into subcategory
             SubCategory::create([

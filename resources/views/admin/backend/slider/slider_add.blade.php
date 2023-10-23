@@ -8,7 +8,7 @@
 <div class="page-content"> 
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <a href="{{ route('all.category') }}" class="breadcrumb-title pe-3">All Category</a>
+        <a href="{{ route('all.slider') }}" class="breadcrumb-title pe-3">All Slider</a>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
@@ -27,28 +27,44 @@
                     <div class="card">
                         <div class="card-body">
                             {{-- Form starts here --}}
-                            <form id="myForm" method="post" action="{{ route('store.category') }}" enctype="multipart/form-data">
+                            <form id="myForm" method="post" action="{{ route('store.slider') }}" enctype="multipart/form-data">
                                 @csrf
+                            
+                            {{-- Image Preview --}}
                             <div class="col-sm-10">
                                 <img id="showImage" class="rounded-circle avatar-lg" src="{{ url('upload/no_image.jpg') }}" 
                                     alt="Card image cap" style="width: 200px; height: 200px; border: 5px solid rgba(138, 60, 221, 0.729);">
                             </div><br>
+
+                            {{-- Slider Title --}}
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Category name</h6>
+                                    <h6 class="mb-0">Slider Title</h6>
                                 </div>
                                 <div class="form-group col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" name="category_name" />
+                                    <input type="text" class="form-control" name="slider_title" />
                                 </div>
                             </div>
                             <!-- end row -->
 
+                            {{-- Slider Short Title --}}
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Category image</h6>
+                                    <h6 class="mb-0">Slider Short Title</h6>
                                 </div>
                                 <div class="form-group col-sm-9 text-secondary">
-                                    <input type="file" class="form-control" name="category_image" id="image">
+                                    <input type="text" class="form-control" name="short_title" />
+                                </div>
+                            </div>
+                            <!-- end row -->
+
+                            {{-- Slilder Image --}}
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Slider Image</h6>
+                                </div>
+                                <div class="form-group col-sm-9 text-secondary">
+                                    <input type="file" class="form-control" name="slider_image" id="image">
                                     <small class="text-muted">Note: The image will be automatically resized with a total size of less than 2MB</small>
                                 </div>
                             </div>
@@ -57,7 +73,7 @@
                             <div class="row">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="submit" class="btn px-4" style="background-color: rgb(202, 18, 177); color: white;" value="Add Category"/>
+                                    <input type="submit" class="btn px-4" style="background-color: rgb(202, 18, 177); color: white;" value="Add Slider"/>
                                 </div>
                             </div>
                         </div>
@@ -75,20 +91,26 @@
     $(document).ready(function (){
         $('#myForm').validate({
             rules: {
-                category_name: {
+                slider_title: {
                     required : true,
                 },
-                category_image: {
+                short_title: {
                     required : true,
-                },  
+                },
+                slider_image: {
+                    required : true,
+                }  
             },
             messages :{
-                category_name: {
-                    required : 'Please Enter Category Name',
+                slider_title: {
+                    required : 'Please Add Slider Title',
                 },
-                category_image: {
-                    required : 'Please Add Category Image',
+                short_title: {
+                    required : 'Please Add Slider Short Title',
                 },
+                slider_image : {
+                    required : 'Please Select Slider Image',
+                }
             },
             errorElement : 'span', 
             errorPlacement: function (error,element) {

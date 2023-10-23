@@ -388,7 +388,7 @@ class VendorProductController extends Controller
 
             // Pass the success message
             $not_succ = [
-                'message' => 'Product has been Activated Successfully',
+                'message' => 'Vendor Product has been Activated Successfully',
                 'alert-type' => 'success',
             ];
         } else {
@@ -398,7 +398,7 @@ class VendorProductController extends Controller
 
             // Pass the success message
             $not_succ = [
-                'message' => 'Product has been Deactivated Successfully',
+                'message' => 'Vendor Product has been Deactivated Successfully',
                 'alert-type' => 'success',
             ];
         }

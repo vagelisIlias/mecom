@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\VendorStatus;
 use App\Http\Controllers\Backend\UserStatus;
+use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\VendorBackend\VendorProductController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\VendorStatusChecker;
@@ -135,6 +136,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(UserStatus::class)->group(function () {
         Route::get('/all/user/status', 'allUserStatus')->name('all.user.status');
+    });
+});
+
+// Slider Admin Route with Middleware
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::controller(SliderController::class)->group(function () {
+        Route::get('/all/slider', 'allSlider')->name('all.slider');
+        Route::get('/add/slider', 'addSlider')->name('add.slider');
+        Route::post('/store/slider', 'storeSlider')->name('store.slider');
     });
 });
 
