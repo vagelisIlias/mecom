@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\VendorStatus;
 use App\Http\Controllers\Backend\UserStatus;
 use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\VendorBackend\VendorProductController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\VendorStatusChecker;
@@ -145,6 +146,21 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/all/slider', 'allSlider')->name('all.slider');
         Route::get('/add/slider', 'addSlider')->name('add.slider');
         Route::post('/store/slider', 'storeSlider')->name('store.slider');
+        Route::get('/edit/slider/{id}', 'editSlider')->name('edit.slider');
+        Route::post('/update/slider', 'updateSlider')->name('update.slider');
+        Route::get('/delete/slider/{id}', 'deleteSlider')->name('delete.slider');
+    });
+});
+
+// Banner Admin Route with Middleware
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::controller(BannerController::class)->group(function () {
+        Route::get('/all/banner', 'allBanner')->name('all.banner');
+        Route::get('/add/banner', 'addBanner')->name('add.banner');
+        Route::post('/store/banner', 'storeBanner')->name('store.banner');
+        Route::get('/edit/banner/{id}', 'editBanner')->name('edit.banner');
+        Route::post('/update/banner', 'updateBanner')->name('update.banner');
+        Route::get('/delete/banner/{id}', 'deleteBanner')->name('delete.banner');
     });
 });
 

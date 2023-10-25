@@ -26,7 +26,7 @@ class SliderController extends Controller
     // Store Slider
     public function storeSlider(Request $request)
     {
-        // Validate thumbnail image
+        // Validate slider image
         $request->validate([
             'slider_image' => 'required|string|max:255',
             'slider_image' => 'required|image|mimes:png,jpeg,jpg|max:2048',
@@ -44,7 +44,7 @@ class SliderController extends Controller
             Image::make($image)->resize(2376, 807)->save(public_path($image_path));
             $save_url = $image_path;
     
-            // Create The category
+            // Create The slider
             Slider::create([
                 'slider_title' => ucfirst($request->slider_title),
                 'short_title' => ucfirst($request->short_title),
@@ -70,96 +70,96 @@ class SliderController extends Controller
         }
     }
 
-    // //Edit Category
-    // public function editCategory($id)
-    // {
-    //     $editCategory = Category::findOrFail($id);
-    //     return view('admin.backend.category.category_edit', compact('editCategory'));
-    // }
+    // Edit Slider
+    public function editSlider($id)
+    {
+        $editSlider = Slider::findOrFail($id);
+        return view('admin.backend.slider.slider_edit', compact('editSlider'));
+    }
 
-    // // Update Category
-    // public function updateCategory(Request $request)
-    // {
-    //     $category_id = $request->id;
-    //     $old_image = $request->old_image;
+    // Update Slider
+    public function updateSlider(Request $request)
+    {
+        $slider_id = $request->id;
+        $old_image = $request->old_image;
 
-    //     $request->validate([
-    //         'category_name' => 'required|string',
-    //     ]);
+        $request->validate([
+            'slider_title' => 'required|string',
+            'short_title' => 'required|string',
+        ]);
 
-    //     try {
-    //         if ($request->hasFile('category_image')) {
-    //             $image = $request->file('category_image');
-    //             $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-    //             $image_path = 'upload/category_image/' . $name_gen;
-    //             Image::make($image)->resize(120, 120)->save(public_path($image_path));
+        try {
+            if ($request->hasFile('slider_image')) {
+                $image = $request->file('slider_image');
+                $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+                $image_path = 'upload/slider_image/' . $name_gen;
+                Image::make($image)->resize(2376, 807)->save(public_path($image_path));
 
-    //             if (file_exists($old_image)) {
-    //                 unlink($old_image);
-    //             }
+                if (file_exists($old_image)) {
+                    unlink($old_image);
+                }
 
-    //             $save_url = $image_path;
-    //         } else {
-    //             // Use the old image if no new image is uploaded.
-    //             $save_url = $old_image; 
-    //         }
+                $save_url = $image_path;
+            } else {
+                // Use the old image if no new image is uploaded.
+                $save_url = $old_image; 
+            }
 
-    //         // Update the brand
-    //         Category::findOrFail($category_id)->update([
-    //             'category_name' => ucwords($request->category_name),
-    //             'category_slug' => strtolower(str_replace(' ', '-', $request->category_name)),
-    //             'category_image' => $save_url,
-    //         ]);
+            // Update the slider
+            Slider::findOrFail($slider_id)->update([
+                'slider_title' => ucfirst($request->slider_title),
+                'short_title' => ucfirst($request->short_title),
+                'slider_image' => $save_url,
+            ]);
 
-    //         // Success message notification
-    //         if ($request->file('category_image')) {
-    //             $message = 'Category Updated with Image Successfully';
-    //             $alertType = 'success';
-    //         } else {
-    //             // Info message notification
-    //             $message = 'Category Updated without Image Successfully';
-    //             $alertType = 'info';
-    //         }
-    //         $notification = [
-    //             'message' => $message,
-    //             'alert-type' => $alertType,
-    //         ];
-    //     } catch (\Exception $e) {
-    //         // Error message notification
-    //         $not_error = [
-    //             'message' => 'Error updating brand' . $e->getMessage(),
-    //             'alert-type' => 'error',
-    //         ];
+            // Success message notification
+            if ($request->file('slider_image')) {
+                $message = 'Slider Updated with Image Successfully';
+                $alertType = 'success';
+            } else {
+                // Info message notification
+                $message = 'Slider Updated without Image Successfully';
+                $alertType = 'info';
+            }
+            $notification = [
+                'message' => $message,
+                'alert-type' => $alertType,
+            ];
+            return redirect()->route('all.slider')->with($notification);
+        } catch (\Exception $e) {
+            // Error message notification
+            $not_error = [
+                'message' => 'Error updating slider' . $e->getMessage(),
+                'alert-type' => 'error',
+            ];
+            return redirect()->back()->with($not_error);
+        }
+    }
 
-    //         return redirect()->back()->with($not_error);
-    //     }
-    //     return redirect()->route('all.category')->with($notification);
-    // }
+    // Delete Slider
+    public function deleteSlider($id)
+    {
+        try {
+            $deleteSlider = Slider::findOrFail($id);
+            $img = $deleteSlider->slider_image;
+            unlink($img);
 
-    // // Delete category
-    // public function deleteCategory($id)
-    // {
-    //     try {
-    //         $deleteCategory = Category::findOrFail($id);
-    //         $img = $deleteCategory->category_image;
-    //         unlink($img);
+            $deleteSlider->delete();
 
-    //         $deleteCategory->delete();
-
-    //         // Success message notification
-    //         $not_succ = [
-    //             'message' => 'Category Deleted Successfully',
-    //             'alert-type' => 'success',
-    //         ];
-    //     } catch (\Exception $e) {
-    //         // Error message notification
-    //         $not_error = [
-    //             'message' => 'Error deleting category' . $e->getMessage(),
-    //             'alert-type' => 'error',
-    //         ];
-    //         return redirect()->back()->with($not_error);
-    //     }
+            // Success message notification
+            $not_succ = [
+                'message' => 'Slider Deleted Successfully',
+                'alert-type' => 'success',
+            ];
+            return redirect()->route('all.slider')->with($not_succ);
+        } catch (\Exception $e) {
+            // Error message notification
+            $not_error = [
+                'message' => 'Error deleting slider' . $e->getMessage(),
+                'alert-type' => 'error',
+            ];
+            return redirect()->back()->with($not_error);
+        }
         
-    //     return redirect()->route('all.category')->with($not_succ);
-    // }
+    }
 }

@@ -8,13 +8,13 @@
 <div class="page-content"> 
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <a href="{{ route('all.slider') }}" class="breadcrumb-title pe-3">All Slider</a>
+        <a href="{{ route('all.slider') }}" class="breadcrumb-title pe-3">Edit Slider</a>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">All Slider</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Slider</li>
                 </ol>
             </nav>
         </div>
@@ -27,12 +27,15 @@
                     <div class="card">
                         <div class="card-body">
                             {{-- Form starts here --}}
-                            <form id="myForm" method="post" action="{{ route('store.slider') }}" enctype="multipart/form-data">
+                            <form id="myForm" method="post" action="{{ route('update.slider') }}" enctype="multipart/form-data">
                                 @csrf
+
+                            <input type="hidden" name="id" value="{{ $editSlider->id }}">
+                            <input type="hidden" name="old_image" value="{{ $editSlider->slider_image }}">    
                             
                             {{-- Image Preview --}}
                             <div class="col-sm-10">
-                                <img id="showImage" class="rounded-circle avatar-lg" src="{{ url('upload/no_image.jpg') }}" 
+                                <img id="showImage" class="rounded-circle avatar-lg" src="{{ asset($editSlider->slider_image)}}" 
                                     alt="Card image cap" style="width: 200px; height: 200px; border: 5px solid rgba(138, 60, 221, 0.729);">
                             </div><br>
 
@@ -42,7 +45,7 @@
                                     <h6 class="mb-0">Slider Title</h6>
                                 </div>
                                 <div class="form-group col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" name="slider_title" />
+                                    <input type="text" class="form-control" name="slider_title" value="{{ $editSlider->slider_title}}"/>
                                 </div>
                             </div>
                             <!-- end row -->
@@ -53,7 +56,7 @@
                                     <h6 class="mb-0">Slider Short Title</h6>
                                 </div>
                                 <div class="form-group col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" name="short_title" />
+                                    <input type="text" class="form-control" name="short_title" value="{{ $editSlider->short_title}}"/>
                                 </div>
                             </div>
                             <!-- end row -->
@@ -73,7 +76,7 @@
                             <div class="row">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="submit" class="btn px-4" style="background-color: rgb(202, 18, 177); color: white;" value="Add Slider"/>
+                                    <input type="submit" class="btn px-4" style="background-color: rgb(202, 18, 177); color: white;" value="Update Slider"/>
                                 </div>
                             </div>
                         </div>
@@ -97,9 +100,6 @@
                 short_title: {
                     required : true,
                 },
-                slider_image: {
-                    required : true,
-                }  
             },
             messages :{
                 slider_title: {
@@ -108,9 +108,6 @@
                 short_title: {
                     required : 'Please Add Slider Short Title',
                 },
-                slider_image : {
-                    required : 'Please Select Slider Image',
-                }
             },
             errorElement : 'span', 
             errorPlacement: function (error,element) {
