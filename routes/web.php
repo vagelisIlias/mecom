@@ -29,10 +29,13 @@ use App\Http\Middleware\RedirectIfAuthenticatedController;
 |
 */
 
-// Replace the Custom Welcome with Frontend Index
 Route::get('/', function () {
-    return view('frontend.index');
+    $categories = App\Models\Category::orderBy('category_name', 'asc')->get();
+    $subcategories = App\Models\SubCategory::orderBy('sub_category_name', 'asc')->get();
+    $slider = App\Models\Slider::orderBy('slider_title', 'asc')->get();
+        return view('frontend.index', compact('categories', 'subcategories', 'slider'));
 });
+
 
 // User Dashboard
 Route::middleware(['auth'])->group(function () {

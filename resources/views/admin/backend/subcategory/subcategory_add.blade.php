@@ -8,7 +8,7 @@
 <div class="page-content"> 
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Add SubCategory</div>
+        <a href="{{ route('all.subcategory') }}" class="breadcrumb-title pe-3">All SubCategory</a>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
@@ -49,7 +49,7 @@
                                     <h6 class="mb-0">Sub Category name</h6>
                                 </div>
                                 <div class="form-group col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" name="sub_category_name" />
+                                    <input type="text" class="form-control" name="sub_category_name" placeholder="Write the subcategory name in lowercase..."/>
                                 </div>
                             </div>
                             <!-- end row -->

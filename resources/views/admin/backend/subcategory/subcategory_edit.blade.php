@@ -8,7 +8,7 @@
 <div class="page-content"> 
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Edit SubCategory</div>
+        <a href="{{ route('all.subcategory') }}" class="breadcrumb-title pe-3">All SubCategory</a>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
@@ -61,7 +61,7 @@
                             <div class="row">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="submit" class="btn btn-primary px-4" value="Update SubCategory"/>
+                                    <input type="submit" class="btn px-4" style="background-color: rgb(202, 18, 177); color: white;"value="Update SubCategory"/>
                                 </div>
                             </div>
                         </div>
