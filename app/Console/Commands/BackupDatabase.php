@@ -26,23 +26,33 @@ class BackupDatabase extends Command
      */
     public function handle()
     {
-        $dbName = 'mecom'; // Replace with the name of your "mecom" project database
-        $username = 'root'; // Replace with the database username for the "mecom" project
-        $password = ''; // Replace with the database password for the "mecom" project. Leave empty for no password.
+        $dbName = 'mecom'; 
+        $username = 'root'; 
+        $password = ''; 
 
-        $backupPath = 'backups/mecom'; // Change the directory path for the "mecom" project backups
+        $backupPath = 'backups/mecom'; 
         $backupFilename = 'backup_' . date('Y-m-d_His') . '.sql';
 
         // Ensure the 'backups/mecom' directory exists within the 'storage/app' directory
         if (!Storage::exists($backupPath)) {
             Storage::makeDirectory($backupPath);
         }
-
         $command = "mysqldump --user={$username} --password={$password} {$dbName} > " . storage_path("app/{$backupPath}/{$backupFilename}");
     
-        exec($command);
+        // Capture the output and any errors
+        $output = [];
+        $return_var = 0;
+        exec($command, $output, $return_var);
 
-        $this->info("Database backup created for mecom project: {$backupFilename}");
+         // Check for any errors in the return status
+        if ($return_var !== 0) {
+            $this->error("Error occurred while creating the database backup");
+            foreach ($output as $line) {
+                $this->line($line);
+            }
+        } else {
+            $this->info("Database backup created for mecom project: {$backupFilename}");
+        }
     }
 }
 

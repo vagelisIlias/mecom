@@ -32,13 +32,13 @@ class BrandController extends Controller
     {
         // Validate the request
         $request->validate([
-            'brand_name' => 'required|string|max:255',
-            'brand_name' => 'required|image|mimes:png,jpeg,jpg|max:2048',
+            'brand_image' => 'required|string|max:255',
+            'brand_image' => 'required|image|mimes:png,jpeg,jpg|max:2048',
         ], [
-            'brand_name.required' => 'You must upload a category image',
-            'brand_name.image' => 'The category image must be an image',
-            'brand_name.mimes' => 'The category image must be a file of type: jpeg, jpg, png',
-            'brand_name.max' => 'The category image size must be less than 2MB',
+            'brand_image.required' => 'You must upload a category image',
+            'brand_image.image' => 'The category image must be an image',
+            'brand_image.mimes' => 'The category image must be a file of type: jpeg, jpg, png',
+            'brand_image.max' => 'The category image size must be less than 2MB',
         ]);
 
         try {

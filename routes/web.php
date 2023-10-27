@@ -33,7 +33,9 @@ Route::get('/', function () {
     $categories = App\Models\Category::orderBy('category_name', 'asc')->get();
     $subcategories = App\Models\SubCategory::orderBy('sub_category_name', 'asc')->get();
     $slider = App\Models\Slider::orderBy('slider_title', 'asc')->get();
-        return view('frontend.index', compact('categories', 'subcategories', 'slider'));
+    $products = App\Models\Product::orderBy('product_name', 'asc')->get();
+    $banners = App\Models\Banner::orderBy('banner_title', 'asc')->get();
+        return view('frontend.index', compact('categories', 'subcategories', 'slider', 'products', 'banners'));
 });
 
 
@@ -190,6 +192,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
 
 
 

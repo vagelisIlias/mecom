@@ -210,7 +210,7 @@
                                 @endforeach
                             </ul>
                             <ul class="end">
-                                @php $categories = $categories->take(6) @endphp
+                                @php $categories = $categories->take(5) @endphp
                                 @foreach($categories as $category)
                                     <li>
                                         <a href="shop-grid-right.html">

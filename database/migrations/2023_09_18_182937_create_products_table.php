@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('product_color')->nullable();
             $table->string('product_price');
             $table->string('product_discount')->nullable();
-            $table->text('product_short_description');
+            $table->strip_tags('product_short_description');
             $table->text('product_long_description');
             $table->string('product_thambnail')->nullable();
             $table->string('product_hot_deals')->nullable();

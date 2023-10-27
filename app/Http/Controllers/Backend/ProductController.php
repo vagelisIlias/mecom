@@ -76,7 +76,7 @@ class ProductController extends Controller
             $product = Product::create([
                 'product_name' => ucwords($request->product_name),
                 'product_short_description' => ucfirst($request->product_short_description),
-                'product_long_description' => $request->product_long_description,
+                'product_long_description' => strip_tags($request->product_long_description),
                 'product_thambnail' => $save_url,
                 'product_price' => $request->product_price,
                 'product_discount' => $request->product_discount,
@@ -222,7 +222,7 @@ class ProductController extends Controller
             $product->update([
                 'product_name' => ucwords($request->product_name),
                 'product_short_description' => ucfirst($request->product_short_description),
-                'product_long_description' => $request->product_long_description,
+                'product_long_description' => strip_tags($request->product_long_description),
                 'product_thambnail' => $save_url,
                 'product_price' => $request->product_price,
                 'product_discount' => $request->product_discount,
