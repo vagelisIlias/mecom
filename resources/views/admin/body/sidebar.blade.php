@@ -20,105 +20,92 @@
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class='bx bx-home-circle'></i>
-                </div>
-                <div class="menu-title">Brand</div>
+                <div class="parent-icon"><i class='bx bx-menu'></i></div>
+                <div class="menu-title">Menu</div>
             </a>
             <ul>
-                <li> <a href="{{ route('all.brand') }}"><i class="bx bx-right-arrow-alt"></i>All Brand</a>
+                <li>
+                    <!-- Brand -->
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="menu-title">Brand</div>
+                    </a>
+                    <ul>
+                        <li> <a href="{{ route('all.brand') }}">All Brand</a></li>
+                        <li> <a href="{{ route('add.brand') }}">Add Brand</a></li>
+                    </ul>
                 </li>
-                <li> <a href="{{ route('add.brand') }}"><i class="bx bx-right-arrow-alt"></i>Add Brand</a>
+                <li>
+                    <!-- Category -->
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="menu-title">Category</div>
+                    </a>
+                    <ul>
+                        <li> <a href="{{ route('all.category') }}">All Category</a></li>
+                        <li> <a href="{{ route('add.category') }}">Add Category</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <!-- SubCategory -->
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="menu-title">SubCategory</div>
+                    </a>
+                    <ul>
+                        <li> <a href="{{ route('all.subcategory') }}">All SubCategory</a></li>
+                        <li> <a href="{{ route('add.subcategory') }}">Add SubCategory</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <!-- Product Manage -->
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="menu-title">Product Manage</div>
+                    </a>
+                    <ul>
+                        <li> <a href="{{ route('all.product') }}">All Product</a></li>
+                        <li> <a href="{{ route('add.product') }}">Add Product</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <!-- Slider Manage -->
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="menu-title">Slider Manage</div>
+                    </a>
+                    <ul>
+                        <li> <a href="{{ route('all.slider') }}">All Slider</a></li>
+                        <li> <a href="{{ route('add.slider') }}">Add Slider</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <!-- Banner Manage -->
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="menu-title">Banner Manage</div>
+                    </a>
+                    <ul>
+                        <li> <a href="{{ route('all.banner') }}">All Banner</a></li>
+                        <li> <a href="{{ route('add.banner') }}">Add Banner</a></li>
+                    </ul>
                 </li>
             </ul>
         </li>
+        <!-- Vendor Manage -->
         <li>
             <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-category"></i>
-                </div>
-                <div class="menu-title">Category</div>
+                <div class="parent-icon"><i class='bx bxs-user-circle'></i></div>
+                <div class="menu-title">Vendors</div>
             </a>
             <ul>
-                <li> <a href="{{ route('all.category') }}"><i class="bx bx-right-arrow-alt"></i>All Category</a>
-                </li>
-                <li> <a href="{{ route('add.category') }}"><i class="bx bx-right-arrow-alt"></i>Add Category</a>
-                </li>
+                <li><a href="{{ route('all.vendor.status') }}">Vendor Status Details</a></li>
+                <li><a href="{{ route('add.new.vendor') }}">Add New Vendor</a></li>
             </ul>
         </li>
+
+        <!-- Users Manage -->
         <li>
             <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-category"></i>
-                </div>
-                <div class="menu-title">SubCategory</div>
+                <div class="parent-icon"><i class='bx bx-user'></i></div>
+                <div class="menu-title">Users</div>
             </a>
             <ul>
-                <li> <a href="{{ route('all.subcategory') }}"><i class="bx bx-right-arrow-alt"></i>All SubCategory</a>
-                </li>
-                <li> <a href="{{ route('add.subcategory') }}"><i class="bx bx-right-arrow-alt"></i>Add SubCategory</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-category"></i>
-                </div>
-                <div class="menu-title">Product Manage</div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('all.product') }}"><i class="bx bx-right-arrow-alt"></i>All Product</a>
-                </li>
-                <li> <a href="{{ route('add.product') }}"><i class="bx bx-right-arrow-alt"></i>Add Product</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-category"></i>
-                </div>
-                <div class="menu-title">Slider Manage</div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('all.slider') }}"><i class="bx bx-right-arrow-alt"></i>All Slider</a>
-                </li>
-                <li> <a href="{{ route('add.slider') }}"><i class="bx bx-right-arrow-alt"></i>Add Slider</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-category"></i>
-                </div>
-                <div class="menu-title">Banner Manage</div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('all.banner') }}"><i class="bx bx-right-arrow-alt"></i>All Banner</a>
-                </li>
-                <li> <a href="{{ route('add.banner') }}"><i class="bx bx-right-arrow-alt"></i>Add Banner</a>
-                </li>
-            </ul>
-        </li>    
-        <li class="menu-label">UI Elements</li>
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class='bx bxs-user-circle'></i>
-                </div>
-                <div class="menu-title">Vendor Manage</div>
-            </a>
-            <ul>
-                <li><a href="{{ route('all.vendor.status') }}"><i class="bx bx-right-arrow-alt"></i>Vendor Status Details</a>
-                </li>
-                <li><a href="{{ route('add.new.vendor') }}"><i class="bx bx-right-arrow-alt"></i>Add New Vendor</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class='bx bx-user'></i>
-                </div>
-                <div class="menu-title">User Manage</div>
-            </a>
-            <ul>
-                <li><a href="{{ route('all.user.status') }}"><i class="bx bx-right-arrow-alt"></i>User Status Details</a>
-                </li>
+                <li><a href="{{ route('all.user.status') }}">User Status Details</a></li>
             </ul>
         </li>
         <li>
