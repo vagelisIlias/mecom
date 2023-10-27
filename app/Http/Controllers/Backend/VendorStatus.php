@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Services\VendorStatusDetails;
 use Illuminate\Http\RedirectResponse;
 use App\Notifications\AccountStatusChanged;
-use App\Services\VendorStatusDetails;
 
 class VendorStatus extends Controller
 {
@@ -84,10 +85,8 @@ class VendorStatus extends Controller
             $not_succ = [
                 'message' => 'Vendor has been Deactivated uccessfully',
                 'alert-type' => 'success',
-            ];
-                
+            ];    
         }
-
         return redirect()->route('all.vendor.status')->with($not_succ);       
     }
 
@@ -125,5 +124,60 @@ class VendorStatus extends Controller
             return redirect()->back()->with($not_error);
         }
         return redirect()->route('all.vendor.status')->with($not_succ);
+    }
+
+    // Add New Vendor
+    public function addNewVendor()
+    {
+        return view('admin.backend.vendor.add_new_vendor');
+    }
+
+    // Store New Vendor
+    public function storeVendorProfile(Request $request)
+    {
+       try{
+            // Validate vendor profile
+            $request->validate([
+                'firstname' => 'required',
+                'lastname' => 'required',
+                'username' => 'required|unique:users,username',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:8|confirmed',
+                'vendor_shop_name' => 'required',
+            ],[
+                'username.unique' => 'The Username has already been taken. Please try a different Username',
+                'email.unique' => 'The Email has already been taken. Please try a different Email',
+            ]);
+
+            // Create new vendor
+            User::create([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'vendor_shop_name' => ucfirst($request->vendor_shop_name),
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'postcode' => $request->postcode,
+                'vendor_join' => $request->vendor_join,
+                'role' => 'vendor',
+                'status' => 'active',
+            ]);
+
+            // Success message notification
+            $not_succ = [
+                'message' => 'Vendor Account Created Successfully',
+                'alert-type' => 'success',
+            ];
+            return redirect()->route('all.vendor.status')->with($not_succ);
+       } catch(\Exception $e) {
+        // Error message notification
+        $not_error = [
+            'message' => '' . $e->getMessage(),
+            'alert-type' => 'error',
+        ];
+        return redirect()->back()->with($not_error);
+        }
     }
 }

@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UsersTableSeeder extends Seeder
 {
@@ -31,6 +32,9 @@ class UsersTableSeeder extends Seeder
                 'vendor_short_info' => '',
                 'role' => 'admin',
                 'status' => 'active',
+                'remember_token' => Str::random(10),
+                'created_at' => now(), 
+                'updated_at' => now(),
             ],
             // Vendors
             [
@@ -48,6 +52,9 @@ class UsersTableSeeder extends Seeder
                 'vendor_short_info' => 'This is a popular restaurant serving delicious dishes.',
                 'role' => 'vendor',
                 'status' => 'active',
+                'remember_token' => Str::random(10),
+                'created_at' => now(), 
+                'updated_at' => now(),
             ],
             [
                 'firstname' => 'vendor_2',
@@ -64,6 +71,9 @@ class UsersTableSeeder extends Seeder
                 'vendor_short_info' => 'A wonderful place for gatherings and events.',
                 'role' => 'vendor',
                 'status' => 'active',
+                'remember_token' => Str::random(10),
+                'created_at' => now(), 
+                'updated_at' => now(),
             ],
             [
                 'firstname' => 'vendor_3',
@@ -80,6 +90,9 @@ class UsersTableSeeder extends Seeder
                 'vendor_short_info' => 'A bakery providing fresh and delicious treats.',
                 'role' => 'vendor',
                 'status' => 'active',
+                'remember_token' => Str::random(10),
+                'created_at' => now(), 
+                'updated_at' => now(),
             ],
             [
                 'firstname' => 'Arlie',
@@ -96,6 +109,9 @@ class UsersTableSeeder extends Seeder
                 'vendor_short_info' => 'A taveranki providing fresh meats.',
                 'role' => 'vendor',
                 'status' => 'active',
+                'remember_token' => Str::random(10),
+                'created_at' => now(), 
+                'updated_at' => now(),
             ],
             // User or Customer`
             [
@@ -112,7 +128,10 @@ class UsersTableSeeder extends Seeder
                 'vendor_join' => '',
                 'vendor_short_info' => '',
                 'role' => 'user',
-                'status' => 'active', 
+                'status' => 'active',
+                'remember_token' => Str::random(10),
+                'created_at' => now(), 
+                'updated_at' => now(), 
             ]
         ]);
     }

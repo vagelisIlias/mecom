@@ -1,3 +1,4 @@
+
 <header class="header-area header-style-1 header-height-2">
 <div class="mobile-promotion">
     <span>Grand opening, <strong>up to 15%</strong> off all items. Only <strong>3 days</strong> left</span>
@@ -203,9 +204,11 @@
                     <div class="categories-dropdown-wrap categories-dropdown-active-large font-heading">
                         <div class="d-flex categori-dropdown-inner">
                             <ul>
-                                @foreach($categories as $item)
+                                {{-- Checking if the variable is set and loop the categories --}}
+                                @isset($categories)
+                                @foreach($categories as $category)
                                     <li>
-                                        <a href="shop-grid-right.html"> <img src="{{ asset($item->category_image) }}" alt="" />{{ $item->category_name}}</a>
+                                        <a href="shop-grid-right.html"> <img src="{{ asset($category->category_image) }}" alt="" />{{ $category->category_name}}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -219,6 +222,7 @@
                                         </a>
                                     </li>
                                 @endforeach
+                                @endisset
                             </ul>
                         </div>
                         <div class="more_slide_open" style="display: none">
@@ -250,18 +254,22 @@
                             <li>
                                 <a class="active" href="index.html">Home </a>
                             </li>
+                           @isset($categories)
                             @foreach($categories as $category)
                             <li>
                                 <a href="#">{{ $category->category_name }}<i class="fi-rs-angle-down"></i></a>
                                 <ul class="sub-menu">
+                                    @isset($subcategories)
                                     @foreach($subcategories as $subcategory)
                                         @if($subcategory->category_id == $category->id)
                                             <li><a href="vendors-grid.html">{{ $subcategory->sub_category_name }}</a></li>
                                         @endif
                                     @endforeach
+                                    @endisset
                                 </ul>
                             </li>
                             @endforeach
+                            @endisset
                             <li>
                                 <a href="page-contact.html">Contact</a>
                             </li>

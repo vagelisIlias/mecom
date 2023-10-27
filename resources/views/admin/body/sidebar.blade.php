@@ -106,6 +106,8 @@
             <ul>
                 <li><a href="{{ route('all.vendor.status') }}"><i class="bx bx-right-arrow-alt"></i>Vendor Status Details</a>
                 </li>
+                <li><a href="{{ route('add.new.vendor') }}"><i class="bx bx-right-arrow-alt"></i>Add New Vendor</a>
+                </li>
             </ul>
         </li>
         <li>

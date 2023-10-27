@@ -35,8 +35,10 @@
                             <th>Product Image</th>
                             <th>Product Name</th>
                             <th>Product Price</th>
+                            <th>Product Discount</th>
+                            <th>Product Price After Dicsount</th>
+                            <th>Product Dicsount Amount</th>
                             <th>Product QTY</th>
-                            <th>Product Discunt</th>
                             <th>Product Status</th>
                             <th>Action</th>
                         </tr>
@@ -47,20 +49,43 @@
                                 <td>{{ ++$key }}</td>
                                 <td><img src="{{ asset($item->product_thambnail) }}" style="width: 60px; height: 50px;"></td>
                                 <td>{{ $item->product_name }}</td>
-                                <td>{{ $item->product_price }}</td>
-                                <td>{{ $item->product_qty }}</td>
+                                {{-- Product Price --}}
                                 <td>
                                     <div style="font-size: 14px; border-radius: 50px; color: whitesmoke; display: inline-block; padding: 3px 10px;
-                                        background-color: {{ empty($item->product_discount) || ($item->product_discount === 0) ? '#43A6C6' : '#ff9248' }};">
+                                        background-color: {{ !empty($item->product_price) ? '#89c943' : 'No Product Price Available' }}">
+                                        {{ $item->product_price . '£' }}
+                                    </div>
+                                </td>
+                                {{-- Product Discount --}}
+                                <td> 
+                                    <div style="font-size: 14px; border-radius: 50px; color: whitesmoke; display: inline-block; padding: 3px 10px;
+                                        background-color: {{ empty($item->product_discount) || ($item->product_discount === 0) ? '#43A6C6' : '#ea5252' }};">
                                         {{ empty($item->product_discount) || $item->product_discount === 0 ? 'No Discount' : round(($item->product_discount / $item->product_price) * 100) . '%' }}
                                     </div>
                                 </td>
+                                {{-- Product Price After Discount --}}
+                                <td>
+                                    <div style="font-size: 14px; border-radius: 50px; color: whitesmoke; display: inline-block; padding: 3px 10px;
+                                    background-color: 
+                                        {{ (!empty($item->product_price) && !empty($item->product_discount)) ? '#ff9248' : '#43A6C6' }}">
+                                        {{ !empty($item->product_price) && !empty($item->product_discount) ? ($item->product_price - $item->product_discount) . '£' : $item->product_price . '£' }}
+                                    </div>
+                                </td>
+                                {{-- Product Dicsount Amount --}}
+                                <td>
+                                    <div style="font-size: 14px; border-radius: 50px; color: whitesmoke; display: inline-block; padding: 3px 10px;
+                                        background-color: {{ !empty($item->product_discount) ? '#ff9248' : '#43A6C6' }}">
+                                        {{ !empty($item->product_discount) ? $item->product_discount . '£' : 'No Product Discount Available' }}
+                                    </div>
+                                </td>
+                                <td>{{ $item->product_qty }}</td>
                                 <td>
                                     <span style="font-size: 14px; border-radius: 50px; color: white; display: inline-block; padding: 5px 12px;
                                         background-color: {{ $item->product_status == 'active' ? '#7A9D54' : '#ea5252' }}">
                                         {{ $item->product_status }}
                                     </span>
-                                </td>  
+                                </td>
+                                {{-- Change Product Status --}}
                                 <td>
                                     <a href="{{ route('change.product.status', $item->id) }}"  
                                         style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;">
@@ -92,8 +117,10 @@
                             <th>Product Image</th>
                             <th>Product Name</th>
                             <th>Product Price</th>
+                            <th>Product Discount</th>
+                            <th>Product Price After Dicsount</th>
+                            <th>Product Dicsount Amount</th>
                             <th>Product QTY</th>
-                            <th>Product Discunt</th>
                             <th>Product Status</th>
                             <th>Action</th>
                         </tr>

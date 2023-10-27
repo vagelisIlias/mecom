@@ -113,7 +113,10 @@ input[type=number]:focus,
 [type=password].form-control:focus,
 [type=email].form-control:focus,
 [type=tel].form-control:focus,
-[contenteditable].form-control:focus{outline:none!important;box-shadow:none;}
+[contenteditable].form-control:focus{
+	outline:none!important;
+	box-shadow:none;
+}
 
 .bg-grey-9 {background-color: $color-grey-9;}
 

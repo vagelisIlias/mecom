@@ -29,9 +29,9 @@
     @include('frontend.body.quickview')
     <!-- End Quick view -->
 
-    <!-- Header  -->
+    <!-- Header -->
     @include('frontend.body.header')
-    <!-- End Header  -->
+    <!-- End Header -->
 
     <!-- Mobile header -->
     <div class="mobile-header-active mobile-header-wrapper-style">

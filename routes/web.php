@@ -29,6 +29,7 @@ use App\Http\Middleware\RedirectIfAuthenticatedController;
 |
 */
 
+// Index
 Route::get('/', function () {
     $categories = App\Models\Category::orderBy('category_name', 'asc')->get();
     $subcategories = App\Models\SubCategory::orderBy('sub_category_name', 'asc')->get();
@@ -37,7 +38,6 @@ Route::get('/', function () {
     $banners = App\Models\Banner::orderBy('banner_title', 'asc')->get();
         return view('frontend.index', compact('categories', 'subcategories', 'slider', 'products', 'banners'));
 });
-
 
 // User Dashboard
 Route::middleware(['auth'])->group(function () {
@@ -135,6 +135,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/check/vendor/details/{id}', 'checkVendorDetails')->name('check.vendor.details');
         Route::post('/change/vendor/status/', 'changeVendorStatus')->name('change.vendor.status');
         Route::get('/delete/vendor/details/{id}', 'deleteVendorDetails')->name('delete.vendor.details');
+        Route::get('/add/new/vendor', 'addNewVendor')->name('add.new.vendor');
+        Route::post('/store/vendor/profile', 'storeVendorProfile')->name('store.vendor.profile');
     });
 });
 

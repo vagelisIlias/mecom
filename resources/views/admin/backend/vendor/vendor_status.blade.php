@@ -44,7 +44,7 @@
                             <td>{{ $item->vendor_shop_name }}</td>
                             <td>{{ $item->username }}</td>
                             <td>{{ $item->email }}</td>
-                            <td>{{ $item->vendor_join }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->vendor_join)->format('d-m-Y H:i:s') }}</td>
                             <td>
                                 @if($item->status == 'inactive')
                                     <span style="font-size: 14px; background-color: #ea5252; border-radius: 50px; color: white; display: inline-block; padding: 5px 12px;">
