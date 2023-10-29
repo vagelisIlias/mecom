@@ -94,7 +94,7 @@
             </a>
             <ul>
                 <li><a href="{{ route('all.vendor.status') }}">Vendor Status Details</a></li>
-                <li><a href="{{ route('add.new.vendor') }}">Add New Vendor</a></li>
+                <li><a href="{{ route('add.vendor') }}">Add New Vendor</a></li>
             </ul>
         </li>
 

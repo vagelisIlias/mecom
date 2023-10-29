@@ -33,22 +33,14 @@ class VendorStatus extends Controller
         $allVendorStatus = $getActiveVendors->concat($getInactiveVendors);
 
         // Load the view with the combined collection
-        return view('admin.backend.vendor.vendor_status', compact('allVendorStatus'));
-    }
-
-    // Vendor Status Details
-    public function checkVendorDetails($id)
-    {   
-        // Return the id of the vendor status
-        $checkVendorDetails = User::findOrFail($id);
-        return view('admin.backend.vendor.change_vendor_status', compact('checkVendorDetails'));
+        return view('admin.backend.vendor.vendor_status_all', compact('allVendorStatus'));
     }
 
     // Change Vendor Status
-    public function changeVendorStatus(Request $request)
+    public function changeVendorStatus($id)
     {   
-        $vendor_id = $request->id;
-        $vendor = User::findOrFail($vendor_id);
+        // $vendor_id = $request->id;
+        $vendor = User::findOrFail($id);
 
         if ($vendor->status === 'inactive') {
             // Update the status to 'active'
@@ -83,11 +75,61 @@ class VendorStatus extends Controller
 
             // Pass the success message
             $not_succ = [
-                'message' => 'Vendor has been Deactivated uccessfully',
+                'message' => 'Vendor has been Deactivated Successfully',
                 'alert-type' => 'success',
             ];    
         }
         return redirect()->route('all.vendor.status')->with($not_succ);       
+    }
+
+    // Edit Vendor Details
+    public function editVendorDetails($id)
+    {   
+        $editVendorDetails = User::findOrFail($id);
+        return view('admin.backend.vendor.vendor_edit', compact('editVendorDetails'));
+    }
+
+    // Update Vendor Profile
+    public function updateVendorProfile(Request $request)
+    {
+        try {
+            $id = $request->id;
+            $vendor = User::findOrFail($id);
+
+            // Validate the request data
+            $validatedData = $request->validate([
+                'username' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'vendor_shop_name' => 'required|string|max:255',
+            ]);
+
+            // Update the specific fields
+            $vendor->update([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'username' => $request->username,
+                'email' => $request->email,
+                'vendor_shop_name' => $request->vendor_shop_name,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'postcode' => $request->postcode,
+            ]);
+            
+            // Pass the success message
+            $not_succ = [
+                'message' => 'Vendor Details Updated Successfully',
+                'alert-type' => 'success',
+            ];
+
+            return redirect()->route('all.vendor.status')->with($not_succ);
+        } catch (\Exception $e) {
+            // Handle the exception and return an error response
+            $error = [
+                'message' => 'Error updating vendor details: ' . $e->getMessage(),
+                'alert-type' => 'error',
+            ];
+            return redirect()->back()->with($error);
+        }
     }
 
     // Delete Vendor Details
@@ -127,9 +169,9 @@ class VendorStatus extends Controller
     }
 
     // Add New Vendor
-    public function addNewVendor()
+    public function addVendor()
     {
-        return view('admin.backend.vendor.add_new_vendor');
+        return view('admin.backend.vendor.vendor_add');
     }
 
     // Store New Vendor

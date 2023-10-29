@@ -9,7 +9,7 @@
 <div class="page-content"> 
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <a href="{{ route('all.vendor.status')}}"class="breadcrumb-title pe-3">Vendor Status Details</a>
+        <a href="{{ route('all.vendor.status')}}"class="breadcrumb-title pe-3">Vendor Status</a>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
@@ -136,7 +136,7 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <button type="submit" id="submit-button" class="btn btn" style="background-color: rgb(202, 18, 177); color: white;">Create Profile</button>
+                                        <button type="submit" id="submit-button" class="btn btn" style="background-color: rgb(202, 18, 177); color: white;">Create Vendor Profile</button>
                                     </div>
 
                             {{-- Form ends here --}}

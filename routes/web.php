@@ -128,14 +128,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     });
 });
 
-// Vendor Status Active/Inactive Admin Route with Middleware
+// Vendor Status Active/Inactive Admin Route with Middleware //////////////////////////////////////////////////////////////////
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(VendorStatus::class)->group(function () {
         Route::get('/all/vendor/status', 'allVendorStatus')->name('all.vendor.status');
-        Route::get('/check/vendor/details/{id}', 'checkVendorDetails')->name('check.vendor.details');
-        Route::post('/change/vendor/status/', 'changeVendorStatus')->name('change.vendor.status');
+        Route::get('/change/vendor/status/{id}', 'changeVendorStatus')->name('change.vendor.status');
+        Route::get('/edit/vendor/details/{id}', 'editVendorDetails')->name('edit.vendor.details');
+        Route::post('/update/vendor/profile', 'updateVendorProfile')->name('update.vendor.profile');
         Route::get('/delete/vendor/details/{id}', 'deleteVendorDetails')->name('delete.vendor.details');
-        Route::get('/add/new/vendor', 'addNewVendor')->name('add.new.vendor');
+        Route::get('/add/vendor', 'addVendor')->name('add.vendor');
         Route::post('/store/vendor/profile', 'storeVendorProfile')->name('store.vendor.profile');
     });
 });

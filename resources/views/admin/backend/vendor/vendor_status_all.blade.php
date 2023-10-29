@@ -16,6 +16,9 @@
             </nav>
         </div>
         <div class="ms-auto">
+            <div class="btn-group">
+                <a href="{{ route('add.vendor') }}" class="btn btn" style="background-color: rgb(202, 18, 177); color: white;">Add Vendor</a>
+            </div>
         </div>
     </div>
     <!--end breadcrumb-->
@@ -57,7 +60,15 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('check.vendor.details', $item->id) }}"
+                                <a href="{{ route('change.vendor.status', $item->id) }}"  
+                                    style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;">
+                                    @if ($item->status == 'active')
+                                        <i class="fa-regular fa-thumbs-up" style="color: #7A9D54;" title="Inactive Product Status"></i>
+                                    @else
+                                        <i class="fa-regular fa-thumbs-down" style="color: #ea5252;" title="Active Product Status"></i>
+                                    @endif
+                                </a>
+                                <a href="{{ route('edit.vendor.details', $item->id) }}"
                                     style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Edit Vendor">
                                     <i class="fa-solid fa-pen-to-square" style="color: #4D4C7D"></i>
                                 </a>
