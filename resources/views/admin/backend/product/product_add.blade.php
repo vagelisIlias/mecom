@@ -130,7 +130,7 @@
                     </select>
                 </div>
                 {{-- Select Vendor --}}
-                <div class="form-group col-12">
+                <div class="col-12">
                 <label class="form-label">Select Vendor</label>
                     <select name="product_vendor_id" id="product_vendor_id" class="form-select">
                         <option></option>
@@ -360,9 +360,6 @@
                 product_subcategory_id: {
                     required: true,
                 }, 
-                product_vendor_id: {
-                    required: true,
-                },
             },
             messages: {
                 product_name: {
@@ -388,9 +385,6 @@
                 },
                 product_subcategory_id: {
                     required: 'Please Select Subacategory',
-                },
-                product_vendor_id: {
-                    required: 'Please Select Vendor',
                 },
                 product_thambnail: {
                     required: 'Please Add Image',

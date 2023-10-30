@@ -16,4 +16,16 @@ class Product extends Model
     {
         return $this->hasMany(MultiImage::class);
     }
+
+    // Define the relationship to User model
+    public function vendorShopName()
+    {
+        return $this->belongsTo(User::class, 'product_vendor_id', 'id');
+    }
+
+    // Define the relationship to User model
+    public function productCategoryID()
+    {
+        return $this->belongsTo(Category::class, 'product_category_id', 'id');
+    }
 }

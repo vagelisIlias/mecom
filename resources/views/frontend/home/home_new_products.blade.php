@@ -6,24 +6,12 @@
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="nav-tab-one" data-bs-toggle="tab" data-bs-target="#tab-one" type="button" role="tab" aria-controls="tab-one" aria-selected="true">All</button>
                 </li>
+                @foreach($categories as $category)
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="nav-tab-two" data-bs-toggle="tab" data-bs-target="#tab-two" type="button" role="tab" aria-controls="tab-two" aria-selected="false">Milks & Dairies</button>
+                    <a class="nav-link" id="nav-tab-two" data-bs-toggle="tab" href="#category{{ $category->id }}"
+                    type="button" role="tab" aria-controls="tab-two" aria-selected="false">{{ $category->category_name }}</a>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="nav-tab-three" data-bs-toggle="tab" data-bs-target="#tab-three" type="button" role="tab" aria-controls="tab-three" aria-selected="false">Coffes & Teas</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="nav-tab-four" data-bs-toggle="tab" data-bs-target="#tab-four" type="button" role="tab" aria-controls="tab-four" aria-selected="false">Pet Foods</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="nav-tab-five" data-bs-toggle="tab" data-bs-target="#tab-five" type="button" role="tab" aria-controls="tab-five" aria-selected="false">Meats</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="nav-tab-six" data-bs-toggle="tab" data-bs-target="#tab-six" type="button" role="tab" aria-controls="tab-six" aria-selected="false">Vegetables</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="nav-tab-seven" data-bs-toggle="tab" data-bs-target="#tab-seven" type="button" role="tab" aria-controls="tab-seven" aria-selected="false">Fruits</button>
-                </li>
+                @endforeach
             </ul>
         </div>
         <!--End nav-tabs-->
@@ -60,7 +48,8 @@
                             </div>
                             <div class="product-content-wrap">
                                 <div class="product-category">
-                                    <a href="shop-grid-right.html">Snack</a>
+                                    {{-- Creating a relationship and checking if the productCategoryID much with category name --}}
+                                    <a href="shop-grid-right.html">{{ $product->productCategoryID->category_name}}</a>
                                 </div>
                                 <h2><a href="shop-product-right.html">{{ $product->product_name}}</a></h2>
                                 <div class="product-rate-cover">
@@ -70,7 +59,12 @@
                                     <span class="font-small ml-5 text-muted"> (4.0)</span>
                                 </div>
                                 <div>
-                                    <span class="font-small text-muted">By <a href="vendor-details-1.html">NestFood</a></span>
+                                    @if($product->product_vendor_id == null)
+                                        <span class="font-small text-muted">By <a href="vendor-details-1.html">No Shop Name</a></span>
+                                    @else
+                                    {{-- Creating relationship and checking if the vendor shop name exists in User model and return the vendor shop name --}}
+                                        <span class="font-small text-muted">By <a href="vendor-details-1.html">{{ $product->vendorShopName->vendor_shop_name}}</a></span>
+                                    @endif
                                 </div>
                                 <div class="product-card-bottom">
                                     @if($product->product_discount == null)
