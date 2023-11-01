@@ -2,9 +2,9 @@
 
 ## About mecom e-commerce online shop Project
 
-Creating a personal e-commerce project based on the Laravel 10x framework. The philosophy behind this project is to control everything with an Admin panel and vendor panel
+Creating a personal e-commerce project based on the Laravel framework. The philosophy behind this project is to control everything with an Admin panel and vendor panel
 
-The website uses mainly Laravel 10x including HTML, CSS and JavaScript, jQuery for the most frontend functionality, and MySQL for database
+The website uses mainly Laravel including HTML, CSS and JavaScript, jQuery for the most frontend functionality, and MySQL for database
 
 The main area of the e-commerce project
 
