@@ -6,9 +6,9 @@
                 <div class="single-hero-slider single-animation-wrap" style="background-image: url({{ asset($item->slider_image) }})">
                     <div class="slider-content">
                         <h1 class="display-2 mb-40">
-                            {{ $item->slider_title}}
+                            {{ $item->slider_title }}
                         </h1>
-                        <p class="mb-65">{{ $item->short_title}}</p>
+                        <p class="mb-65">{{ $item->short_title }}</p>
                         <form class="form-subcriber d-flex">
                             <input type="email" placeholder="Your emaill address" />
                             <button class="btn" type="submit">Subscribe</button>
