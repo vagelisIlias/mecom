@@ -22,7 +22,7 @@
                                     <img src="{{ asset('frontend/assets/imgs/shop/product-16-4.jpg') }}" alt="product image" />
                                 </figure>
                                 <figure class="border-radius-10">
-                                    <img src="{{ asset('frontend/') }}assets/imgs/shop/product-16-5.jpg" alt="product image" />
+                                    <img src="{{ asset('frontend/assets/imgs/shop/product-16-5.jpg') }}" alt="product image" />
                                 </figure>
                                 <figure class="border-radius-10">
                                     <img src="{{ asset('frontend/assets/imgs/shop/product-16-6.jpg') }}" alt="product image" />
