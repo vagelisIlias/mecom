@@ -15,8 +15,6 @@ use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\VendorBackend\VendorProductController;
 use App\Http\Middleware\RedirectIfAuthenticated;
-use App\Http\Middleware\VendorStatusChecker;
-use App\Http\Middleware\RedirectIfAuthenticatedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,16 +45,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/user/update/password', [UserController::class, 'userUpdatePassword'])->name('user.update.password');
 });
 
-// Admin Dashboard
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard'); 
-    Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout');   
-    Route::get('/admin/profile', [AdminController::class, 'adminProfile'])->name('admin.profile');
-    Route::post('/admin/profile/store', [AdminController::class, 'adminProfileStore'])->name('admin.profile.store');
-    Route::get('/admin/change/password', [AdminController::class, 'adminChangePassword'])->name('admin.change.password');
-    Route::post('/admin/update/password', [AdminController::class, 'adminUpdatePassword'])->name('admin.update.password');
-});
-
 // Vendor Dashboard In Admin Dashboard
 Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorController::class, 'vendorDashboard'])->name('vendor.dashboard')->middleware('status:active');;
@@ -81,18 +69,16 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
     });
 });
 
-// Become a Vendor
-Route::get('/become/vendor', [VendorController::class, 'becomeVendor'])->name('become.vendor');
-
-// Admin Login Route
-Route::get('/admin/login', [AdminController::class, 'adminLogin'])->middleware(RedirectIfAuthenticated::class);
-
-// Vendor Register | Login routes
-Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
-Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
-
-// Brand Admin Route with Middleware
+//Admin Route with Middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Admin Profile and Dashboard
+    Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard'); 
+    Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout');   
+    Route::get('/admin/profile', [AdminController::class, 'adminProfile'])->name('admin.profile');
+    Route::post('/admin/profile/store', [AdminController::class, 'adminProfileStore'])->name('admin.profile.store');
+    Route::get('/admin/change/password', [AdminController::class, 'adminChangePassword'])->name('admin.change.password');
+    Route::post('/admin/update/password', [AdminController::class, 'adminUpdatePassword'])->name('admin.update.password');
+    // Admin Brand Route
     Route::controller(BrandController::class)->group(function () {
         Route::get('/all/brand', 'allBrand')->name('all.brand');
         Route::get('/add/brand', 'addBrand')->name('add.brand');
@@ -101,10 +87,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/update/brand', 'updateBrand')->name('update.brand');
         Route::get('/delete/brand/{id}', 'deleteBrand')->name('delete.brand');
     });
-});
-
-// Category Admin Route with Middleware
-Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Category Admin Route with Middleware
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/all/category', 'allCategory')->name('all.category');
         Route::get('/add/category', 'addCategory')->name('add.category');
@@ -113,10 +96,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/update/category', 'updateCategory')->name('update.category');
         Route::get('/delete/category/{id}', 'deleteCategory')->name('delete.category');
     });
-});
-
-// SubCategory Admin Route with Middleware
-Route::middleware(['auth', 'role:admin'])->group(function () {
+    // SubCategory Admin Route with Middleware
     Route::controller(SubCategoryController::class)->group(function () {
         Route::get('/all/subcategory', 'allSubCategory')->name('all.subcategory');
         Route::get('/add/subcategory', 'addSubCategory')->name('add.subcategory');
@@ -126,10 +106,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/delete/subcategory/{id}', 'deleteSubCategory')->name('delete.subcategory');
         Route::get('/subcategory/ajax/{category_id}', 'getSubCategoryAjax');
     });
-});
-
-// Vendor Status Active/Inactive Admin Route with Middleware //////////////////////////////////////////////////////////////////
-Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Vendor Status Active/Inactive Admin Route with Middleware
     Route::controller(VendorStatus::class)->group(function () {
         Route::get('/all/vendor/status', 'allVendorStatus')->name('all.vendor.status');
         Route::get('/change/vendor/status/{id}', 'changeVendorStatus')->name('change.vendor.status');
@@ -139,17 +116,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/add/vendor', 'addVendor')->name('add.vendor');
         Route::post('/store/vendor/profile', 'storeVendorProfile')->name('store.vendor.profile');
     });
-});
-
-// Users Admin Route with Middleware
-Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Users Admin Route with Middleware
     Route::controller(UserStatus::class)->group(function () {
         Route::get('/all/user/status', 'allUserStatus')->name('all.user.status');
     });
-});
-
-// Slider Admin Route with Middleware
-Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Slider Admin Route with Middleware
     Route::controller(SliderController::class)->group(function () {
         Route::get('/all/slider', 'allSlider')->name('all.slider');
         Route::get('/add/slider', 'addSlider')->name('add.slider');
@@ -158,10 +129,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/update/slider', 'updateSlider')->name('update.slider');
         Route::get('/delete/slider/{id}', 'deleteSlider')->name('delete.slider');
     });
-});
-
-// Banner Admin Route with Middleware
-Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Banner Admin Route with Middleware
     Route::controller(BannerController::class)->group(function () {
         Route::get('/all/banner', 'allBanner')->name('all.banner');
         Route::get('/add/banner', 'addBanner')->name('add.banner');
@@ -170,10 +138,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/update/banner', 'updateBanner')->name('update.banner');
         Route::get('/delete/banner/{id}', 'deleteBanner')->name('delete.banner');
     });
-});
-
-// Product Admin Route with Middleware
-Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Product Admin Route with Middleware
     Route::controller(ProductController::class)->group(function () {
         Route::get('/all/product', 'allProduct')->name('all.product');
         Route::get('/add/product', 'addProduct')->name('add.product');
@@ -186,6 +151,16 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/change/product/status/{id}', 'changeProductStatus')->name('change.product.status');        
     });
 });
+
+// Become a Vendor
+Route::get('/become/vendor', [VendorController::class, 'becomeVendor'])->name('become.vendor');
+
+// Admin Login Route
+Route::get('/admin/login', [AdminController::class, 'adminLogin'])->middleware(RedirectIfAuthenticated::class);
+
+// Vendor Register | Login routes
+Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
+Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
 
 // Middleware authedication route
 Route::middleware('auth')->group(function () {

@@ -2,7 +2,7 @@
 {{-- Start Section --}}
 @section('admin')
 
-<!-- Image Reload JS & Validation min.JS Include jQuery and jQuery Validation -->
+<!-- Image Reload JS & Validation min.JS Include jQuery and jQuery Validation --> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 <!-- Page Content -->
