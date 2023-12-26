@@ -119,7 +119,7 @@ class ProductController extends Controller
                 'alert-type' => 'success',
             ];
             return redirect()->route('all.product')->with($not_succ);
-        }
+            }
         } catch (\Exception $e){
             // Handle errors, log them, and return an error response
             $not_error = [
@@ -391,6 +391,5 @@ class ProductController extends Controller
         }
         return redirect()->route('all.product')->with($not_succ); 
     }
-
 }
 

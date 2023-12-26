@@ -5,7 +5,6 @@ namespace App\Http\Controllers\VendorBackend;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use App\Models\SubCategory;
 use App\Models\Category;
 use App\Models\Brand;
@@ -13,7 +12,6 @@ use App\Models\Product;
 use App\Models\MultiImage;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-
 
 class VendorProductController extends Controller
 {

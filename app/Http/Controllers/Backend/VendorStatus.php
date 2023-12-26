@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Services\VendorStatusDetails;
-use Illuminate\Http\RedirectResponse;
 use App\Notifications\AccountStatusChanged;
 
 class VendorStatus extends Controller

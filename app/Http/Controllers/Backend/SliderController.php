@@ -159,7 +159,6 @@ class SliderController extends Controller
                 'alert-type' => 'error',
             ];
             return redirect()->back()->with($not_error);
-        }
-        
+        }  
     }
 }

@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Hash;
 use App\Models\SubCategory;
 use App\Models\Category;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 
 class SubCategoryController extends Controller
 {
@@ -26,7 +20,6 @@ class SubCategoryController extends Controller
 
         return view('admin.backend.subcategory.subcategory_all', compact('allSubCategory'));
     }
-
 
     // Add SubCategory
     public function addSubCategory()
@@ -83,7 +76,6 @@ class SubCategoryController extends Controller
         // Return a view for editing the subcategory, passing the subcategory and categories as data
         return view('admin.backend.subcategory.subcategory_edit', compact('editSubcategory', 'categories'));
     }
-
 
     // Update Sub Category
     public function updateSubcategory(Request $request)

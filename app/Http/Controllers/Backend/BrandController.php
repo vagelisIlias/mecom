@@ -5,11 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Hash;
 use App\Models\Brand;
-use Illuminate\Support\Str;
 
 class BrandController extends Controller
 {

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use App\Models\Category;
 
 
