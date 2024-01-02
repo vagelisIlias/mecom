@@ -39,8 +39,8 @@ Route::get('/', function () {
 
 // User Dashboard
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');
-    Route::post('/user/profile/store', [UserController::class, 'userProfileStore'])->name('user.profile.store');
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard'); // REFACTORED!!!
+    Route::patch('/profile/{user}', [UserController::class, 'update'])->name('profile.update');
     Route::get('/user/logout', [UserController::class, 'userLogout'])->name('user.logout');
     Route::post('/user/update/password', [UserController::class, 'userUpdatePassword'])->name('user.update.password');
 });
@@ -163,11 +163,11 @@ Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('ven
 Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
 
 // Middleware authedication route
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 require __DIR__.'/auth.php';
 

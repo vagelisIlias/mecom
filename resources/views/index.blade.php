@@ -53,8 +53,8 @@
                                         <h3 class="mb-0">Hello {{ Auth::user()->firstname }}</h3>
                                     </div>
                                     <div class="col-sm-10">
-                                        <img class="rounded-circle avatar-lg" src="{{ (!empty($userData->photo)) ? 
-                                        url('upload/user_profile_image/'. $userData->photo) : url('upload/no_image.jpg') }}" 
+                                        <img class="rounded-circle avatar-lg" src="{{ (!empty($user->photo)) ? 
+                                        url('upload/user_profile_image/'. $user->photo) : url('upload/no_image.jpg') }}" 
                                         alt="Card image cap" style="width: 200px; height: 200px; border: 5px solid rgba(138, 60, 221, 0.729);">
                                     </div>
                                     <div class="card-body">
@@ -178,55 +178,57 @@
                                     </div>
                                     <div class="card-body">
                                         {{-- Forms Starts Here --}}
-                                        <form method="post" action="{{ route('user.profile.store') }}" enctype="multipart/form-data">
+                                        <form method="POST" action="{{ route('profile.update', ['user' => $user]) }}" enctype="multipart/form-data">
                                             @csrf
+                                            @method('PATCH')
+
                                             <div class="row">
                                                 <div class="col-sm-10">
-                                                    <img id="showImage" class="rounded-circle avatar-lg" src="{{ (!empty($userData->photo)) ? 
-                                                    url('upload/user_profile_image/'. $userData->photo) : url('upload/no_image.jpg') }}" 
+                                                    <img id="showImage" class="rounded-circle avatar-lg" src="{{ (!empty($user->photo)) ? 
+                                                    url('upload/user_profile_image/'. $user->photo) : url('upload/no_image.jpg') }}" 
                                                     alt="Card image cap" style="width: 200px; height: 200px; border: 5px solid rgba(138, 60, 221, 0.729);">
                                                 </div>
                                                 <!-- end row -->
 
                                                 <div class="form-group col-md-6">
                                                     <label>First Name <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="firstname" type="text" value="{{ $userData->firstname }}"/>
+                                                    <input required="" class="form-control" name="firstname" type="text" value="{{ $user->firstname }}"/>
                                                 </div>
                                                 <!-- end row -->
 
                                                 <div class="form-group col-md-6">
                                                     <label>Last Name <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="lastname" value="{{ $userData->lastname }}"/>
+                                                    <input required="" class="form-control" name="lastname" value="{{ $user->lastname }}"/>
                                                 </div>
                                                 <!-- end row -->
 
                                                 <div class="form-group col-md-12">
                                                     <label>User Name <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="username" type="text" value="{{ $userData->username }}"/>
+                                                    <input required="" class="form-control" name="username" type="text" value="{{ $user->username }}"/>
                                                 </div>
                                                 <!-- end row -->
 
                                                 <div class="form-group col-md-12">
                                                     <label>Email Address <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="email" type="email" value="{{ $userData->email }}"/>
+                                                    <input required="" class="form-control" name="email" type="email" value="{{ $user->email }}"/>
                                                 </div>
                                                 <!-- end row -->
 
                                                 <div class="form-group col-md-12">
                                                     <label>Cell Phone <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="phone" type="text" value="{{ $userData->phone }}"/>
+                                                    <input required="" class="form-control" name="phone" type="text" value="{{ $user->phone }}"/>
                                                 </div>
                                                 <!-- end row -->
 
                                                 <div class="form-group col-md-12">
                                                     <label>Address <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="address" type="text" value="{{ $userData->address }}"/>
+                                                    <input required="" class="form-control" name="address" type="text" value="{{ $user->address }}"/>
                                                 </div>
                                                 <!-- end row -->
 
                                                 <div class="form-group col-md-12">
                                                     <label>Postcode <span class="required">*</span></label>
-                                                    <input required="" class="form-control" name="postcode" type="text" value="{{ $userData->postcode }}"/>
+                                                    <input required="" class="form-control" name="postcode" type="text" value="{{ $user->postcode }}"/>
                                                 </div>
                                                 <!-- end row -->
 
