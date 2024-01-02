@@ -12,29 +12,21 @@ use App\Http\Requests\User\CreateUserRequest;
 
 class UserController extends Controller
 {
-    // Creating the dashboard for user  ** REFACTORED
+    // Creating the dashboard for user  // ** REFACTORED
     public function dashboard(User $user)
     {   
         $request = $user->findOrFail(Auth::id());
         return view('index', ['user' => $request]);
     }
 
-    // Store user data in database ** REFACTORED
-    public function update(CreateUserRequest $request, User $user, ImageUploadService $upload)
+    // Store user data in database // ** REFACTORED
+    public function update(CreateUserRequest $request, User $user)
     {   
         // Find the user
         $update = $user->findOrFail(Auth::id());
 
         // Update user data
         tap($update)->update($request->updateUserData())->save();
-
-        // Upload new image and Delete prior image
-        $upload->handleImageUpload($request,
-            'photo',
-            'upload/user_profile_image/' . $update->photo,
-            'upload/user_profile_image/',
-            'profile_image_'
-        );
 
         // Creating a message notification
         $notification = [

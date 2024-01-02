@@ -27,7 +27,7 @@ class UserControllerTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
-            ->patch(route('profile.update', ['user' => $user->id]), [
+            ->patch(route('profile.update', ['user' => $user->id, $user->photo]), [
                 'firstname' => 'Update first name',
                 'lastname' => 'Update last name',
                 'username' => 'Update username',

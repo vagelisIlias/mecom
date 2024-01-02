@@ -52,11 +52,6 @@
                                     <div class="card-header">
                                         <h3 class="mb-0">Hello {{ Auth::user()->firstname }}</h3>
                                     </div>
-                                    <div class="col-sm-10">
-                                        <img class="rounded-circle avatar-lg" src="{{ (!empty($user->photo)) ? 
-                                        url('upload/user_profile_image/'. $user->photo) : url('upload/no_image.jpg') }}" 
-                                        alt="Card image cap" style="width: 200px; height: 200px; border: 5px solid rgba(138, 60, 221, 0.729);">
-                                    </div>
                                     <div class="card-body">
                                         <p>
                                             From your account dashboard. you can easily check &amp; view your <a href="#">recent orders</a>,<br />
@@ -183,13 +178,7 @@
                                             @method('PATCH')
 
                                             <div class="row">
-                                                <div class="col-sm-10">
-                                                    <img id="showImage" class="rounded-circle avatar-lg" src="{{ (!empty($user->photo)) ? 
-                                                    url('upload/user_profile_image/'. $user->photo) : url('upload/no_image.jpg') }}" 
-                                                    alt="Card image cap" style="width: 200px; height: 200px; border: 5px solid rgba(138, 60, 221, 0.729);">
-                                                </div>
-                                                <!-- end row -->
-
+                                                
                                                 <div class="form-group col-md-6">
                                                     <label>First Name <span class="required">*</span></label>
                                                     <input required="" class="form-control" name="firstname" type="text" value="{{ $user->firstname }}"/>
@@ -229,12 +218,6 @@
                                                 <div class="form-group col-md-12">
                                                     <label>Postcode <span class="required">*</span></label>
                                                     <input required="" class="form-control" name="postcode" type="text" value="{{ $user->postcode }}"/>
-                                                </div>
-                                                <!-- end row -->
-
-                                                <div class="form-group col-md-12">
-                                                    <label>Profile Image <span class="required"></span></label>
-                                                    <input class="form-control" name="photo" id="image" type="file" />
                                                 </div>
                                                 <!-- end row -->
 
