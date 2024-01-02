@@ -26,9 +26,12 @@ class VendorProductController extends Controller
     // Add Product
     public function addVendorProduct()
     {    
-        $brands = Brand::latest()->get();
-        $categories = Category::latest()->get();
-        $subcategories = SubCategory::latest()->get();
+        $brands = Brand::latest()
+            ->get();
+        $categories = Category::latest()
+            ->get();
+        $subcategories = SubCategory::latest()
+            ->get();
         return view('vendor.backend.product.vendor_product_add', compact('brands','categories','subcategories'));
     }
 
@@ -402,5 +405,4 @@ class VendorProductController extends Controller
         }
         return redirect()->route('all.vendor.product')->with($not_succ); 
     }
-
 }

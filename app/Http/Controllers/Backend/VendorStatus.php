@@ -6,34 +6,20 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use App\Services\VendorStatusDetails;
+use App\Http\Requests\VendorStatus\VendorStatusRequest;;
 use App\Notifications\AccountStatusChanged;
 
 class VendorStatus extends Controller
 {
-    protected $vendorStatusDetails;
-    
-    public function __construct(VendorStatusDetails $vendorStatusDetails)
+    public function allVendorStatus(VendorStatusRequest $request)
     {
-        $this->vendorStatusDetails = $vendorStatusDetails;
-    }
-
-    // Returning the vendor status details based on Eloquent request
-    public function allVendorStatus()
-    {   
-        // Get active vendors using $this->vendorStatusDetails
-        $getActiveVendors = $this->vendorStatusDetails->getActiveVendors();
-
-        // Get inactive vendors using $this->vendorStatusDetails
-        $getInactiveVendors = $this->vendorStatusDetails->getInactiveVendors();
-
-        // Combine active and inactive vendors into a single collection
-        $allVendorStatus = $getActiveVendors->concat($getInactiveVendors);
-
-        // Load the view with the combined collection
+        $activeVendors = $request->getActiveVendors();
+        $inactiveVendors = $request->getInactiveVendors();
+        $allVendorStatus = $activeVendors->concat($inactiveVendors);
+    
         return view('admin.backend.vendor.vendor_status_all', compact('allVendorStatus'));
     }
-
+    
     // Change Vendor Status
     public function changeVendorStatus($id)
     {   
@@ -95,7 +81,7 @@ class VendorStatus extends Controller
             $vendor = User::findOrFail($id);
 
             // Validate the request data
-            $validatedData = $request->validate([
+            $request->validate([
                 'username' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
                 'vendor_shop_name' => 'required|string|max:255',
