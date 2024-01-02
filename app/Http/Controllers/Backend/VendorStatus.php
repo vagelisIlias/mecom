@@ -10,7 +10,8 @@ use App\Http\Requests\VendorStatus\VendorStatusRequest;;
 use App\Notifications\AccountStatusChanged;
 
 class VendorStatus extends Controller
-{
+{   
+    // Check the Vendor Status
     public function allVendorStatus(VendorStatusRequest $request)
     {
         $activeVendors = $request->getActiveVendors();
