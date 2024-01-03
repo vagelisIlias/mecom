@@ -21,11 +21,11 @@ The Mecom E-Commerce Online Shop Project is a Laravel-based web application desi
         User profiles for personalized experiences.
         Seamless shopping experience.
 
-## Installation
+Installation
 
     git clone https://github.com/your-username/mecom-e-commerce.git
-
-## Run Migrations and Seed Database:
+ 
+Run Migrations and Seed Database
 
     php artisan migrate --seed
 
