@@ -1,6 +1,6 @@
-## Mecom E-Commerce Online Shop Project Documentation
+# Mecom E-Commerce Online Shop Project Documentation
 
-# Overview
+## Overview
 
 The Mecom E-Commerce Online Shop Project is a Laravel-based web application designed for personal e-commerce use. The project emphasizes comprehensive control through both an Admin panel and a Vendor panel. The technology stack includes Laravel for backend functionality, HTML, CSS, and JavaScript with jQuery for frontend interactivity, and MySQL for database management.
 Main Features
