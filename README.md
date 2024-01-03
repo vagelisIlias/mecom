@@ -37,17 +37,17 @@ Main Area of the E-Commerce Project
 
 ![](example-images/exampleImage_2.png)
 
-The user panel
+The User Dashboard
 
 ![](example-images/exampleImage_3.png)
 
-The admin dashboard controls all the shop
+The Admin Dashboard Controls all the aspects of the shop
 
 ![](example-images/exampleImage_4.png)
 
 ![](example-images/exampleImage_5.png)
 
-The Vendor dashboard has been approved by the admin
+The Vendor Dashboard has been approved by the admin
 
 ![](example-images/exampleImage_6.png)
 
