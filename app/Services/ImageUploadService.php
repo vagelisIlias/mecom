@@ -4,7 +4,6 @@ namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 use App\Exceptions\ImageUpload\ImageUploadException;
 
 /**
@@ -18,6 +17,7 @@ class ImageUploadService
      * @param \Illuminate\Http\UploadedFile $file
      * @param string $destinationPath
      * @param string $prefix
+     * @return string
      * @throws \App\Exceptions\ImageUploadException
      */
     public function upload(UploadedFile $file, string $destinationPath, string $prefix = '')
@@ -34,8 +34,30 @@ class ImageUploadService
     }
 
     /**
+     * Upload a file to the specified destination path with replacement logic.
+     *
+     * @param \Illuminate\Http\UploadedFile $file
+     * @param string $destinationPath
+     * @param string $prefix
+     * @param string|null $oldFilename
+     * @return string
+     * @throws \App\Exceptions\ImageUploadException
+     */
+    public function uploadWithReplacement(UploadedFile $file, string $destinationPath, string $prefix = '', ?string $oldFilename = null)
+    {
+        // If an old filename is provided, delete the old image
+        if ($oldFilename) {
+            $this->delete($destinationPath, $oldFilename);
+        }
+
+        // Upload the new image
+        return $this->upload($file, $destinationPath, $prefix);
+    }
+
+    /**
      * Delete a file using the provided filename.
      *
+     * @param string $destinationPath
      * @param string $filename
      */
     public function delete(string $destinationPath, string $filename)

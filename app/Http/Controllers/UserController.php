@@ -13,7 +13,7 @@ use App\Http\Requests\User\CreateUserRequest;
 class UserController extends Controller
 {
     // Creating the dashboard for user  // ** REFACTORED
-    public function dashboard(User $user)
+    public function index(User $user)
     {   
         $request = $user->findOrFail(Auth::id());
         return view('index', ['user' => $request]);
@@ -39,18 +39,13 @@ class UserController extends Controller
     }
 
     // User Logout
-    public function userLogout(Request $request): RedirectResponse 
+    public function destroy(): RedirectResponse 
     {
-        // Logout the user
         Auth::guard('web')->logout();
+        session()->invalidate();
+        session()->regenerateToken();
+        session()->flash('success', 'You have been logged out successfully.');
 
-        // Invalidate the session
-        $request->session()->invalidate();
-
-        // Regenerate the CSRF token
-        $request->session()->regenerateToken();
-
-        // Redirect to the user login page
         return redirect('/login');
     }
 
@@ -65,7 +60,7 @@ class UserController extends Controller
         ]);
 
         // Check Matching Old Password
-        if (!Hash::check($request->old_password, auth()->user()->password)) {
+        if (! Hash::check($request->old_password, auth()->user()->password)) {
             // Display an error message using Toastr
             $not_error = [
                 'message' => 'Old Password Does Not Match, Please re-type your current password',

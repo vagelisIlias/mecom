@@ -40,7 +40,7 @@
                                     <a class="nav-link" id="change-password-tab" data-bs-toggle="tab" href="#change-password" role="tab" aria-controls="change-password" aria-selected="true"><i class="fi-rs-key mr-10"></i>Change Password</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('user.logout')}}"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                    <a class="nav-link" href="{{ route('logout')}}"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
                                 </li>
                             </ul>
                         </div>
@@ -222,7 +222,7 @@
                                                 <!-- end row -->
 
                                                 <div class="col-md-12">
-                                                    <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Save Changes</button>
+                                                    <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Update Profile</button>
                                                 </div>
                                             </div>
                                         </form>

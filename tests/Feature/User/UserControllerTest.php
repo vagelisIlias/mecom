@@ -10,9 +10,6 @@ class UserControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * User Controller Test
-     */
     public function test_user_can_access_the_dashboard()
     {
         $user = User::factory()->create();
@@ -37,6 +34,16 @@ class UserControllerTest extends TestCase
                 'postcode' => 'Update postcode',
             ]);
         
+        $response->assertRedirect();
+    }
+
+    public function test_user_can_logout_profile()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post('logout');
+
+        $this->assertGuest();
         $response->assertRedirect();
     }
 }

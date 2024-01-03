@@ -39,9 +39,9 @@ Route::get('/', function () {
 
 // User Dashboard
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard'); // REFACTORED!!!
-    Route::patch('/profile/{user}', [UserController::class, 'update'])->name('profile.update');
-    Route::get('/user/logout', [UserController::class, 'userLogout'])->name('user.logout');
+    Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard'); // REFACTORED!!!
+    Route::patch('/profile/{user}', [UserController::class, 'update'])->name('profile.update'); // REFACTORED
+    Route::get('/logout', [UserController::class, 'destroy'])->name('logout'); // REFACTORED
     Route::post('/user/update/password', [UserController::class, 'userUpdatePassword'])->name('user.update.password');
 });
 
