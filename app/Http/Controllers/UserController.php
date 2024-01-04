@@ -32,14 +32,13 @@ class UserController extends Controller
     }
 
     // User Logout // ** REFACTORED
-    public function destroy(): RedirectResponse 
+    public function destroy(NotificationService $notification): RedirectResponse 
     {
         Auth::guard('web')->logout();
         session()->invalidate();
         session()->regenerateToken();
-        session()->flash('success', 'You have been logged out successfully.');
 
-        return redirect('/login');
+        return redirect('/login')->with($notification->message('You have been logged out successfully', 'success'));
     }
 
     // User update password // ** REFACTORED
