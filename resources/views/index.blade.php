@@ -238,8 +238,10 @@
                                     </div>
                                     <div class="card-body">
                                         {{-- Forms Starts Here --}}
-                                        <form method="post" action="{{ route('user.update.password') }}">
+                                        <form method="post" action="{{ route('password.update') }}">
                                             @csrf
+                                            @method('PATCH')
+                                            
                                             <div class="row">
                                                 <div class="form-group col-md-8">
                                                     <label>Old Password <span class="required">*</span></label>

@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Services\ImageUploadService;
+use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
+use App\Services\Password\PasswordService;
 use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\UpdatePasswordRequest;
+use App\Services\Notification\NotificationService;
 
 class UserController extends Controller
 {
@@ -20,25 +22,18 @@ class UserController extends Controller
     }
 
     // Store user data in database // ** REFACTORED
-    public function update(CreateUserRequest $request, User $user)
+    public function updateProfile(CreateUserRequest $request, User $user, NotificationService $notification)
     {   
         // Find the user
         $update = $user->findOrFail(Auth::id());
 
         // Update user data
         tap($update)->update($request->updateUserData())->save();
-
-        // Creating a message notification
-        $notification = [
-            'message' => 'User Porfile Updated Successfully',
-            'alert-type' => 'success',
-        ];
-    
-        // Redirect back to the previous page after saving
-        return redirect()->back()->with($notification);
+        
+        return redirect()->back()->with($notification->message('User Porfile Updated Successfully', 'success'));
     }
 
-    // User Logout
+    // User Logout // ** REFACTORED
     public function destroy(): RedirectResponse 
     {
         Auth::guard('web')->logout();
@@ -49,39 +44,15 @@ class UserController extends Controller
         return redirect('/login');
     }
 
-    // User update password
-    public function userUpdatePassword(Request $request)
+    // User update password // ** REFACTORED
+    public function updatePassword(UpdatePasswordRequest $request, PasswordService $password, NotificationService $notification)
     {
-        // Validation
-        $request->validate([
-            'old_password' => 'required',
-            'new_password' => 'required|confirmed',
-            'new_password_confirmation' => 'required',
-        ]);
-
-        // Check Matching Old Password
-        if (! Hash::check($request->old_password, auth()->user()->password)) {
-            // Display an error message using Toastr
-            $not_error = [
-                'message' => 'Old Password Does Not Match, Please re-type your current password',
-                'alert-type' => 'error',
-            ];
-            // Redirect to the dashboard
-            return redirect()->route('dashboard')->with($not_error);
+        if (! $password->checkPassword($request->old_password, auth()->user()->id)) {
+            return redirect()->back()->with($notification->message('Old password does not match', 'error'));
         }
 
         // Update New Password
-        User::whereId(auth()->user()->id)->update([
-            'password' => Hash::make($request->new_password)
-        ]);
-
-        // Pass the additional data to the view along with the success message
-        $not_succ = [
-            'message' => 'User Password Updated Successfully',
-            'alert-type' => 'success',
-        ];
-        
-        // Redirect to the dashboard
-        return redirect()->route('dashboard')->with($not_succ);
+        $password->updatePassword(auth()->user()->id, $request->new_password);
+        return redirect()->back()->with($notification->message('User password updated successfully', 'success'));
     }
 }

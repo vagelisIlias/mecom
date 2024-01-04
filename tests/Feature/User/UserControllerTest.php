@@ -4,6 +4,10 @@ namespace Tests\Feature\User;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Exceptions\CustomException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Services\Password\PasswordService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserControllerTest extends TestCase
@@ -24,7 +28,7 @@ class UserControllerTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
-            ->patch(route('profile.update', ['user' => $user->id, $user->photo]), [
+            ->patch(route('profile.update', ['user' => $user->id]), [
                 'firstname' => 'Update first name',
                 'lastname' => 'Update last name',
                 'username' => 'Update username',
@@ -45,5 +49,24 @@ class UserControllerTest extends TestCase
 
         $this->assertGuest();
         $response->assertRedirect();
+    }
+
+    public function test_password_can_be_updated(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->from('dashboard')
+            ->patch('/password', [
+                'old_password' => 'old_password',
+                'new_password' => 'new_password',
+                'new_password_confirmation' => 'new_password_confirmation',
+            ]);
+
+        $response
+            ->assertRedirect();
+
+        $this->assertTrue(! Hash::check('new_password', $user->refresh()->password));
     }
 }
