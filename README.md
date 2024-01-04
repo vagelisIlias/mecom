@@ -6,20 +6,20 @@ The Mecom E-Commerce Online Shop Project is a Laravel-based web application desi
 
 ## Main Features
 
-    Admin Panel:
-        Comprehensive dashboard for controlling the entire shop.
-        CRUD (Create, Read, Update, Delete) routes for efficient management.
-        Real-time insights and analytics.
+ - Admin Panel
+   - Comprehensive dashboard for controlling the entire shop.
+   - CRUD (Create, Read, Update, Delete) routes for efficient management.
+   - Real-time insights and analytics.
 
-    Vendor Panel:
-        Approval process managed by the admin.
-        Vendor-specific dashboard after approval.
-        Access to manage products and orders.
+ - Vendor Panel
+   - Approval process managed by the admin.
+   - Vendor-specific dashboard after approval.
+   - Access to manage products and orders.
 
-    User Panel:
-        User-friendly interface for customers.
-        User profiles for personalized experiences.
-        Seamless shopping experience.
+ - User Panel
+   - User-friendly interface for customers.
+   - User profiles for personalized experiences.
+   - Seamless shopping experience.
 
 Installation
 
@@ -37,17 +37,17 @@ Main Area of the E-Commerce Project
 
 ![](example-images/exampleImage_2.png)
 
-The user panel
+The User Dashboard
 
 ![](example-images/exampleImage_3.png)
 
-The admin dashboard controls all the shop
+The Admin Dashboard Controls all the aspects of the shop
 
 ![](example-images/exampleImage_4.png)
 
 ![](example-images/exampleImage_5.png)
 
-The Vendor dashboard has been approved by the admin
+The Vendor Dashboard has been approved by the admin
 
 ![](example-images/exampleImage_6.png)
 
