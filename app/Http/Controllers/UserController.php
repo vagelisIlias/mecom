@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Services\Password\PasswordService;
@@ -41,15 +42,24 @@ class UserController extends Controller
         return redirect('/login')->with($notification->message('You have been logged out successfully', 'success'));
     }
 
-    // User update password // ** REFACTORED
+    // User Logout // ** REFACTORED
     public function updatePassword(UpdatePasswordRequest $request, PasswordService $password, NotificationService $notification)
     {
         if (! $password->checkPassword($request->old_password, auth()->user()->id)) {
-            return redirect()->back()->with($notification->message('Old password does not match', 'error'));
+            return back()->withErrors([
+                'old_password' => 'The old password is not much our records',
+            ]);
+        }
+
+        if ($request->new_password !== $request->new_password_confirmation) {
+            return back()->withErrors([
+                'new_password' => 'The new password is not much with confirmation password',
+                'new_password_confirmation' => 'The confirmation password is not much the new password',
+            ]);
         }
 
         // Update New Password
         $password->updatePassword(auth()->user()->id, $request->new_password);
-        return redirect()->back()->with($notification->message('User password updated successfully', 'success'));
+        return back()->with($notification->message('Your password updated successfully', 'success'));
     }
 }

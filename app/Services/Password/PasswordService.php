@@ -12,21 +12,21 @@ class PasswordService
     public function checkPassword($old_password)
     {   
         if (! Auth::check() || ! Hash::check($old_password, Auth::user()->password)) {
-            throw new CustomException("Password check failed"); 
+            // throw new CustomException("Old password does not match");
+            return false;
         }
         
         return $this;
     }
-
+    
     public function updatePassword($user, $newPassword)
     {
-        try {
+        if ($user) {
             User::whereId($user)->update([
                 'password' => Hash::make($newPassword)
             ]);
-        } catch (\Exception $e) {
-            throw new CustomException("Password update failed");
         }
+        // throw new CustomException("Password update failed");
 
         return $this;
     }

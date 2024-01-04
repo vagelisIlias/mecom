@@ -124,7 +124,7 @@
     });
 </script>
 
-{{-- JS  Toaster --}}
+{{-- JS Toaster --}}
 <script type="text/javascript">
     $(document).ready(function() {
         $('#image').change(function(e) {

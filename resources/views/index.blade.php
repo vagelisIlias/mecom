@@ -238,44 +238,44 @@
                                     </div>
                                     <div class="card-body">
                                         {{-- Forms Starts Here --}}
-                                        <form method="post" action="{{ route('password.update') }}">
+                                        <form method="POST" action="{{ route('password.update') }}">
                                             @csrf
                                             @method('PATCH')
-                                            
+
                                             <div class="row">
                                                 <div class="form-group col-md-8">
                                                     <label>Old Password <span class="required">*</span></label>
-                                                    <input type="password" class="form-control @error('old_password') is-invalid @enderror" 
-                                                            name="old_password"/>
-                                                        @error('old_password')
-                                                            <span class="text-danger">{{ $message }}</span>
-                                                        @enderror
+                                                    <input type="password" class="form-control @error('old_password') is-invalid @enderror" name="old_password"/>
+                                                    @foreach ($errors->get('old_password') as $error)
+                                                        <span class="text-danger">{{ $error }}</span>
+                                                    @endforeach
                                                 </div>
                                                 <!-- end row -->
-
+                                        
                                                 <div class="form-group col-md-8">
                                                     <label>New Password <span class="required">*</span></label>
-                                                    <input type="password" class="form-control @error('new_password') is-invalid @enderror" 
-                                                            name="new_password"/>
-                                                        @error('new_password')
-                                                            <span class="text-danger">{{ $message }}</span>
-                                                        @enderror
+                                                    <input type="password" class="form-control @error('new_password') is-invalid @enderror" name="new_password"/>
+                                                    @foreach ($errors->get('new_password') as $error)
+                                                        <span class="text-danger">{{ $error }}</span>
+                                                    @endforeach
                                                 </div>
                                                 <!-- end row -->
-
+                                        
                                                 <div class="form-group col-md-8">
                                                     <label>Confirm Password <span class="required">*</span></label>
-                                                    <input type="password" class="form-control @error('new_password_confirmation') is-invalid @enderror" 
-                                                            name="new_password_confirmation"/>
-                                                        @error('new_password_confirmation')
-                                                            <span class="text-danger">{{ $message }}</span>
-                                                        @enderror
+                                                    <input type="password" class="form-control @error('new_password_confirmation') is-invalid @enderror" name="new_password_confirmation"/>
+                                                    @foreach ($errors->get('new_password_confirmation') as $error)
+                                                        <span class="text-danger">{{ $error }}</span>
+                                                    @endforeach
                                                 </div>
                                                 <!-- end row -->
-
-                                                <div class="col-md-12">
-                                                    <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Update Password</button>
-                                                </div>
+                                            </div>
+                                            <!-- end row -->
+                                            </div>
+                                            <!-- end row -->
+                                            <div class="col-md-12">
+                                                <button type="submit" class="btn btn-fill-out submit font-weight-bold" name="submit" value="Submit">Update Password</button>
+                                            </div>
                                             </div>
                                         </form>
                                     {{-- End Form Here --}}
