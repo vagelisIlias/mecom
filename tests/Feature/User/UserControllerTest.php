@@ -4,10 +4,7 @@ namespace Tests\Feature\User;
 
 use Tests\TestCase;
 use App\Models\User;
-use App\Exceptions\CustomException;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Services\Password\PasswordService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserControllerTest extends TestCase
