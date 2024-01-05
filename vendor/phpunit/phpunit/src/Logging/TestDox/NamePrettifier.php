@@ -45,7 +45,6 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Metadata\Parser\Registry as MetadataRegistry;
 use PHPUnit\Metadata\TestDox;
 use PHPUnit\Util\Color;
-use ReflectionEnum;
 use ReflectionMethod;
 use ReflectionObject;
 use SebastianBergmann\Exporter\Exporter;
@@ -242,13 +241,7 @@ final class NamePrettifier
                 $reflector = new ReflectionObject($value);
 
                 if ($reflector->isEnum()) {
-                    $enumReflector = new ReflectionEnum($value);
-
-                    if ($enumReflector->isBacked()) {
-                        $value = $value->value;
-                    } else {
-                        $value = $value->name;
-                    }
+                    $value = $value->value;
                 } elseif ($reflector->hasMethod('__toString')) {
                     $value = (string) $value;
                 } else {
