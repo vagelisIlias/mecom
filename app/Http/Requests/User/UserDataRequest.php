@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends FormRequest
+class UserDataRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,13 +16,14 @@ class CreateUserRequest extends FormRequest
         return [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
-            'email' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . auth()->id(),
+            'email' => 'required|string|email|max:255|unique:users,email,' . auth()->id(),
             'phone' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'postcode' => 'required|string|max:255',
         ];
     }
+
 
     public function updateUserData()
     {

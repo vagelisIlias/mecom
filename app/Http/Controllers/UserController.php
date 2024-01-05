@@ -7,7 +7,7 @@ use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Services\Password\PasswordService;
-use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\UserDataRequest;
 use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Services\Notification\NotificationService;
 
@@ -21,16 +21,16 @@ class UserController extends Controller
     }
 
     // Store user data in database // ** REFACTORED
-    public function updateProfile(CreateUserRequest $request, User $user, NotificationService $notification)
+    public function updateProfile(UserDataRequest $request, User $user, NotificationService $notification)
     {   
         // Find the user
-        $user->findOrFail(Auth::id())->update($request->updateUserData())->save();
+        $user->findOrFail(Auth::id())->update($request->updateUserData());
         
         return redirect()->back()->with($notification->message('User Porfile Updated Successfully', 'success'));
     }
 
     // User Logout // ** REFACTORED
-    public function destroy(NotificationService $notification): RedirectResponse 
+    public function logout(NotificationService $notification): RedirectResponse 
     {
         Auth::guard('web')->logout();
         session()->invalidate();
@@ -42,16 +42,9 @@ class UserController extends Controller
     // User Logout // ** REFACTORED
     public function updatePassword(UpdatePasswordRequest $request, PasswordService $password, NotificationService $notification)
     {
-        if (! $password->checkPassword($request->old_password, auth()->user()->id)) {
+        if (!$password->checkPassword($request->old_password, auth()->user()->id)) {
             return back()->withErrors([
-                'old_password' => 'The old password is not much our records',
-            ]);
-        }
-
-        if ($request->new_password !== $request->new_password_confirmation) {
-            return back()->withErrors([
-                'new_password' => 'The new password is not much with confirmation password',
-                'new_password_confirmation' => 'The confirmation password is not much the new password',
+                'old_password' => 'The old password is not much in our records',
             ]);
         }
 
@@ -59,4 +52,5 @@ class UserController extends Controller
         $password->updatePassword(auth()->user()->id, $request->new_password);
         return back()->with($notification->message('Your password updated successfully', 'success'));
     }
+
 }

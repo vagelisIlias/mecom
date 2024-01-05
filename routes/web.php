@@ -41,7 +41,7 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard'); // REFACTORED!!!
     Route::patch('/profile/{user}', [UserController::class, 'updateProfile'])->name('profile.update'); // REFACTORED
-    Route::get('/logout', [UserController::class, 'destroy'])->name('logout'); // REFACTORED
+    Route::get('/logout', [UserController::class, 'logout'])->name('logout'); // REFACTORED
     Route::patch('/password', [UserController::class, 'updatePassword'])->name('password.update'); // REFACTORED
 });
 
