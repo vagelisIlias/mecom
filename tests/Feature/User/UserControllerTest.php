@@ -66,4 +66,36 @@ class UserControllerTest extends TestCase
 
         $this->assertTrue(! Hash::check('new_password', $user->refresh()->password));
     }
+
+    public function test_cannot_update_password_when_old_password_is_wrong()
+    {
+        $user = User::factory()->create();
+        $incorrectPassword = 'incorrect_old_password';
+
+        $response = $this->actingAs($user)
+            ->patch(route('password.update'), [
+                'old_password' => $incorrectPassword,
+                'new_password' => 'new_valid_password',
+                'new_password_confirmation' => 'new_valid_password',
+            ]);
+
+        $response->assertSessionHasErrors('old_password');
+        $response->assertRedirect();
+    }
+
+    public function test_cannot_update_password_when_confirmation_does_not_match()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->patch(route('password.update'), [
+                'old_password' => 'current_password',
+                'new_password' => 'new_valid_password',
+                'new_password_confirmation' => 'invalid_confirmation',
+            ]);
+
+        $errors = session('errors');
+        $this->assertTrue($errors->has('new_password'));
+        $response->assertRedirect();
+    }
 }
