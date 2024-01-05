@@ -3,14 +3,19 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
 class UserFactory extends Factory
 {
+    /**
+     * The current password being used by the factory.
+     */
+    protected static ?string $password;
+
     /**
      * Define the model's default state.
      *
@@ -19,26 +24,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'firstname' => $this->faker->firstNameFemale(),
-            'lastname' => $this->faker->lastName(),
-            'email' => $this->faker->email(),
-            'username' => $this->faker->username(),
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => $this->faker->password(),
-            'github' => $this->faker->url(),
-            'instagram' => $this->faker->url(),
-            'linkedin' => $this->faker->url(),
-            'facebook' => $this->faker->url(),
-            'website' => $this->faker->url(),
-            'job_title' => $this->faker->jobTitle(),
-            'photo' => $this->faker->imageUrl(),
-            'phone' => $this->faker->phoneNumber(),
-            'address' => $this->faker->address(),
-            'postcode' => $this->faker->postcode(),
-            'vendor_shop_name' => $this->faker->company,
-            'vendor_join' => now(),
-            'vendor_short_info' => $this->faker->sentence,
-            'remember_token' => $this->faker->sha256,
+            'password' => static::$password ??= Hash::make('password'),
+            'remember_token' => Str::random(10),
         ];
     }
 
