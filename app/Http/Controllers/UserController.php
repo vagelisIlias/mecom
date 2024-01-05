@@ -24,10 +24,7 @@ class UserController extends Controller
     public function updateProfile(CreateUserRequest $request, User $user, NotificationService $notification)
     {   
         // Find the user
-        $update = $user->findOrFail(Auth::id());
-
-        // Update user data
-        tap($update)->update($request->updateUserData())->save();
+        $user->findOrFail(Auth::id())->update($request->updateUserData())->save();
         
         return redirect()->back()->with($notification->message('User Porfile Updated Successfully', 'success'));
     }
