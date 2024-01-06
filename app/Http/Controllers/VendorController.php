@@ -20,7 +20,6 @@ class VendorController extends Controller
     public function index() 
     {
         return view('vendor.index');
-
     }
 
     // Vendor Login
@@ -31,7 +30,7 @@ class VendorController extends Controller
     }
 
     // Vendor logout ** REFACTORED **
-    public function vendorLogout(NotificationService $notification): RedirectResponse 
+    public function logout(NotificationService $notification): RedirectResponse 
     {
         Auth::guard('web')->logout();
         session()->invalidate();
