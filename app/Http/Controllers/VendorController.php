@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Auth\Events\Registered;
+use App\Providers\RouteServiceProvider;
 use App\Notifications\AccountStatusChanged;
 use App\Http\Middleware\VendorStatusChecker;
+use App\Services\Notification\NotificationService;
 
 class VendorController extends Controller
 {
-    // Dashboard view
-    public function vendorDashboard() 
+    // Dashboard view ** REFACTORED **
+    public function index() 
     {
         return view('vendor.index');
 
@@ -29,20 +30,14 @@ class VendorController extends Controller
         return view('vendor.vendor_login');
     }
 
-    // Vendor logout
-    public function vendorLogout(Request $request): RedirectResponse 
+    // Vendor logout ** REFACTORED **
+    public function vendorLogout(NotificationService $notification): RedirectResponse 
     {
-        //Logout the user
         Auth::guard('web')->logout();
+        session()->invalidate();
+        session()->regenerateToken();
 
-        //Invalidate the session
-        $request->session()->invalidate();
-
-        //Regenerate the CSRF token
-        $request->session()->regenerateToken();
-
-        //Redirect to the vendor login page
-        return redirect('/vendor/login');
+        return redirect('/vendor/login')->with($notification->message('You have been logged out successfully', 'success'));
     }
 
     // Vendor Profile

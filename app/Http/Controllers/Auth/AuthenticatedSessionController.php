@@ -18,7 +18,7 @@ class RoleRedirector
         return match($role) {
             'admin' => 'admin/dashboard',
             'vendor' => 'vendor/dashboard',
-            'user', 'default' => '/dashboard',
+            'user', 'default' => 'dashboard',
         };
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\UserController;
@@ -47,8 +46,10 @@ Route::middleware(['auth'])->group(function () {
 
 // Vendor Dashboard In Admin Dashboard
 Route::middleware(['auth', 'role:vendor'])->group(function () {
-    Route::get('/vendor/dashboard', [VendorController::class, 'vendorDashboard'])->name('vendor.dashboard')->middleware('status:active');;
-    Route::get('/vendor/logout', [VendorController::class, 'vendorLogout'])->name('vendor.logout');
+    Route::get('/vendor/dashboard', [VendorController::class, 'index'])
+            ->name('vendor.dashboard')
+            ->middleware('status'); // REFACTORED
+    Route::get('/logout', [VendorController::class, 'vendorLogout'])->name('vendor.logout'); // REFACTORED
     Route::get('/vendor/profile', [VendorController::class, 'vendorProfile'])->name('vendor.profile');
     Route::post('/vendor/profile/store', [VendorController::class, 'vendorProfileStore'])->name('vendor.profile.store');
     Route::get('/vendor/change/password', [VendorController::class, 'vendorChangePassword'])->name('vendor.change.password');

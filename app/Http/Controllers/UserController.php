@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Services\Password\PasswordService;
@@ -13,14 +12,17 @@ use App\Services\Notification\NotificationService;
 
 class UserController extends Controller
 {
-    // Creating the dashboard for user  // ** REFACTORED
+    /**
+     * Return Index ** REFACTORED **
+     */
     public function index(User $user)
     {   
         $request = $user->findOrFail(Auth::id());
         return view('index', ['user' => $request]);
     }
-
-    // Store user data in database // ** REFACTORED
+    /**
+     * Update Update Profile // ** REFACTORED
+     */
     public function updateProfile(UserDataRequest $request, User $user, NotificationService $notification)
     {   
         // Find the user
@@ -28,21 +30,23 @@ class UserController extends Controller
         
         return redirect()->back()->with($notification->message('User Porfile Updated Successfully', 'success'));
     }
-
-    // User Logout // ** REFACTORED
+    /**
+     * User Logout // ** REFACTORED
+     */
     public function logout(NotificationService $notification): RedirectResponse 
     {
         Auth::guard('web')->logout();
         session()->invalidate();
         session()->regenerateToken();
 
-        return redirect('/login')->with($notification->message('You have been logged out successfully', 'success'));
+        return redirect('login')->with($notification->message('You have been logged out successfully', 'success'));
     }
-
-    // User Logout // ** REFACTORED
+    /**
+     * User Update Password // ** REFACTORED
+     */
     public function updatePassword(UpdatePasswordRequest $request, PasswordService $password, NotificationService $notification)
     {
-        if (!$password->checkPassword($request->old_password, auth()->user()->id)) {
+        if (! $password->checkPassword($request->old_password, auth()->user()->id)) {
             return back()->withErrors([
                 'old_password' => 'The old password is not much in our records',
             ]);
@@ -52,5 +56,4 @@ class UserController extends Controller
         $password->updatePassword(auth()->user()->id, $request->new_password);
         return back()->with($notification->message('Your password updated successfully', 'success'));
     }
-
 }
