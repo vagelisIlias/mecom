@@ -108,8 +108,6 @@
                                 <form class="row g-3" id="myForm" method="post" action="{{ route('vendor.profile.store') }}" enctype="multipart/form-data">
                                     @csrf
                                 
-                                <hr>
-
                                 <!-- Vendor Shop Name -->
                                 <div class="form-group col-md-6">
                                     <label class="form-label">Vendor Shop Name</label>

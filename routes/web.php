@@ -49,7 +49,7 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorController::class, 'index'])
             ->name('vendor.dashboard')
             ->middleware('status'); // REFACTORED
-    Route::get('/logout', [VendorController::class, 'logout'])->name('vendor.logout'); // REFACTORED
+    Route::get('/vendor/logout', [VendorController::class, 'logout'])->name('vendor.logout'); // REFACTORED
     Route::get('/vendor/profile/{user:slug}', [VendorController::class, 'vendorProfile'])->name('vendor.profile'); // REFACTORED
     Route::post('/vendor/profile/store', [VendorController::class, 'store'])->name('vendor.profile.store'); 
     Route::get('/vendor/change/password', [VendorController::class, 'vendorChangePassword'])->name('vendor.change.password');
