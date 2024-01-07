@@ -40,7 +40,7 @@
                                     <a class="nav-link" id="change-password-tab" data-bs-toggle="tab" href="#change-password" role="tab" aria-controls="change-password" aria-selected="true"><i class="fi-rs-key mr-10"></i>Change Password</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('logout')}}"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                    <a class="nav-link" href="{{ route('user.logout')}}"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
                                 </li>
                             </ul>
                         </div>
@@ -173,7 +173,7 @@
                                     </div>
                                     <div class="card-body">
                                         {{-- Forms Starts Here --}}
-                                        <form method="POST" action="{{ route('profile.update', ['user' => $user]) }}" enctype="multipart/form-data">
+                                        <form method="POST" action="{{ route('user.profile.update', ['user' => $user]) }}" enctype="multipart/form-data">
                                             @csrf
                                             @method('PATCH')
 
@@ -238,7 +238,7 @@
                                     </div>
                                     <div class="card-body">
                                         {{-- Forms Starts Here --}}
-                                        <form method="POST" action="{{ route('password.update') }}">
+                                        <form method="POST" action="{{ route('user.password.update') }}">
                                             @csrf
                                             @method('PATCH')
 

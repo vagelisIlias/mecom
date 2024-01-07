@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('slug')->unique();
             $table->string('github')->nullable();
             $table->string('instagram')->nullable();
             $table->string('linkedin')->nullable();
@@ -51,6 +52,8 @@ return new class extends Migration
             $table->dropColumn('username');
             $table->dropColumn('email');
             $table->dropColumn('email_verified_at');
+            $table->dropColumn('password');
+            $table->dropColumn('slug');
             $table->dropColumn('github');
             $table->dropColumn('instagram');
             $table->dropColumn('linkedin');

@@ -15,7 +15,8 @@ class CheckVendorStatus
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {
+    {   
+        // For the checkVendorStatus Policy added here AuthServiceProvider::class
         if (! Gate::allows('checkVendorStatus')) {
             return redirect('/')
                 ->with([

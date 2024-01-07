@@ -172,7 +172,7 @@
                 <hr> 
                 <div class="col-12">
                     <div class="d-grid">
-                        <button type="submit" id="submit-button" class="btn btn" style="background-color: rgb(202, 18, 177); color: white;">Add Product</button>
+                        <button type="submit" id="submit-button" class="submit-button">Add Product</button>
                     </div>
                 </div>
             </div> 

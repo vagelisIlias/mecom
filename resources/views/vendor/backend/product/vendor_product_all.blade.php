@@ -18,8 +18,8 @@
             </nav>
         </div>  
         <div class="ms-auto">
-            <div class="btn-group">
-                <a href="{{ route('add.vendor.product') }}" class="btn btn" style="background-color: rgb(202, 18, 177); color: white;">Add Product</a>
+            <div class="d-grid">
+                <a href="{{ route('add.vendor.product') }}" class="submit-button">Add Product</a>
             </div>
         </div>
     </div>

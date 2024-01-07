@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
+use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Log;
-use App\Exceptions\ImageUpload\ImageUploadException;
 
 /**
  * Service class for handling image uploads.
@@ -28,7 +28,7 @@ class ImageUploadService
                 $file->move(public_path($destinationPath), $filename);
                 return $filename;
             } catch (\Exception $e) {
-                throw new ImageUploadException('Error uploading the file.');
+                throw new CustomException('Error uploading the file.');
             }
         }
     }

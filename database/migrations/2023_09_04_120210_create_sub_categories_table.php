@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('sub_category_slug');
             $table->timestamps();
             
-            // Define foreign key constraint
-            $table->foreign('category_id')
-                  ->references('id')
-                  ->on('categories')
-                  ->onDelete('cascade'); // Define cascade delete behavior
+            // // Define foreign key constraint
+            // $table->foreign('category_id')
+            //       ->references('id')
+            //       ->on('categories')
+            //       ->onDelete('cascade'); // Define cascade delete behavior
         });
     }
 

@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
-use App\Providers\RouteServiceProvider;
 use App\Notifications\AccountStatusChanged;
-use App\Http\Middleware\VendorStatusChecker;
 use App\Services\Notification\NotificationService;
 
 class VendorController extends Controller
@@ -39,16 +37,14 @@ class VendorController extends Controller
         return redirect('/vendor/login')->with($notification->message('You have been logged out successfully', 'success'));
     }
 
-    // Vendor Profile
-    public function vendorProfile()
-    {
-        $id = Auth::user()->id;
-        $vendorProfile = User::find($id);
-        return view('vendor.profile.vendor_profile', compact('vendorProfile'));
+    // Vendor Profile  ** REFACTORED **
+    public function vendorProfile(User $user)
+    {   
+        return view('vendor.profile.vendor_profile', ['user' => $user]);
     }
 
     // Vedor Profile Store
-    public function vendorProfileStore(Request $request)
+    public function store(Request $request)
     {
         // Get the authenticated user's ID
         $id = Auth::user()->id;

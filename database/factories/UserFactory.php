@@ -25,6 +25,7 @@ class UserFactory extends Factory
             'username' => $this->faker->username(),
             'email_verified_at' => now(),
             'password' => $this->faker->password(),
+            'slug' => $this->faker->slug(),
             'github' => $this->faker->url(),
             'instagram' => $this->faker->url(),
             'linkedin' => $this->faker->url(),
