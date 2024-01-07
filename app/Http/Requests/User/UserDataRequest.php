@@ -27,6 +27,13 @@ class UserDataRequest extends FormRequest
 
     public function updateUserData()
     {
-        return $this->only(['firstname', 'lastname', 'username', 'email', 'phone', 'address', 'postcode']);
+        return $this->only([
+            'firstname', 
+            'lastname', 
+            'username', 
+            'email', 
+            'phone', 
+            'address', 
+            'postcode']);
     }
 }

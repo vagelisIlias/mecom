@@ -37,7 +37,6 @@ class UserFactory extends Factory
             'address' => $this->faker->address(),
             'postcode' => $this->faker->postcode(),
             'vendor_shop_name' => $this->faker->company,
-            'vendor_join' => now(),
             'vendor_short_info' => $this->faker->sentence,
             'remember_token' => $this->faker->sha256,
         ];

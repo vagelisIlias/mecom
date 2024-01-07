@@ -105,9 +105,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <!-- Forms Starts Here -->
-                                <form class="row g-3" id="myForm" method="post" action="{{ route('vendor.profile.store') }}" enctype="multipart/form-data">
+                                <form class="row g-3" id="myForm" method="POST" action="{{ route('vendor.profile.update', ['user' => $user]) }}" enctype="multipart/form-data">
                                     @csrf
-                                
+                                    @method('PATCH')
+                                   
                                 <!-- Vendor Shop Name -->
                                 <div class="form-group col-md-6">
                                     <label class="form-label">Vendor Shop Name</label>
@@ -292,13 +293,25 @@
                                 <div class="form-group col-12">
                                     <label class="form-label">Vendor Join Date</label>
                                     <div class="input-group">
-                                        <input type="text" name="vendor_join"
+                                        <input type="text" name="created_at"
                                             class="form-control"
-                                            value="{{ $user->vendor_join }}" disabled
+                                            value="{{ $user->created_at }}" disabled
                                         >
                                     </div>
                                 </div>
                                 <!-- End Vendor Join Date -->
+
+                                <!-- Vendor Update Date -->
+                                <div class="form-group col-12">
+                                    <label class="form-label">Vendor Join Date</label>
+                                    <div class="input-group">
+                                        <input type="text" name="updated_at"
+                                            class="form-control"
+                                            value="{{ $user->updated_at }}" disabled
+                                        >
+                                    </div>
+                                </div>
+                                <!-- End Vendor Update Date -->
 
                                 <!-- Vendor Short Info -->
                                 <div class="form-group col-12">
