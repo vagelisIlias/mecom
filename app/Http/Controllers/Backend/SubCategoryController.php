@@ -3,28 +3,29 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\SubCategory;
 use App\Models\Category;
+use App\Models\SubCategory;
+use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
 {
     // All SubCategory
     public function allSubCategory()
-    {   
+    {
         // Creating a join to subcategory and category
         $allSubCategory = SubCategory::with('category')
-                ->orderBy('created_at', 'desc')
-                ->get();
-                //dd($allSubCategory);
+            ->orderBy('created_at', 'desc')
+            ->get();
+        //dd($allSubCategory);
 
         return view('admin.backend.subcategory.subcategory_all', compact('allSubCategory'));
     }
 
     // Add SubCategory
     public function addSubCategory()
-    {   
+    {
         $categories = Category::orderBy('category_name', 'asc')->get();
+
         return view('admin.backend.subcategory.subcategory_add', compact('categories'));
     }
 
@@ -36,7 +37,7 @@ class SubCategoryController extends Controller
             'category_id' => 'required',
             'sub_category_name' => 'required|string|max:255',
         ]);
-        
+
         try {
             // Create method to save the into subcategory
             SubCategory::create([
@@ -44,19 +45,19 @@ class SubCategoryController extends Controller
                 'sub_category_name' => ucwords($request->sub_category_name),
                 'sub_category_slug' => strtolower(str_replace(' ', '-', $request->sub_category_name)),
             ]);
-    
+
             // Success message notification
             $not_succ = [
                 'message' => 'Sub Category Created Successfully',
                 'alert-type' => 'success',
             ];
-    
+
             return redirect()->route('all.subcategory')->with($not_succ);
 
         } catch (\Exception $e) {
             // Handle errors, log them, and return an error response
             $not_error = [
-                'message' => 'An error occurred while saving the subcategory' . $e->getMessage(),
+                'message' => 'An error occurred while saving the subcategory'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
 
@@ -66,10 +67,10 @@ class SubCategoryController extends Controller
 
     // Edit Sub Category
     public function editSubcategory($id)
-    {   
+    {
         // Retrieve a list of categories and order them by name in ascending order
         $categories = Category::orderBy('category_name', 'asc')->get();
-        
+
         // Find the subcategory to be edited based on the provided $id
         $editSubcategory = SubCategory::findOrFail($id);
 
@@ -79,7 +80,7 @@ class SubCategoryController extends Controller
 
     // Update Sub Category
     public function updateSubcategory(Request $request)
-    {   
+    {
         // Request the id of the subcategory
         $subcat_id = $request->id;
 
@@ -103,10 +104,10 @@ class SubCategoryController extends Controller
                 'alert-type' => 'success',
             ];
 
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             // Error message notification
             $not_error = [
-                'message' => 'Error updating subcategory' . $e->getMessage(),
+                'message' => 'Error updating subcategory'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
 
@@ -122,7 +123,7 @@ class SubCategoryController extends Controller
         try {
             // Find or fail the id
             $deleteSubCategory = SubCategory::findOrFail($id);
-          
+
             // Delete the subcategory with specific id
             $deleteSubCategory->delete();
 
@@ -131,12 +132,13 @@ class SubCategoryController extends Controller
                 'message' => 'Sub Category Deleted Successfully',
                 'alert-type' => 'success',
             ];
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             // Error message notification
             $not_error = [
-                'message' => 'Error deleting subcategory' . $e->getMessage(),
+                'message' => 'Error deleting subcategory'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
+
             return redirect()->back()->with($not_error);
         }
 
@@ -146,9 +148,10 @@ class SubCategoryController extends Controller
     // Return the list of subcategories when category picked
     public function getSubCategoryAjax($category_id)
     {
-        $subcat = SubCategory::where('category_id', $category_id)  
-                                ->orderBy('sub_category_name', 'asc')
-                                ->get();
-        return json_encode($subcat);                        
+        $subcat = SubCategory::where('category_id', $category_id)
+            ->orderBy('sub_category_name', 'asc')
+            ->get();
+
+        return json_encode($subcat);
     }
 }

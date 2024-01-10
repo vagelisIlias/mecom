@@ -4,18 +4,17 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-//Creating a Role case for different users 
+//Creating a Role case for different users
 class RoleRedirector
 {
     public static function getDashboardUrl($role)
     {
-        return match($role) {
+        return match ($role) {
             'admin' => 'admin/dashboard',
             'vendor' => 'vendor/dashboard',
             'user', 'default' => 'dashboard',
@@ -41,9 +40,9 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-        
+
         $role = $request->user()->role;
-        
+
         $url = RoleRedirector::getDashboardUrl($role);
 
         return redirect()->intended($url);

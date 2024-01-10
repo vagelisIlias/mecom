@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class VendorStatusRequest extends FormRequest
 {
     public function getActiveVendors()
-    {   
+    {
         return User::where('status', 'active')
             ->where('role', 'vendor')
             ->latest()
@@ -16,7 +16,7 @@ class VendorStatusRequest extends FormRequest
     }
 
     public function getInactiveVendors()
-    {   
+    {
         return User::where('status', 'inactive')
             ->where('role', 'vendor')
             ->latest()

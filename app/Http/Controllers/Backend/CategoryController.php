@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Category;
-
+use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class CategoryController extends Controller
 {
     // All Category
     public function allCategory()
-    {   
+    {
         // Checking the latest data added
         $allCategory = Category::latest()->get();
+
         return view('admin.backend.category.category_all', compact('allCategory'));
     }
 
@@ -37,33 +37,33 @@ class CategoryController extends Controller
             'category_image.mimes' => 'The category image must be a file of type: jpeg, jpg, png',
             'category_image.max' => 'The category image size must be less than 2MB',
         ]);
-        
+
         try {
             $image = $request->file('category_image');
-            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-            $image_path = 'upload/category_image/' . $name_gen;
+            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            $image_path = 'upload/category_image/'.$name_gen;
             Image::make($image)->resize(120, 120)->save(public_path($image_path));
             $save_url = $image_path;
-    
+
             // Create The category
             Category::create([
                 'category_name' => ucwords($request->category_name),
                 'category_slug' => strtolower(str_replace(' ', '-', $request->category_name)),
                 'category_image' => $save_url,
             ]);
-    
+
             // Success message notification
             $not_succ = [
                 'message' => 'Category Created Successfully',
                 'alert-type' => 'success',
             ];
-    
+
             return redirect()->route('all.category')->with($not_succ);
 
         } catch (\Exception $e) {
             // Handle errors, log them, and return an error response
             $not_error = [
-                'message' => 'An error occurred while saving the category' . $e->getMessage(),
+                'message' => 'An error occurred while saving the category'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
 
@@ -75,6 +75,7 @@ class CategoryController extends Controller
     public function editCategory($id)
     {
         $editCategory = Category::findOrFail($id);
+
         return view('admin.backend.category.category_edit', compact('editCategory'));
     }
 
@@ -91,8 +92,8 @@ class CategoryController extends Controller
         try {
             if ($request->hasFile('category_image')) {
                 $image = $request->file('category_image');
-                $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-                $image_path = 'upload/category_image/' . $name_gen;
+                $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+                $image_path = 'upload/category_image/'.$name_gen;
                 Image::make($image)->resize(120, 120)->save(public_path($image_path));
 
                 if (file_exists($old_image)) {
@@ -102,7 +103,7 @@ class CategoryController extends Controller
                 $save_url = $image_path;
             } else {
                 // Use the old image if no new image is uploaded.
-                $save_url = $old_image; 
+                $save_url = $old_image;
             }
 
             // Update the brand
@@ -128,12 +129,13 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             // Error message notification
             $not_error = [
-                'message' => 'Error updating brand' . $e->getMessage(),
+                'message' => 'Error updating brand'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
 
             return redirect()->back()->with($not_error);
         }
+
         return redirect()->route('all.category')->with($notification);
     }
 
@@ -155,15 +157,13 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             // Error message notification
             $not_error = [
-                'message' => 'Error deleting category' . $e->getMessage(),
+                'message' => 'Error deleting category'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
+
             return redirect()->back()->with($not_error);
         }
-        
+
         return redirect()->route('all.category')->with($not_succ);
     }
-
 }
-
-

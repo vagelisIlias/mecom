@@ -20,10 +20,12 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 $userRole = Auth::user()->role;
+
                 // Check the user role and redirect
                 return $userRole === 'admin' ? redirect('/admin/dashboard') : ($userRole === 'vendor' ? redirect('/vendor/dashboard') : redirect('/dashboard'));
             }
         }
+
         return $next($request);
-    }  
+    }
 }

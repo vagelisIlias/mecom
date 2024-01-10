@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckVendorStatus
-{   
+{
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {   
+    {
         // For the checkVendorStatus Policy added here AuthServiceProvider::class
         if (! Gate::allows('checkVendorStatus')) {
             return redirect('/')
@@ -29,4 +29,3 @@ class CheckVendorStatus
         return $next($request);
     }
 }
-

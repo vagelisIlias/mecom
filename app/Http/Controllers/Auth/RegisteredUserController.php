@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\AccountStatusChanged;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -12,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-use App\Notifications\AccountStatusChanged;
 
 class RegisteredUserController extends Controller
 {
@@ -30,14 +30,14 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
-    {   
+    {
         // Validation users
         $request->validate([
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'address' => ['required', 'string', 'max:255',],
+            'address' => ['required', 'string', 'max:255'],
             'postcode' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -66,8 +66,8 @@ class RegisteredUserController extends Controller
         $url = url('/dashboard');
         $message = 'Thank you for your interest in our shop, your account has been successfully registered. 
                     Please follow the link to visit your main dashboard.';
-        $actionText = "Visit Your Dashboard";
-        $lineText = "Thank you for your interest in using our application";
+        $actionText = 'Visit Your Dashboard';
+        $lineText = 'Thank you for your interest in using our application';
         $user->notify(new AccountStatusChanged('register', $message, $url, $actionText, $lineText));
 
         // Notification Message

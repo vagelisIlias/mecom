@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\Vendor;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class VendorControllerTes extends TestCase

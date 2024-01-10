@@ -24,7 +24,7 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {   
+    {
         // Drop individual columns if needed
         Schema::table('categories', function (Blueprint $table) {
             $table->dropColumn('category_name');

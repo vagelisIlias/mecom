@@ -16,8 +16,8 @@ class VendorDataRequest extends FormRequest
         return [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . auth()->id(),
-            'email' => 'required|string|email|max:255|unique:users,email,' . auth()->id(),
+            'username' => 'required|string|max:255|unique:users,username,'.auth()->id(),
+            'email' => 'required|string|email|max:255|unique:users,email,'.auth()->id(),
             'github' => 'nullable|string|max:255',
             'instagram' => 'nullable|string|max:255',
             'linkedin' => 'nullable|string|max:255',
@@ -29,24 +29,5 @@ class VendorDataRequest extends FormRequest
             'vendor_shop_name' => 'nullable|string|max:255',
             'vendor_short_info' => 'nullable|string|max:255',
         ];
-    }
-
-    public function updateVendorData()
-    {
-        return $this->only([
-            'firstname',
-            'lastname',
-            'username',
-            'email',
-            'phone',
-            'address',
-            'postcode',
-            'github',              
-            'instagram',
-            'linkedin',
-            'job_title',
-            'vendor_shop_name',
-            'vendor_short_info'
-        ]);
     }
 }

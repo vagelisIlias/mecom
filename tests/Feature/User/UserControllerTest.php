@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\User;
 
-use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
+use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
@@ -21,7 +21,7 @@ class UserControllerTest extends TestCase
     }
 
     public function test_user_can_update_profile()
-    {   
+    {
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -34,7 +34,7 @@ class UserControllerTest extends TestCase
                 'address' => 'Update the email address',
                 'postcode' => 'Update postcode',
             ]);
-        
+
         $response->assertRedirect();
     }
 

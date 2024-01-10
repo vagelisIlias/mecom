@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Banner;
+use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class BannerController extends Controller
 {
@@ -13,6 +13,7 @@ class BannerController extends Controller
     public function allBanner()
     {
         $allBanner = Banner::latest()->get();
+
         return view('admin.backend.banner.banner_all', compact('allBanner'));
     }
 
@@ -38,30 +39,30 @@ class BannerController extends Controller
 
         try {
             $image = $request->file('banner_image');
-            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-            $image_path = 'upload/banner_image/' . $name_gen;
+            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            $image_path = 'upload/banner_image/'.$name_gen;
             Image::make($image)->resize(768, 450)->save(public_path($image_path));
             $save_url = $image_path;
-    
+
             // Create The Banner
             Banner::create([
                 'banner_title' => ucfirst($request->banner_title),
                 'banner_url' => ucfirst($request->banner_url),
                 'banner_image' => $save_url,
             ]);
-    
+
             // Success message notification
             $not_succ = [
                 'message' => 'Banner Created Successfully',
                 'alert-type' => 'success',
             ];
-    
+
             return redirect()->route('all.banner')->with($not_succ);
 
         } catch (\Exception $e) {
             // Handle errors, log them, and return an error response
             $not_error = [
-                'message' => 'An error occurred while saving the banner' . $e->getMessage(),
+                'message' => 'An error occurred while saving the banner'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
 
@@ -73,6 +74,7 @@ class BannerController extends Controller
     public function editBanner($id)
     {
         $editBanner = Banner::findOrFail($id);
+
         return view('admin.backend.banner.banner_edit', compact('editBanner'));
     }
 
@@ -90,8 +92,8 @@ class BannerController extends Controller
         try {
             if ($request->hasFile('banner_image')) {
                 $image = $request->file('banner_image');
-                $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-                $image_path = 'upload/banner_image/' . $name_gen;
+                $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+                $image_path = 'upload/banner_image/'.$name_gen;
                 Image::make($image)->resize(768, 450)->save(public_path($image_path));
 
                 if (file_exists($old_image)) {
@@ -101,7 +103,7 @@ class BannerController extends Controller
                 $save_url = $image_path;
             } else {
                 // Use the old image if no new image is uploaded.
-                $save_url = $old_image; 
+                $save_url = $old_image;
             }
 
             // Update the brand
@@ -124,13 +126,15 @@ class BannerController extends Controller
                 'message' => $message,
                 'alert-type' => $alertType,
             ];
+
             return redirect()->route('all.banner')->with($notification);
         } catch (\Exception $e) {
             // Error message notification
             $not_error = [
-                'message' => 'Error updating banner' . $e->getMessage(),
+                'message' => 'Error updating banner'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
+
             return redirect()->back()->with($not_error);
         }
     }
@@ -150,15 +154,17 @@ class BannerController extends Controller
                 'message' => 'Banner Deleted Successfully',
                 'alert-type' => 'success',
             ];
+
             return redirect()->route('all.banner')->with($not_succ);
         } catch (\Exception $e) {
             // Error message notification
             $not_error = [
-                'message' => 'Error deleting banner' . $e->getMessage(),
+                'message' => 'Error deleting banner'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
+
             return redirect()->back()->with($not_error);
         }
-        
+
     }
 }

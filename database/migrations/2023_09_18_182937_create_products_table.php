@@ -4,8 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-use function Ramsey\Uuid\v1;
-
 return new class extends Migration
 {
     /**
@@ -44,7 +42,7 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {   
+    {
         // Drop individual columns if needed
         Schema::table('products', function (Blueprint $table) {
             $table->dropColumn('product_brand_id');

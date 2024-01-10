@@ -32,11 +32,12 @@
                                     </label>
                                     <div class="col-sm-10">
                                         <img id="showImage" class="rounded-circle"
-                                                src="{{ empty($user->photo) ?
-                                                url('upload/vendor_profile_image/'. $user->photo) : url('upload/no_image.jpg') }}" 
-                                                alt="Card image cap"        
+                                            src="{{ !empty($user->photo) ? asset('vendor_profile_image/' . $user->photo) : asset('no_image.jpg') }}" 
+                                            alt="Card image cap"
                                         >
+                                        {{-- {{ dd(!empty($user->photo) ? asset('vendor_profile_image/' . $user->photo) : asset('no_image.jpg')) }} --}}
                                     </div>
+                                    
                                     
                                     <div class="mt-3">
                                         <h4>{{ $user->vendor_shop_name }}</h4>
@@ -105,10 +106,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <!-- Forms Starts Here -->
-                                <form class="row g-3" id="myForm" method="POST" action="{{ route('vendor.profile.update', ['user' => $user]) }}" enctype="multipart/form-data">
+                                <form class="row g-3" id="myForm" method="POST" action="{{ route('vendor.profile.update', ['user' => $user->id]) }}" enctype="multipart/form-data">
                                     @csrf
                                     @method('PATCH')
-                                   
+                                    <input type="hidden" name="old_image" value="{{ $user->photo }}">
                                 <!-- Vendor Shop Name -->
                                 <div class="form-group col-md-6">
                                     <label class="form-label">Vendor Shop Name</label>
@@ -303,7 +304,7 @@
 
                                 <!-- Vendor Update Date -->
                                 <div class="form-group col-12">
-                                    <label class="form-label">Vendor Join Date</label>
+                                    <label class="form-label">Vendor Update Date</label>
                                     <div class="input-group">
                                         <input type="text" name="updated_at"
                                             class="form-control"

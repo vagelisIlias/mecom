@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\VendorController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductController;
-use App\Http\Controllers\Backend\VendorStatus;
-use App\Http\Controllers\Backend\UserStatus;
 use App\Http\Controllers\Backend\SliderController;
-use App\Http\Controllers\Backend\BannerController;
+use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\Backend\UserStatus;
+use App\Http\Controllers\Backend\VendorStatus;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorBackend\VendorProductController;
+use App\Http\Controllers\VendorController;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,37 +33,38 @@ Route::get('/', function () {
     $slider = App\Models\Slider::orderBy('slider_title', 'asc')->get();
     $products = App\Models\Product::orderBy('product_name', 'asc')->get();
     $banners = App\Models\Banner::orderBy('banner_title', 'asc')->get();
-        return view('frontend.index', compact('categories', 'subcategories', 'slider', 'products', 'banners'));
+
+    return view('frontend.index', compact('categories', 'subcategories', 'slider', 'products', 'banners'));
 });
 
 // User Dashboard
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])
-            ->name('dashboard'); // REFACTORED!!!
+        ->name('dashboard'); // REFACTORED!!!
     Route::patch('/update/profile/{user}', [UserController::class, 'updateProfile'])
-            ->name('user.profile.update'); // REFACTORED
+        ->name('user.profile.update'); // REFACTORED
     Route::get('/logout', [UserController::class, 'logout'])
-            ->name('user.logout'); // REFACTORED
+        ->name('user.logout'); // REFACTORED
     Route::patch('/update/password', [UserController::class, 'updatePassword'])
-            ->name('user.password.update'); // REFACTORED
+        ->name('user.password.update'); // REFACTORED
 });
 
 // Vendor Dashboard In Admin Dashboard
 Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorController::class, 'index'])
-            ->name('vendor.dashboard')
-            ->middleware('status'); // REFACTORED
+        ->name('vendor.dashboard')
+        ->middleware('status'); // REFACTORED
     Route::get('/vendor/logout', [VendorController::class, 'logout'])
-            ->name('vendor.logout'); // REFACTORED
+        ->name('vendor.logout'); // REFACTORED
     Route::get('/vendor/profile/{user:slug}', [VendorController::class, 'vendorProfile'])
-            ->name('vendor.profile'); // REFACTORED
+        ->name('vendor.profile'); // REFACTORED
     Route::patch('/update/profile/{user}', [VendorController::class, 'update'])
-            ->name('vendor.profile.update'); 
+        ->name('vendor.profile.update');
     Route::get('/vendor/change/password', [VendorController::class, 'vendorChangePassword'])
-            ->name('vendor.change.password');
+        ->name('vendor.change.password');
     Route::post('/vendor/update/password', [VendorController::class, 'vendorUpdatePassword'])
-            ->name('vendor.update.password');
-    
+        ->name('vendor.update.password');
+
     // Vendor Product Controller In Vendor Dashboard All && Add product
     Route::controller(VendorProductController::class)->group(function () {
         Route::get('/all/vendor/product', 'allVendorProduct')->name('all.vendor.product');
@@ -82,8 +83,8 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
 //Admin Route with Middleware
 Route::middleware(['auth', 'role:admin'])->group(function () {
     // Admin Profile and Dashboard
-    Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard'); 
-    Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout');   
+    Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
+    Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout');
     Route::get('/admin/profile', [AdminController::class, 'adminProfile'])->name('admin.profile');
     Route::post('/admin/profile/store', [AdminController::class, 'adminProfileStore'])->name('admin.profile.store');
     Route::get('/admin/change/password', [AdminController::class, 'adminChangePassword'])->name('admin.change.password');
@@ -158,7 +159,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/update/product', 'updateProduct')->name('update.product');
         Route::get('/delete/multi/image/{id}', 'deleteMultiImage')->name('delete.multi.image');
         Route::get('/delete/product/{id}', 'deleteProduct')->name('delete.product');
-        Route::get('/change/product/status/{id}', 'changeProductStatus')->name('change.product.status');        
+        Route::get('/change/product/status/{id}', 'changeProductStatus')->name('change.product.status');
     });
 });
 
@@ -180,8 +181,3 @@ Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->na
 // });
 
 require __DIR__.'/auth.php';
-
-
-
-
-

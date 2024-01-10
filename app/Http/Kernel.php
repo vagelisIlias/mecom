@@ -68,5 +68,4 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\Role::class,
         'status' => \App\Http\Middleware\CheckVendorStatus::class,
     ];
-
 }

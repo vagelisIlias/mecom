@@ -24,9 +24,9 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {   
-         // Drop individual columns if needed
-         Schema::table('banners', function (Blueprint $table) {
+    {
+        // Drop individual columns if needed
+        Schema::table('banners', function (Blueprint $table) {
             $table->dropColumn('banner_title');
             $table->dropColumn('banner_url');
             $table->dropColumn('banner_image');

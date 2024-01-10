@@ -5,31 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
 use App\Notifications\AccountStatusChanged;
+use App\Services\Vendor\VendorProfileService;
 use App\Http\Requests\Vendor\VendorDataRequest;
 use App\Services\Notification\NotificationService;
 
 class VendorController extends Controller
 {
     // Dashboard view ** REFACTORED **
-    public function index() 
+    public function index()
     {
         return view('vendor.index');
     }
 
     // Vendor Login
     public function vendorLogin()
-    {   
+    {
         return view('vendor.vendor_login');
     }
 
     // Vendor logout ** REFACTORED **
-    public function logout(NotificationService $notification): RedirectResponse 
+    public function logout(NotificationService $notification): RedirectResponse
     {
         Auth::guard('web')->logout();
         session()->invalidate();
@@ -40,19 +40,18 @@ class VendorController extends Controller
 
     // Vendor Profile  ** REFACTORED **
     public function vendorProfile(User $user)
-    {   
+    {
         return view('vendor.profile.vendor_profile', ['user' => $user]);
     }
 
-    // Vedor Profile Update ** REFACTORED **
-    public function update(User $user, VendorDataRequest $request, $file, NotificationService $notification)
-    {   
-        $user->findOrFail(Auth::id())->update($request->updateVendorData());
-        $request->uploadWithReplacement($file, 'upload/vendor_profile_image/', $user, 'photo');
-
+    // Vendor Profile Update ** REFACTORED **
+    public function update(NotificationService $notification, VendorProfileService $profileService, VendorDataRequest $request, User $user)
+    {
+        $profileService->updateProfile($user, $request);
+        
         return redirect()->back()->with($notification->message('Vendor Profile Updated Successfully', 'success'));
     }
-
+    
     // Change Password
     public function vendorChangePassword()
     {
@@ -73,18 +72,19 @@ class VendorController extends Controller
         ]);
 
         // Check Matching Old Password
-        if (!Hash::check($request->old_password, auth()->user()->password)) {
+        if (! Hash::check($request->old_password, auth()->user()->password)) {
             // Display an error message using Toastr
             $not_error = [
                 'message' => 'Old Password Does Not Match',
                 'alert-type' => 'error',
             ];
+
             return back()->with($not_error);
         }
 
         // Update New Password
         User::whereId(auth()->user()->id)->update([
-            'password' => Hash::make($request->new_password)
+            'password' => Hash::make($request->new_password),
         ]);
 
         // Pass the additional data to the view along with the success message
@@ -92,11 +92,11 @@ class VendorController extends Controller
             'message' => 'Vendor Password Updated Successfully',
             'alert-type' => 'success',
         ];
-        
+
         return back()->with($not_succ);
     }
 
-    // Become a Vendor 
+    // Become a Vendor
     public function becomeVendor()
     {
         return view('auth.become_vendor');
@@ -104,7 +104,7 @@ class VendorController extends Controller
 
     // Register Vendor
     public function vendorRegister(Request $request)
-    {   
+    {
         // Validation vendor users
         $request->validate([
             'firstname' => ['required', 'string', 'max:255'],
@@ -114,7 +114,7 @@ class VendorController extends Controller
             'vendor_shop_name' => ['required', 'string', 'max:255', 'unique:users'],
             'address' => ['required'],
             'postcode' => ['required'],
-            'phone' => ['required',],
+            'phone' => ['required'],
             'vendor_join' => ['required'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'password_confirmation' => 'required',
@@ -144,8 +144,8 @@ class VendorController extends Controller
                     Your account has been successfully registered. 
                     Please allow some time for your account to be activated and you will be notified via a new email. 
                     In the meantime, please feel free to check our shop.';
-        $actionText = "Visit Our Shop";
-        $lineText = "Thank you for your interest in using our application";
+        $actionText = 'Visit Our Shop';
+        $lineText = 'Thank you for your interest in using our application';
         $user->notify(new AccountStatusChanged('register', $message, $url, $actionText, $lineText));
 
         // Notification Message

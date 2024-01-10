@@ -16,24 +16,23 @@ class UserDataRequest extends FormRequest
         return [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . auth()->id(),
-            'email' => 'required|string|email|max:255|unique:users,email,' . auth()->id(),
+            'username' => 'required|string|max:255|unique:users,username,'.auth()->id(),
+            'email' => 'required|string|email|max:255|unique:users,email,'.auth()->id(),
             'phone' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'postcode' => 'required|string|max:255',
         ];
     }
 
-
     public function updateUserData()
     {
         return $this->only([
-            'firstname', 
-            'lastname', 
-            'username', 
-            'email', 
-            'phone', 
-            'address', 
+            'firstname',
+            'lastname',
+            'username',
+            'email',
+            'phone',
+            'address',
             'postcode']);
     }
 }
