@@ -2,14 +2,14 @@
 
 namespace App\Services\Vendor;
 
-use App\Models\User;
 use App\Http\Requests\Vendor\VendorDataRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class VendorProfileService
 {
     public function updateProfile(User $user, VendorDataRequest $request)
-    {   
+    {
         // Passing the data via request
         $validatedData = $request->validated();
 

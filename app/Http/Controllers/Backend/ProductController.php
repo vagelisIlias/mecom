@@ -205,7 +205,7 @@ class ProductController extends Controller
             if ($request->hasFile('product_thambnail')) {
                 $image = $request->file('product_thambnail');
                 $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-                $image_path = 'upload/products/thambnail/'. $name_gen;
+                $image_path = 'upload/products/thambnail/'.$name_gen;
                 if (file_exists($old_thambnail)) {
                     unlink($old_thambnail);
                 }

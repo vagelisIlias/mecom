@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Vendor\VendorDataRequest;
 use App\Models\User;
+use App\Notifications\AccountStatusChanged;
+use App\Services\Notification\NotificationService;
+use App\Services\Vendor\VendorProfileService;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Auth\Events\Registered;
-use App\Notifications\AccountStatusChanged;
-use App\Services\Vendor\VendorProfileService;
-use App\Http\Requests\Vendor\VendorDataRequest;
-use App\Services\Notification\NotificationService;
+use Illuminate\Validation\Rules;
 
 class VendorController extends Controller
 {
@@ -48,10 +48,10 @@ class VendorController extends Controller
     public function update(NotificationService $notification, VendorProfileService $profileService, VendorDataRequest $request, User $user)
     {
         $profileService->updateProfile($user, $request);
-        
+
         return redirect()->back()->with($notification->message('Vendor Profile Updated Successfully', 'success'));
     }
-    
+
     // Change Password
     public function vendorChangePassword()
     {
