@@ -56,7 +56,6 @@ class UserController extends Controller
             ]);
         }
 
-        // Update New Password
         $password->updatePassword(auth()->user()->id, $request->new_password);
 
         return back()->with($notification->message('Your password updated successfully', 'success'));

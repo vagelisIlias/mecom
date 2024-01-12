@@ -11,13 +11,9 @@ class AccountStatusChanged extends Notification
     use Queueable;
 
     protected $status;
-
     protected $message;
-
     protected $url;
-
     protected $actionText;
-
     protected $lineText;
 
     /**

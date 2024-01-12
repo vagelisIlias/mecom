@@ -594,6 +594,7 @@ class ComposerStaticInit616b401e250d7897e866c81f67b06ea2
         'App\\Http\\Requests\\User\\UserDataRequest' => __DIR__ . '/../..' . '/app/Http/Requests/User/UserDataRequest.php',
         'App\\Http\\Requests\\VendorStatus\\VendorStatusRequest' => __DIR__ . '/../..' . '/app/Http/Requests/VendorStatus/VendorStatusRequest.php',
         'App\\Http\\Requests\\Vendor\\VendorDataRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Vendor/VendorDataRequest.php',
+        'App\\Http\\Requests\\Vendor\\VendorRegisterRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Vendor/VendorRegisterRequest.php',
         'App\\Models\\Banner' => __DIR__ . '/../..' . '/app/Models/Banner.php',
         'App\\Models\\Brand' => __DIR__ . '/../..' . '/app/Models/Brand.php',
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',

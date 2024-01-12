@@ -13,7 +13,7 @@
             <div class="top-menu ms-auto">
                 <ul class="navbar-nav align-items-center">
                     <li class="nav-item mobile-search-icon">
-                        <a class="nav-link" href="#">	<i class='bx bx-search'></i>
+                        <a class="nav-link" href="#"><i class='bx bx-search'></i>
                         </a>
                     </li>
                     <li class="nav-item dropdown dropdown-large">
@@ -326,10 +326,8 @@
             @auth
             <div class="user-box dropdown">
                 <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img class="rounded-circle-nav" 
-                        src="{{ ( empty(Auth::user()->photo)) ? 
-                        url('upload/vendor_profile_image/'. Auth::user()->photo) : url('upload/no_image.jpg') }}" 
-                        alt="Card image"
+                    <img class="rounded-circle-nav" src="{{ (! empty(Auth::user()->photo)) ? 
+                        url(Auth::user()->photo) : url('no_image.jpg') }}" 
                     >
                     <div class="user-info ps-3">
                         <p class="user-name mb-0">{{ Auth::user()->vendor_shop_name }}</p>

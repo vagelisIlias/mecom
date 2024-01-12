@@ -52,6 +52,7 @@ return array(
     'App\\Http\\Requests\\User\\UserDataRequest' => $baseDir . '/app/Http/Requests/User/UserDataRequest.php',
     'App\\Http\\Requests\\VendorStatus\\VendorStatusRequest' => $baseDir . '/app/Http/Requests/VendorStatus/VendorStatusRequest.php',
     'App\\Http\\Requests\\Vendor\\VendorDataRequest' => $baseDir . '/app/Http/Requests/Vendor/VendorDataRequest.php',
+    'App\\Http\\Requests\\Vendor\\VendorRegisterRequest' => $baseDir . '/app/Http/Requests/Vendor/VendorRegisterRequest.php',
     'App\\Models\\Banner' => $baseDir . '/app/Models/Banner.php',
     'App\\Models\\Brand' => $baseDir . '/app/Models/Brand.php',
     'App\\Models\\Category' => $baseDir . '/app/Models/Category.php',
