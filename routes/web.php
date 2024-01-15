@@ -48,7 +48,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [UserController::class, 'logout'])->name('user.logout'); // REFACTORED
     Route::patch('/update/password', [UserController::class, 'updatePassword'])->name('user.password.update'); // REFACTORED
 });
-
  /**
  * Vendor Dashboard
  * Middleware: auth role:vendor
@@ -57,7 +56,7 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::get('/vendor/dashboard', [VendorController::class, 'index'])->name('vendor.dashboard')->middleware('status'); // REFACTORED
     Route::get('/vendor/logout', [VendorController::class, 'logout'])->name('vendor.logout'); // REFACTORED
     Route::get('/vendor/profile/{user:slug}', [VendorController::class, 'vendorProfile'])->name('vendor.profile'); // REFACTORED
-    Route::patch('/update/profile/{user}', [VendorController::class, 'update'])->name('vendor.profile.update'); // REFACTORED
+    Route::patch('/vendor/update/profile/{user}', [VendorController::class, 'update'])->name('vendor.profile.update'); // REFACTORED
     Route::get('/vendor/change/password', [VendorController::class, 'vendorChangePassword'])->name('vendor.change.password'); // REFACTORED
     Route::patch('/vendor/update/password', [VendorController::class, 'vendorUpdatePassword'])->name('vendor.update.password'); // REFACTORED
 

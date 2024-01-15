@@ -24,7 +24,7 @@ class VendorRegisterRequest extends FormRequest
             'postcode' => 'required',
             'phone' => 'required',
             'vendor_join' => 'required',
-            'password' => ['required', 'confirmed', Password::defaults()],
+            'password' => 'required', 'confirmed', Password::defaults(),
             'password_confirmation' => 'required',
             'role' => 'vendor',
             'status' => 'inactive',
