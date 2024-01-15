@@ -17,12 +17,12 @@ return new class extends Migration
             $table->string('sub_category_name');
             $table->string('sub_category_slug');
             $table->timestamps();
-            
-            // Define foreign key constraint
-            $table->foreign('category_id')
-                  ->references('id')
-                  ->on('categories')
-                  ->onDelete('cascade'); // Define cascade delete behavior
+
+            // // Define foreign key constraint
+            // $table->foreign('category_id')
+            //       ->references('id')
+            //       ->on('categories')
+            //       ->onDelete('cascade'); // Define cascade delete behavior
         });
     }
 
@@ -30,7 +30,7 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {   
+    {
         // Drop individual columns if needed
         Schema::table('sub_categories', function (Blueprint $table) {
             $table->dropColumn('category_id');

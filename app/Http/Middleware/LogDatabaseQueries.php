@@ -9,8 +9,7 @@ class LogDatabaseQueries
 {
     public function handle($request, Closure $next)
     {
-        DB::listen(function ($query) 
-        {
+        DB::listen(function ($query) {
             logger($query->sql, $query->bindings);
         });
 

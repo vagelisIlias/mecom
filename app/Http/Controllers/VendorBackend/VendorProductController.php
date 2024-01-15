@@ -2,51 +2,54 @@
 
 namespace App\Http\Controllers\VendorBackend;
 
-use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\SubCategory;
-use App\Models\Category;
 use App\Models\Brand;
-use App\Models\Product;
+use App\Models\Category;
 use App\Models\MultiImage;
+use App\Models\Product;
+use App\Models\SubCategory;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class VendorProductController extends Controller
 {
     // All Products
     public function allVendorProduct()
-    {   
+    {
         $id = Auth::user()->id;
         $allVendorProduct = Product::where('product_vendor_id', $id)->latest()->get();
+
         return view('vendor.backend.product.vendor_product_all', compact('allVendorProduct'));
     }
 
     // Add Product
     public function addVendorProduct()
-    {    
+    {
         $brands = Brand::latest()
             ->get();
         $categories = Category::latest()
             ->get();
         $subcategories = SubCategory::latest()
             ->get();
-        return view('vendor.backend.product.vendor_product_add', compact('brands','categories','subcategories'));
+
+        return view('vendor.backend.product.vendor_product_add', compact('brands', 'categories', 'subcategories'));
     }
 
     // Return the list of subcategories when category picked
     public function vendorGetSubCategoryAjax($category_id)
     {
-        $subcat = SubCategory::where('category_id', $category_id)  
-                                ->orderBy('sub_category_name', 'asc')
-                                ->get();
-        return json_encode($subcat);                        
+        $subcat = SubCategory::where('category_id', $category_id)
+            ->orderBy('sub_category_name', 'asc')
+            ->get();
+
+        return json_encode($subcat);
     }
 
     // Store Product
     public function vendorStoreProduct(Request $request)
-    {   
+    {
         $id = Auth::user()->id;
         try {
             // Initialize save url for product and mutli-images variable
@@ -79,8 +82,8 @@ class VendorProductController extends Controller
             // Request the product to check if is valid
             if ($request->hasFile('product_thambnail')) {
                 $image = $request->file('product_thambnail');
-                $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-                $tham_image_path = 'upload/products/thambnail/' . $name_gen;
+                $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+                $tham_image_path = 'upload/products/thambnail/'.$name_gen;
                 Image::make($image)->resize(800, 800)->save(public_path($tham_image_path));
                 $save_url = $tham_image_path;
 
@@ -108,34 +111,35 @@ class VendorProductController extends Controller
                     'product_status' => 'active',
                     'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
                 ]);
-        
+
                 // Request if the image is valid
                 if ($request->hasFile('multi_image')) {
-                    $product_id = $product->id; 
+                    $product_id = $product->id;
                     // Looping though images
                     foreach ($request->file('multi_image') as $multi_img) {
-                        $name_gen = hexdec(uniqid()) . '.' . $multi_img->getClientOriginalExtension();
-                        $multi_image_path = 'upload/products/multi_image/' . $name_gen;
+                        $name_gen = hexdec(uniqid()).'.'.$multi_img->getClientOriginalExtension();
+                        $multi_image_path = 'upload/products/multi_image/'.$name_gen;
                         Image::make($multi_img)->resize(800, 800)->save(public_path($multi_image_path));
                         $save_multi_url = $multi_image_path;
-                        
+
                         MultiImage::create([
                             'product_id' => $product_id,
                             'multi_image' => $save_multi_url,
                         ]);
                     }
-                }     
+                }
                 // Success message notification
                 $not_succ = [
                     'message' => 'Vendor Product Created Successfully',
                     'alert-type' => 'success',
                 ];
+
                 return redirect()->route('all.vendor.product')->with($not_succ);
             }
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             // Handle errors, log them, and return an error response
             $not_error = [
-                'message' => '' . $e->getMessage(),
+                'message' => ''.$e->getMessage(),
                 'alert-type' => 'error',
             ];
 
@@ -146,8 +150,7 @@ class VendorProductController extends Controller
     // Create Method to Check Product Name Existence in Database
     public function checkVendorProductExistence(Request $request)
     {
-        try
-            {
+        try {
             // Retrieve the product name and product_vendor_id from the request
             $productName = $request->product_name;
 
@@ -156,7 +159,7 @@ class VendorProductController extends Controller
 
             // Check if a product with the same name already exists
             $exists = Product::where('product_name', $productName)
-                                ->exists();
+                ->exists();
 
             if ($exists) {
                 // Get the vendor ID associated with the product
@@ -166,31 +169,32 @@ class VendorProductController extends Controller
                 // Get the vendor's shop name based on the vendor ID
                 $vendor = User::find($vendorId);
                 $vendorShopName = $vendor->vendor_shop_name;
-            } 
+            }
 
             // Return a JSON response indicating whether the product exists and the vendor's shop name
             return response()->json(['exists' => $exists, 'vendor_shop_name' => $vendorShopName]);
 
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred while checking product existence']);
-        }        
+        }
     }
 
     // Edit Product
     public function editVendorProduct($id)
-    {      
+    {
         $brands = Brand::latest()->get();
         $categories = Category::latest()->get();
         $subcategories = SubCategory::latest()->get();
         $product = Product::findOrFail($id);
         $mutliImages = MultiImage::where('product_id', $product->id)
-                                    ->get();
+            ->get();
+
         return view('vendor.backend.product.vendor_product_edit', compact('brands', 'categories', 'subcategories', 'product', 'mutliImages'));
     }
 
     // Update Product
     public function updateVendorProduct(Request $request)
-    {   
+    {
         $id = Auth::user()->id;
         try {
             // Update the product using id and old thumbnail declared as a hidden parameter
@@ -223,8 +227,8 @@ class VendorProductController extends Controller
             // Checking the image existence and creating path
             if ($request->hasFile('product_thambnail')) {
                 $image = $request->file('product_thambnail');
-                $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-                $image_path = 'upload/products/thambnail/' . $name_gen;
+                $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+                $image_path = 'upload/products/thambnail/'.$name_gen;
                 if (file_exists($old_thambnail)) {
                     unlink($old_thambnail);
                 }
@@ -263,15 +267,15 @@ class VendorProductController extends Controller
                 'product_special_deals' => $request->product_special_deals,
                 'product_slug' => strtolower(str_replace(' ', '-', $request->product_name)),
             ]);
-            
+
             // Checking if the multi image is valid
             if ($request->hasFile('multi_image')) {
                 // Checking the id of the product to much the id fro the product_id from multi images
-                $product_id = $product->id; 
-                // Loop through the product images and passing 
+                $product_id = $product->id;
+                // Loop through the product images and passing
                 foreach ($request->file('multi_image') as $multi_img) {
-                    $name_gen = hexdec(uniqid()) . '.' . $multi_img->getClientOriginalExtension();
-                    $multi_image_path = 'upload/products/multi_image/' . $name_gen;
+                    $name_gen = hexdec(uniqid()).'.'.$multi_img->getClientOriginalExtension();
+                    $multi_image_path = 'upload/products/multi_image/'.$name_gen;
                     Image::make($multi_img)->resize(800, 800)->save(public_path($multi_image_path));
                     $save_multi_url = $multi_image_path;
                     // Create new image store
@@ -294,13 +298,15 @@ class VendorProductController extends Controller
                 'message' => $message,
                 'alert-type' => $alertType,
             ];
+
             return redirect()->route('all.vendor.product')->with($notification);
         } catch (\Exception $e) {
             // Handle errors, log them, and return an error response
             $not_error = [
-                'message' => ' ' . $e->getMessage(),
+                'message' => ' '.$e->getMessage(),
                 'alert-type' => 'error',
             ];
+
             return redirect()->back()->with($not_error);
         }
     }
@@ -314,7 +320,7 @@ class VendorProductController extends Controller
             $img = $deleteVendorMultiImage->multi_image;
             unlink($img);
 
-            // Delete the Thambnail 
+            // Delete the Thambnail
             $deleteVendorMultiImage->delete();
 
             // Success message notification
@@ -322,19 +328,21 @@ class VendorProductController extends Controller
                 'message' => 'Vendor Image Deleted Successfully',
                 'alert-type' => 'success',
             ];
+
             return redirect()->back()->with($not_succ);
         } catch (\Exception $e) {
             // Error message notification
             $not_error = [
-                'message' => 'Error deleting vendor image' . $e->getMessage(),
+                'message' => 'Error deleting vendor image'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
+
             return redirect()->back()->with($not_error);
         }
     }
 
     // Delete Product
-    public function vendorDeleteProduct($id) 
+    public function vendorDeleteProduct($id)
     {
         try {
             // Find the product and associated multi-images
@@ -342,7 +350,7 @@ class VendorProductController extends Controller
 
             // Checking the Method in the Product Model
             $all_images = MultiImage::where('product_id', $id)->get();
-    
+
             // Delete the multi-images
             foreach ($all_images as $image) {
                 $multiImagePath = $image->multi_image;
@@ -366,13 +374,15 @@ class VendorProductController extends Controller
                 'message' => 'Vendor Product and Related Images Deleted Successfully',
                 'alert-type' => 'success',
             ];
+
             return redirect()->back()->with($notification);
         } catch (\Exception $e) {
             // Error message notification
             $errorNotification = [
-                'message' => 'Error deleting product: ' . $e->getMessage(),
+                'message' => 'Error deleting product: '.$e->getMessage(),
                 'alert-type' => 'error',
             ];
+
             return redirect()->back()->with($errorNotification);
         }
     }
@@ -382,7 +392,7 @@ class VendorProductController extends Controller
     {
         $changeVendorProductStatus = Product::findOrFail($id);
 
-        if($changeVendorProductStatus->product_status == 'inactive') {
+        if ($changeVendorProductStatus->product_status == 'inactive') {
             $changeVendorProductStatus->update([
                 'product_status' => 'active',
             ]);
@@ -403,6 +413,7 @@ class VendorProductController extends Controller
                 'alert-type' => 'success',
             ];
         }
-        return redirect()->route('all.vendor.product')->with($not_succ); 
+
+        return redirect()->route('all.vendor.product')->with($not_succ);
     }
 }

@@ -13,7 +13,7 @@
             <div class="top-menu ms-auto">
                 <ul class="navbar-nav align-items-center">
                     <li class="nav-item mobile-search-icon">
-                        <a class="nav-link" href="#">	<i class='bx bx-search'></i>
+                        <a class="nav-link" href="#"><i class='bx bx-search'></i>
                         </a>
                     </li>
                     <li class="nav-item dropdown dropdown-large">
@@ -323,40 +323,52 @@
                     </li>
                 </ul>
             </div>
-            @php
-                // Get the authenticated user's ID
-                $id = Auth::user()->id;
-                // Find the user in the database using the retrieved ID
-                $vendorProfile = App\Models\User::find($id);
-            @endphp
+            @auth
             <div class="user-box dropdown">
                 <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img class="rounded-circle avatar-lg" src="{{ (!empty($vendorProfile->photo)) ? 
-                    url('upload/vendor_profile_image/'. $vendorProfile->photo) : url('upload/no_image.jpg') }}" 
-                    alt="Card image cap" style="width: 50px; height: 50px; border: 2px solid rgba(138, 60, 221, 0.729);">
+                    <img class="rounded-circle-nav" src="{{ (! empty(Auth::user()->photo)) ? 
+                        url(Auth::user()->photo) : url('no_image.jpg') }}" 
+                    >
                     <div class="user-info ps-3">
                         <p class="user-name mb-0">{{ Auth::user()->vendor_shop_name }}</p>
                         <p class="designattion mb-0">{{ Auth::user()->username }}</p>
                     </div>
                 </a>
+
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="{{ route('vendor.profile') }}"><i class="bx bx-user"></i><span>Profile</span></a>
-                    </li>
-                    <li><a class="dropdown-item" href="{{ route('vendor.change.password') }}"><i class="bx bx-cog"></i><span>Change Password</span></a>
-                    </li>
-                    <li><a class="dropdown-item" href="javascript:;"><i class='bx bx-home-circle'></i><span>Dashboard</span></a>
-                    </li>
-                    <li><a class="dropdown-item" href="javascript:;"><i class='bx bx-dollar-circle'></i><span>Earnings</span></a>
-                    </li>
-                    <li><a class="dropdown-item" href="javascript:;"><i class='bx bx-download'></i><span>Downloads</span></a>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('vendor.profile', ['user' => Auth::user()->slug]) }}"><i class="bx bx-user"></i><span>Profile</span>
+                        </a>
                     </li>
                     <li>
-                        <div class="dropdown-divider mb-0"></div>
+                        <a class="dropdown-item" href="{{ route('vendor.change.password') }}"><i class="bx bx-cog"></i><span>Change Password</span>
+                        </a>
                     </li>
-                    <li><a class="dropdown-item" href="{{ route('vendor.logout') }}"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
+                    <li>
+                        <a class="dropdown-item" href="javascript:;"><i class='bx bx-home-circle'></i><span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="javascript:;"><i class='bx bx-dollar-circle'></i><span>Earnings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="javascript:;"><i class='bx bx-download'></i><span>Downloads</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider mb-0">
+                        </div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('vendor.logout') }}"><i class='bx bx-log-out-circle'></i><span>Logout</span>
+                        </a>
                     </li>
                 </ul>
             </div>
+            @endauth
+            <!-- End Dropdown -->
         </nav>
+        <!-- End Nav -->
     </div>
 </header>

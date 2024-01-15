@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -17,12 +16,12 @@ class AccountStatusChanged extends Notification
     protected $actionText;
     protected $lineText;
 
-     /**
+    /**
      * Create a new notification instance.
      *
-     * @param string $status The new account status ('active' or 'inactive')
-     * @param string $message The custom message for the notification
-     * @param string $url The dynamic URL for the notification
+     * @param  string  $status The new account status ('active' or 'inactive')
+     * @param  string  $message The custom message for the notification
+     * @param  string  $url The dynamic URL for the notification
      */
     public function __construct($status, $message, $url, $actionText, $lineText)
     {
@@ -47,7 +46,7 @@ class AccountStatusChanged extends Notification
      * Get the mail representation of the notification.
      */
     public function toMail(object $notifiable): MailMessage
-    {   
+    {
         return (new MailMessage)
             ->line($this->message)
             ->action($this->actionText, $this->url)

@@ -19,18 +19,6 @@
                 </ol>
             </nav>
         </div>
-        {{-- <div class="ms-auto">
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary">Settings</button>
-                <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-                    <a class="dropdown-item" href="javascript:;">Another action</a>
-                    <a class="dropdown-item" href="javascript:;">Something else here</a>
-                    <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-                </div>
-            </div>
-        </div> --}}
     </div>
     <!--end breadcrumb-->
     <div class="container">
@@ -42,24 +30,19 @@
                             <div class="d-flex flex-column align-items-center text-center">
                                 <label for="example-text-input" class="col-sm-2 col-form-label"></label>
                                 <div class="col-sm-10">
-                                    <img id="showImage" class="rounded-circle avatar-lg" src="{{ (!empty($adminProfile->photo)) ? 
-                                    url('upload/admin_profile_image/'. $adminProfile->photo) : url('upload/no_image.jpg') }}" 
-                                    alt="Card image cap" style="width: 100px; height: 100px; border: 5px solid rgba(138, 60, 221, 0.729);">
+                                    <img id="showImage" class="rounded-circle" src="{{ (!empty($adminProfile->photo)) ? 
+                                        url('upload/admin_profile_image/'. $adminProfile->photo) : url('upload/no_image.jpg') }}" 
+                                        alt="Card image cap"
+                                    >
                                 </div>
                                 <div class="mt-3">
                                     <h4>{{ $adminProfile->firstname }} {{ $adminProfile->lastname }}</h4>
                                     <p class="text-secondary mb-1">{{ $adminProfile->job_title }}</p>
                                     <p class="text-muted font-size-sm">{{ $adminProfile->email }}</p>
-                                    {{-- <button class="btn btn-primary">Follow</button>
-                                    <button class="btn btn-outline-primary">Message</button> --}}
                                 </div>
                             </div>
                             <hr class="my-4" />
                             <ul class="list-group list-group-flush">
-                                {{-- <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe me-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Website</h6>
-                                    <span class="text-secondary">https://codervent.com</span>
-                                </li> --}}
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <a href="{{ $adminProfile->github }}" class="text-decoration-none" target="_blank">
                                         <h6 class="mb-0">
@@ -239,56 +222,16 @@
                             </div>
                         </div>
                     </form>
-                {{-- Form ends here --}}
-                </div>
-                
-                    {{-- <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="d-flex align-items-center mb-3">Project Status</h5>
-                                    <p>Web Design</p>
-                                    <div class="progress mb-3" style="height: 5px">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p>Website Markup</p>
-                                    <div class="progress mb-3" style="height: 5px">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p>One Page</p>
-                                    <div class="progress mb-3" style="height: 5px">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p>Mobile Template</p>
-                                    <div class="progress mb-3" style="height: 5px">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p>Backend API</p>
-                                    <div class="progress" style="height: 5px">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
+                    <!-- Form End Here -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-{{-- JS --}}
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#image').change(function(e) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#showImage').attr('src', e.target.result);
-            };
-            reader.readAsDataURL(e.target.files[0]);
-        });
-    });
-</script>
+<!-- Image preview -->
+<script src="{{ asset('adminbackend/assets/js/image-preview.js') }}"></script>
 
 @endsection
 {{-- End Section --}}

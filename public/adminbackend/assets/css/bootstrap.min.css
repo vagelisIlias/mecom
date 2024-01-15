@@ -1656,22 +1656,23 @@ progress {
 	color: #6c757d
 }
 .form-control {
-	display: block;
-	width: 100%;
-	padding: .375rem .75rem;
-	font-size: 1rem;
-	font-weight: 400;
-	line-height: 1.5;
-	color: #212529;
-	background-color: #fff;
-	background-clip: padding-box;
-	border: 1px solid #ced4da;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	border-radius: .25rem;
-	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
+    display: block;
+    width: 100%;
+    padding: .5rem .75rem; /* Adjust the padding for a bit larger size */
+    font-size: 1.1rem; /* Adjust the font size for a bit larger text */
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: .5rem; /* Adjust the border-radius for a bit rounded corners */
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
+
 @media (prefers-reduced-motion:reduce) {
 	.form-control {
 		transition: none
@@ -1684,11 +1685,11 @@ progress {
 	cursor: pointer
 }
 .form-control:focus {
-	color: #212529;
-	background-color: #fff;
-	border-color: #86b7fe;
-	outline: 0;
-	box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
+    color: #212529;
+    background-color: #fff;
+    border-color: rgb(202, 18, 177); 
+    outline: 0;
+    box-shadow: 0 0 8px rgba(202, 18, 177, 0.5); /* Adjust the shadow as needed */
 }
 .form-control::-webkit-date-and-time-value {
 	height: 1.5em
@@ -1836,8 +1837,8 @@ textarea.form-control-lg {
 .form-select {
 	display: block;
 	width: 100%;
-	padding: .375rem 1.75rem .375rem .75rem;
-	font-size: 1rem;
+	padding: .5rem .75rem; /* Adjust the padding for a bit larger size */
+	font-size: 1.1rem; /* Adjust the font size for a bit larger text */
 	font-weight: 400;
 	line-height: 1.5;
 	color: #212529;
@@ -1848,15 +1849,17 @@ textarea.form-control-lg {
 	background-position: right .75rem center;
 	background-size: 16px 12px;
 	border: 1px solid #ced4da;
-	border-radius: .25rem;
+	border-radius: .5rem; /* Adjust the border-radius for a bit rounded corners */
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none
 }
 .form-select:focus {
-	border-color: #86b7fe;
-	outline: 0;
-	box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
+	color: #212529;
+    background-color: #fff;
+    border-color: rgb(202, 18, 177); 
+    outline: 0;
+    box-shadow: 0 0 8px rgba(202, 18, 177, 0.5); /* Adjust the shadow as needed */
 }
 .form-select[multiple], .form-select[size]:not([size="1"]) {
 	padding-right: .75rem;
@@ -3029,16 +3032,18 @@ textarea.form-control-lg {
 	text-decoration: none;
 	white-space: nowrap;
 	background-color: transparent;
-	border: 0
+	border: 0;
+	transition: color 0.5s ease;
 }
 .dropdown-item:focus, .dropdown-item:hover {
-	color: #1e2125;
-	background-color: #f8f9fa
+	color: rgb(202, 18, 177);
+	
+	/* background-color: #f8f9fa */
 }
 .dropdown-item.active, .dropdown-item:active {
 	color: #fff;
 	text-decoration: none;
-	background-color: #0d6efd
+	/* background-color: #0d6efd */
 }
 .dropdown-item.disabled, .dropdown-item:disabled {
 	color: #6c757d;
@@ -3500,17 +3505,17 @@ textarea.form-control-lg {
 	color: #fff
 }
 .card {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	min-width: 0;
-	word-wrap: break-word;
-	background-color: #fff;
-	background-clip: border-box;
-	border: 0 solid transparent;
-	border-radius: .25rem;
-	margin-bottom: 1.5rem;
-	box-shadow: 0 .3rem .8rem rgba(0, 0, 0, .12)
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid transparent;
+    border-radius: 0.85rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 .3rem .8rem rgba(0, 0, 0, .12);
 }
 .card>hr {
 	margin-right: 0;
@@ -3535,7 +3540,7 @@ textarea.form-control-lg {
 }
 .card-body {
 	flex: 1 1 auto;
-	padding: 1rem 1rem
+	padding: 2rem 1rem 1rem
 }
 .card-title {
 	margin-bottom: .5rem

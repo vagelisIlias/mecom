@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Slider;
-
+use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class SliderController extends Controller
-{   
+{
     // All Sliders
     public function allSlider()
     {
         $allSlider = Slider::latest()->get();
+
         return view('admin.backend.slider.slider_all', compact('allSlider'));
     }
 
@@ -39,30 +39,30 @@ class SliderController extends Controller
 
         try {
             $image = $request->file('slider_image');
-            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-            $image_path = 'upload/slider_image/' . $name_gen;
+            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            $image_path = 'upload/slider_image/'.$name_gen;
             Image::make($image)->resize(2376, 807)->save(public_path($image_path));
             $save_url = $image_path;
-    
+
             // Create The slider
             Slider::create([
                 'slider_title' => ucfirst($request->slider_title),
                 'short_title' => ucfirst($request->short_title),
                 'slider_image' => $save_url,
             ]);
-    
+
             // Success message notification
             $not_succ = [
                 'message' => 'Slider Created Successfully',
                 'alert-type' => 'success',
             ];
-    
+
             return redirect()->route('all.slider')->with($not_succ);
 
         } catch (\Exception $e) {
             // Handle errors, log them, and return an error response
             $not_error = [
-                'message' => 'An error occurred while saving the slider' . $e->getMessage(),
+                'message' => 'An error occurred while saving the slider'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
 
@@ -74,6 +74,7 @@ class SliderController extends Controller
     public function editSlider($id)
     {
         $editSlider = Slider::findOrFail($id);
+
         return view('admin.backend.slider.slider_edit', compact('editSlider'));
     }
 
@@ -91,8 +92,8 @@ class SliderController extends Controller
         try {
             if ($request->hasFile('slider_image')) {
                 $image = $request->file('slider_image');
-                $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-                $image_path = 'upload/slider_image/' . $name_gen;
+                $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+                $image_path = 'upload/slider_image/'.$name_gen;
                 Image::make($image)->resize(2376, 807)->save(public_path($image_path));
 
                 if (file_exists($old_image)) {
@@ -102,7 +103,7 @@ class SliderController extends Controller
                 $save_url = $image_path;
             } else {
                 // Use the old image if no new image is uploaded.
-                $save_url = $old_image; 
+                $save_url = $old_image;
             }
 
             // Update the slider
@@ -125,13 +126,15 @@ class SliderController extends Controller
                 'message' => $message,
                 'alert-type' => $alertType,
             ];
+
             return redirect()->route('all.slider')->with($notification);
         } catch (\Exception $e) {
             // Error message notification
             $not_error = [
-                'message' => 'Error updating slider' . $e->getMessage(),
+                'message' => 'Error updating slider'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
+
             return redirect()->back()->with($not_error);
         }
     }
@@ -151,14 +154,16 @@ class SliderController extends Controller
                 'message' => 'Slider Deleted Successfully',
                 'alert-type' => 'success',
             ];
+
             return redirect()->route('all.slider')->with($not_succ);
         } catch (\Exception $e) {
             // Error message notification
             $not_error = [
-                'message' => 'Error deleting slider' . $e->getMessage(),
+                'message' => 'Error deleting slider'.$e->getMessage(),
                 'alert-type' => 'error',
             ];
+
             return redirect()->back()->with($not_error);
-        }  
+        }
     }
 }

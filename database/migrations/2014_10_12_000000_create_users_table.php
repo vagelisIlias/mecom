@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('slug')->unique();
             $table->string('github')->nullable();
             $table->string('instagram')->nullable();
             $table->string('linkedin')->nullable();
@@ -30,7 +31,6 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->string('postcode')->nullable();
             $table->string('vendor_shop_name')->nullable();
-            $table->string('vendor_join')->nullable();
             $table->text('vendor_short_info')->nullable();
             $table->enum('role', ['admin', 'vendor', 'user'])->default('user');
             $table->enum('status', ['active', 'inactive'])->default('active');
@@ -43,7 +43,7 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {   
+    {
         // Drop individual columns if needed
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('firstname');
@@ -51,6 +51,8 @@ return new class extends Migration
             $table->dropColumn('username');
             $table->dropColumn('email');
             $table->dropColumn('email_verified_at');
+            $table->dropColumn('password');
+            $table->dropColumn('slug');
             $table->dropColumn('github');
             $table->dropColumn('instagram');
             $table->dropColumn('linkedin');
@@ -63,7 +65,6 @@ return new class extends Migration
             $table->dropColumn('address');
             $table->dropColumn('postcode');
             $table->dropColumn('vendor_shop_name');
-            $table->dropColumn('vendor_join');
             $table->dropColumn('vendor_short_info');
             $table->dropColumn('role');
             $table->dropColumn('status');
@@ -73,4 +74,3 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
-

@@ -11,7 +11,7 @@ class MultiImage extends Model
 
     protected $guarded = [];
 
-     // Define the relationship to Product model
+    // Define the relationship to Product model
     public function product()
     {
         return $this->belongsTo(Product::class);

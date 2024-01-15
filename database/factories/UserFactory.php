@@ -3,8 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
-
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -25,6 +23,7 @@ class UserFactory extends Factory
             'username' => $this->faker->username(),
             'email_verified_at' => now(),
             'password' => $this->faker->password(),
+            'slug' => $this->faker->slug(),
             'github' => $this->faker->url(),
             'instagram' => $this->faker->url(),
             'linkedin' => $this->faker->url(),
@@ -36,7 +35,6 @@ class UserFactory extends Factory
             'address' => $this->faker->address(),
             'postcode' => $this->faker->postcode(),
             'vendor_shop_name' => $this->faker->company,
-            'vendor_join' => now(),
             'vendor_short_info' => $this->faker->sentence,
             'remember_token' => $this->faker->sha256,
         ];
