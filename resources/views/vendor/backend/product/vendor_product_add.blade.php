@@ -9,7 +9,7 @@
 <div class="page-content">
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <a href="{{ route('all.vendor.product') }}" class="breadcrumb-title pe-3">All Vendor Product</a>
+        <a href="{{ route('vendor.products.index') }}" class="breadcrumb-title pe-3">All Vendor Product</a>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">

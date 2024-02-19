@@ -13,7 +13,6 @@
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">All Vendor Product
                     </li>
-                   
                 </ol>
             </nav>
         </div>  
@@ -42,7 +41,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($allVendorProduct as $key => $item)
+                        @foreach ($products as $key => $item)
                             <tr>
                                 <td>{{ ++$key }}</td>
                                 <td><img src="{{ asset($item->product_thambnail) }}" style="width: 60px; height: 50px;"></td>
@@ -70,10 +69,6 @@
                                             <i class="fa-regular fa-thumbs-down" style="color: #ea5252;" title="Active Product Status"></i>
                                         @endif
                                     </a>
-                                    {{-- <a href="{{ route('edit.subcategory', $item->id) }}" 
-                                        style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Product Details">
-                                        <i class="fa-solid fa-eye" style="color: #1267a4;"></i>
-                                    </a> --}}
                                     <a href="{{ route('edit.vendor.product', $item->id) }}" 
                                         style="font-size: 30px; display: inline-flex; flex-direction: column; align-items: center; text-decoration: none; position: relative; margin-right: 5px;" title="Edit Product">
                                         <i class="fa-solid fa-pen-to-square" style="color: #4D4C7D"></i>

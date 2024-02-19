@@ -61,7 +61,7 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::patch('/vendor/update/password', [VendorController::class, 'vendorUpdatePassword'])->name('vendor.update.password'); // REFACTORED
 
     // Vendor Product Controller In Vendor Dashboard All && Add product
-    Route::get('/all/vendor/product', [VendorProductController::class, 'allVendorProduct'])->name('all.vendor.product');
+    Route::get('/vendors/products', [VendorProductController::class, 'index'])->name('vendor.products.index'); // REFACTORED
     Route::get('/add/vendor/product', [VendorProductController::class, 'addVendorProduct'])->name('add.vendor.product');
     Route::get('/vendor/subcategory/ajax/{category_id}', [VendorProductController::class, 'vendorGetSubCategoryAjax']);
     Route::post('/vendor/store/product', [VendorProductController::class, 'vendorStoreProduct'])->name('vendor.store.product');

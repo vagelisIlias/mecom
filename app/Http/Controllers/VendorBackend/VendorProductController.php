@@ -15,13 +15,14 @@ use Intervention\Image\Facades\Image;
 
 class VendorProductController extends Controller
 {
-    // All Products
-    public function allVendorProduct()
+    /**
+     * All Vendor ** REFACTORED **
+     */
+    public function index(Product $product)
     {
-        $id = Auth::user()->id;
-        $allVendorProduct = Product::where('product_vendor_id', $id)->latest()->get();
+        $products = $product->latest()->get();
 
-        return view('vendor.backend.product.vendor_product_all', compact('allVendorProduct'));
+        return view('vendor.backend.product.vendor_product_all', compact('products'));
     }
 
     // Add Product
@@ -134,7 +135,7 @@ class VendorProductController extends Controller
                     'alert-type' => 'success',
                 ];
 
-                return redirect()->route('all.vendor.product')->with($not_succ);
+                return redirect()->route('vendor.products.index')->with($not_succ);
             }
         } catch (\Exception $e) {
             // Handle errors, log them, and return an error response
@@ -299,7 +300,7 @@ class VendorProductController extends Controller
                 'alert-type' => $alertType,
             ];
 
-            return redirect()->route('all.vendor.product')->with($notification);
+            return redirect()->route('vendor.products.index')->with($notification);
         } catch (\Exception $e) {
             // Handle errors, log them, and return an error response
             $not_error = [
@@ -414,6 +415,6 @@ class VendorProductController extends Controller
             ];
         }
 
-        return redirect()->route('all.vendor.product')->with($not_succ);
+        return redirect()->route('vendor.products.index')->with($not_succ);
     }
 }
