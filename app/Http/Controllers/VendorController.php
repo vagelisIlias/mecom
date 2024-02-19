@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,7 @@ class VendorController extends Controller
      */
     public function update(NotificationService $notification, VendorProfileService $profileService, VendorDataRequest $request, User $user)
     {
-        $profileService->updateProfile($user, $request);
+        $profileService->updateVendorProfile($user, $request);
 
         return redirect()->back()->with($notification->message('Vendor Profile Updated Successfully', 'success'));
     }
@@ -100,27 +101,12 @@ class VendorController extends Controller
     /**
      * Vendor register ** REFACTORED **
      */
-    public function vendorRegister(VendorRegisterRequest $request)
-    {
-        // Create vendor users
-        $user = User::create([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'username' => $request->username,
-            'email' => $request->email,
-            'vendor_shop_name' => $request->vendor_shop_name,
-            'address' => $request->address,
-            'postcode' => $request->postcode,
-            'phone' => $request->phone,
-            'vendor_join' => $request->vendor_join,
-            'password' => Hash::make($request->password),
-            'role' => 'vendor',
-            'status' => 'inactive',
-        ]);
+    public function vendorRegister(VendorRegisterRequest $request, NotificationService $notification, User $user)
+    {   
+        $newVendorUser = $user->create($request->createVendorData());
+        
+        event(new Registered($newVendorUser));
 
-        event(new Registered($user));
-
-        // Send a notification indicating that the vendor user is registered successfully
         $url = url('/');
         $message = 'Thank you for your interest in becoming a vendor. 
                     Your account has been successfully registered. 
@@ -128,14 +114,10 @@ class VendorController extends Controller
                     In the meantime, please feel free to check our shop.';
         $actionText = 'Visit Our Shop';
         $lineText = 'Thank you for your interest in using our application';
-        $user->notify(new AccountStatusChanged('register', $message, $url, $actionText, $lineText));
+        $newVendorUser->notify(new AccountStatusChanged('register', $message, $url, $actionText, $lineText));
 
-        // Notification Message
-        $not_succ = [
-            'message' => "Welcome {$user->username}, Your Account Created Successfully. Please wait for your Account to be Activated.",
-            'alert-type' => 'success',
-        ];
-
-        return redirect()->route('vendor.login')->with($not_succ);
+        return redirect()->route('vendor.login')
+            ->with($notification
+            ->message("Welcome {$newVendorUser->username}, Your Account Created Successfully. Please wait for your Account to be Activated", "success"));
     }
 }

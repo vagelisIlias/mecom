@@ -2,36 +2,37 @@
 
 namespace App\Services\Vendor;
 
-use App\Http\Requests\Vendor\VendorDataRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Vendor\VendorDataRequest;
 
 class VendorProfileService
-{
-    public function updateProfile(User $user, VendorDataRequest $request)
+{   
+    // Update vendors profile
+    public function updateVendorProfile(User $user, VendorDataRequest $request)
     {
         // Passing the data via request
         $validatedData = $request->validated();
-
-        // Checking if user uploaded new image
+       
         if ($request->hasFile('photo')) {
-            $this->deleteOldImage($user);
-            $validatedData['photo'] = $this->uploadPhoto($request->file('photo'));
+            $this->deleteVendorOldImage($user);
+            $validatedData['photo'] = $this->uploadVendorPhoto($request->file('photo'));
         }
-        // Update the profile
+
         $user->update($validatedData);
     }
 
-    // Delete the old image
-    private function deleteOldImage(User $user)
+    // Delete vendors old image
+    private function deleteVendorOldImage(User $user)
     {
-        if (Storage::disk('public')->exists($user->photo)) {
+        if (! is_null($user->photo) && Storage::disk('public')->exists($user->photo)) {
             Storage::disk('public')->delete($user->photo);
         }
     }
 
-    // Upload new image
-    private function uploadPhoto($file)
+    // Upload vendors new image
+    private function uploadVendorPhoto($file)
     {
         return $file->store('vendor_profile_image', 'public');
     }

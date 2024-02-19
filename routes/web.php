@@ -158,7 +158,7 @@ Route::get('/vendor/create', [VendorController::class, 'create'])->name('vendor.
 Route::get('/admin/login', [AdminController::class, 'adminLogin'])->middleware(RedirectIfAuthenticated::class);
 
 // Vendor Register | Login routes
-Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
+Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class); // REFACTORED
 Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
 
 // Middleware authedication route

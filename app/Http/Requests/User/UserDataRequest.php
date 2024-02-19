@@ -33,6 +33,7 @@ class UserDataRequest extends FormRequest
             'email',
             'phone',
             'address',
-            'postcode']);
+            'postcode'
+        ]);
     }
 }

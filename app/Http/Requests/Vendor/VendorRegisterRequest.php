@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests\Vendor;
 
+use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,9 +26,24 @@ class VendorRegisterRequest extends FormRequest
             'address' => 'required',
             'postcode' => 'required',
             'phone' => 'required',
-            'vendor_join' => 'required',
-            'password' => 'required', 'confirmed', Password::defaults(),
+            'password' => 'required', 'confirmed',
             'password_confirmation' => 'required',
+        ];
+    }
+
+    public function createVendorData(): array
+    {
+        return [
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
+            'username' => $this->username,
+            'email' => $this->email,
+            'vendor_shop_name' => $this->vendor_shop_name,
+            'address' => $this->address,
+            'postcode' => $this->postcode,
+            'phone' => $this->phone,
+            'password' => Hash::make($this->password),
+            'slug' => Str::slug($this->vendor_shop_name),
             'role' => 'vendor',
             'status' => 'inactive',
         ];

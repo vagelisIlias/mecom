@@ -125,16 +125,6 @@
                                             <!-- End row-->
 
                                             <div class="form-group col-md-12">
-                                                <label>Vendor Join Date<span class="required">*</span></label>
-                                                <input type="date" class="form-control @error('vendor_join') is-invalid @enderror" 
-                                                    name="vendor_join" id="vendor_join"/>
-                                                    @error('vendor_join')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                            </div>
-                                            <!-- End row-->
-    
-                                            <div class="form-group col-md-12">
                                                 <label>Email<span class="required">*</span></label>
                                                 <input type="text" class="form-control @error('email') is-invalid @enderror" 
                                                     name="email" id="email"/>
@@ -255,6 +245,5 @@
 		}
 		@endif 
 	   </script>
-
 </body>
 </html>
