@@ -39,6 +39,7 @@ class UserController extends Controller
     public function logout(NotificationService $notification): RedirectResponse
     {
         Auth::guard('web')->logout();
+
         return redirect('login')->with($notification->message('You have been logged out successfully', 'success'));
     }
 

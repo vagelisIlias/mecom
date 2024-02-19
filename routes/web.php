@@ -48,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [UserController::class, 'logout'])->name('user.logout'); // REFACTORED
     Route::patch('/update/password', [UserController::class, 'updatePassword'])->name('user.password.update'); // REFACTORED
 });
- /**
+/**
  * Vendor Dashboard
  * Middleware: auth role:vendor
  */
@@ -93,7 +93,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/edit/brand/{id}', [BrandController::class, 'editBrand'])->name('edit.brand');
     Route::post('/update/brand', [BrandController::class, 'updateBrand'])->name('update.brand');
     Route::get('/delete/brand/{id}', [BrandController::class, 'deleteBrand'])->name('delete.brand');
-    
+
     // Category Admin Route with Middleware
     Route::get('/all/category', [CategoryController::class, 'allCategory'])->name('all.category');
     Route::get('/add/category', [CategoryController::class, 'addCategory'])->name('add.category');
@@ -103,7 +103,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/delete/category/{id}', [CategoryController::class, 'deleteCategory'])->name('delete.category');
 
     // SubCategory Admin Route with Middleware
-    Route::get('/all/subcategory', [SubCategoryController::class ,'allSubCategory'])->name('all.subcategory');
+    Route::get('/all/subcategory', [SubCategoryController::class, 'allSubCategory'])->name('all.subcategory');
     Route::get('/add/subcategory', [SubCategoryController::class, 'addSubCategory'])->name('add.subcategory');
     Route::post('/store/subcategory', [SubCategoryController::class, 'storeSubCategory'])->name('store.subcategory');
     Route::get('/edit/subcategory/{id}', [SubCategoryController::class, 'editSubcategory'])->name('edit.subcategory');
@@ -122,7 +122,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // Users Admin Route with Middleware
     Route::get('/all/user/status', [UserStatus::class, 'allUserStatus'])->name('all.user.status');
-   
+
     // Slider Admin Route with Middleware
     Route::get('/all/slider', [SliderController::class, 'allSlider'])->name('all.slider');
     Route::get('/add/slider', [SliderController::class, 'addSlider'])->name('add.slider');
@@ -130,7 +130,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/edit/slider/{id}', [SliderController::class, 'editSlider'])->name('edit.slider');
     Route::post('/update/slider', [SliderController::class, 'updateSlider'])->name('update.slider');
     Route::get('/delete/slider/{id}', [SliderController::class, 'deleteSlider'])->name('delete.slider');
-    
+
     // Banner Admin Route with Middleware
     Route::get('/all/banner', [BannerController::class, 'allBanner'])->name('all.banner');
     Route::get('/add/banner', [BannerController::class, 'addBanner'])->name('add.banner');
@@ -138,7 +138,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/edit/banner/{id}', [BannerController::class, 'editBanner'])->name('edit.banner');
     Route::post('/update/banner', [BannerController::class, 'updateBanner'])->name('update.banner');
     Route::get('/delete/banner/{id}', [BannerController::class, 'deleteBanner'])->name('delete.banner');
-  
+
     // Product Admin Route with Middleware
     Route::get('/all/product', [ProductController::class, 'allProduct'])->name('all.product');
     Route::get('/add/product', [ProductController::class, 'addProduct'])->name('add.product');
@@ -159,7 +159,7 @@ Route::get('/admin/login', [AdminController::class, 'adminLogin'])->middleware(R
 
 // Vendor Register | Login routes
 Route::get('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class); // REFACTORED
-Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register');
+Route::post('/vendor/register', [VendorController::class, 'vendorRegister'])->name('vendor.register'); // REFACTORED
 
 // Middleware authedication route
 // Route::middleware('auth')->group(function () {

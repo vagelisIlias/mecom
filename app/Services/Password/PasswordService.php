@@ -2,7 +2,6 @@
 
 namespace App\Services\Password;
 
-use App\Exceptions\CustomException;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;

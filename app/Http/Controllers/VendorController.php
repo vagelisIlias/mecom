@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Auth\Events\Registered;
-use App\Services\Password\PasswordService;
-use App\Notifications\AccountStatusChanged;
-use App\Services\Vendor\VendorProfileService;
-use App\Http\Requests\Vendor\VendorDataRequest;
 use App\Http\Requests\User\UpdatePasswordRequest;
-use App\Services\Notification\NotificationService;
+use App\Http\Requests\Vendor\VendorDataRequest;
 use App\Http\Requests\Vendor\VendorRegisterRequest;
+use App\Models\User;
+use App\Notifications\AccountStatusChanged;
+use App\Services\Notification\NotificationService;
+use App\Services\Password\PasswordService;
+use App\Services\Vendor\VendorProfileService;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class VendorController extends Controller
 {
@@ -102,9 +98,9 @@ class VendorController extends Controller
      * Vendor register ** REFACTORED **
      */
     public function vendorRegister(VendorRegisterRequest $request, NotificationService $notification, User $user)
-    {   
+    {
         $newVendorUser = $user->create($request->createVendorData());
-        
+
         event(new Registered($newVendorUser));
 
         $url = url('/');
@@ -118,6 +114,6 @@ class VendorController extends Controller
 
         return redirect()->route('vendor.login')
             ->with($notification
-            ->message("Welcome {$newVendorUser->username}, Your Account Created Successfully. Please wait for your Account to be Activated", "success"));
+                ->message("Welcome {$newVendorUser->username}, Your Account Created Successfully. Please wait for your Account to be Activated", 'success'));
     }
 }

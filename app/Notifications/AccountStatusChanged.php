@@ -11,17 +11,21 @@ class AccountStatusChanged extends Notification
     use Queueable;
 
     protected $status;
+
     protected $message;
+
     protected $url;
+
     protected $actionText;
+
     protected $lineText;
 
     /**
      * Create a new notification instance.
      *
-     * @param  string  $status The new account status ('active' or 'inactive')
-     * @param  string  $message The custom message for the notification
-     * @param  string  $url The dynamic URL for the notification
+     * @param  string  $status  The new account status ('active' or 'inactive')
+     * @param  string  $message  The custom message for the notification
+     * @param  string  $url  The dynamic URL for the notification
      */
     public function __construct($status, $message, $url, $actionText, $lineText)
     {

@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests\Vendor;
 
-use App\Models\User;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class VendorRegisterRequest extends FormRequest
 {
